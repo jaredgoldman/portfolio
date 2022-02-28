@@ -1,0 +1,16 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+}
+
+.heading {
+  width: 100%;
+  text-align: left;
+  padding-left: 4rem;
+}
+.projects {
+  display: grid;
+  grid-template-columns: 50% 50%;
+}

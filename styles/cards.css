@@ -1,0 +1,55 @@
+.about {
+    height: 100%;
+}
+
+.projects {
+    margin-bottom: 2rem;
+}
+
+.projects section {
+    display: flex;
+
+    .inner-card {
+        display: flex;
+        flex-direction: column;
+
+        .description-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 1rem;
+
+            .project-description {
+                margin: 0;
+            }
+            .links-container {
+                .project-link {
+                    margin: 0 0.5rem;
+                }
+            }
+        }
+
+        .image-description {
+            display: flex;
+        }
+    }
+}
+
+.projects section:nth-child(even) {
+    justify-content: flex-end;
+
+    .inner-card {
+        .project-title,
+        .project-description {
+            text-align: right;
+        }
+
+        .image-description {
+            flex-direction: row-reverse;
+        }
+    }
+}
+
+.resume {
+    height: 100%;
+}

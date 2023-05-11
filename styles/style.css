@@ -1,3 +1,10 @@
+#canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1; /* Place canvas behind other elements */
+}
+
 #container {
     width: 100%;
     height: 100vh;
@@ -5,28 +12,39 @@
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    position: relative;
 
-
-    #card-container {
-      width: 90%;
-      height: 90%;
-      position: relative;
-      margin: 0 1rem;
+    .prev-button {
+        position: sticky;
+        top: 50%;
+        left: 0;
+    }
+    .next-button {
+        position: sticky;
+        top: 50%;
+        right: 0;
     }
 
+    #card-container {
+        width: 90%;
+        height: 90%;
+        position: relative;
+        margin: 0 1rem;
+    }
+
+
     .card {
-      width: 100%;
-      height: 100%;
-      position: absolute;
-      top: 0;
-      left: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-start;
-      border: 1px solid black;
-      border-radius: 20px;
-      padding: 1rem;
-      box-sizing: border-box;
+        width: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        display: flex;
+        flex-direction: column;
+        border: 1px solid black;
+        border-radius: 20px;
+        padding: 1rem;
+        box-sizing: border-box;
+        background-color: white;
     }
 
     /* Animations styles */
@@ -36,7 +54,6 @@
 
     .slide-in-left {
         animation: fadeInLeft 1s ease-in-out;
-
     }
 
     .slide-out-right {
@@ -45,6 +62,10 @@
 
     .slide-in-right {
         animation: fadeInRight 1s ease-in-out;
+    }
+
+    .fade-in {
+        animation: fadeIn 1s ease-in-out;
     }
 }
 
@@ -89,5 +110,14 @@
     100% {
         opacity: 1;
         transform: translateX(0);
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

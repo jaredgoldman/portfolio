@@ -18,7 +18,6 @@ const cardData = [
 
 document.addEventListener('DOMContentLoaded', () => {
     cards = loadCards()
-
     let cardIndex = 0
 
     const container = document.querySelector('#card-container')
@@ -36,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             return
         }
+
         // Grab the current card and the next card
         const currentCard = container.firstChild
         const nextCard = cards[cardIndex]
@@ -49,7 +49,6 @@ document.addEventListener('DOMContentLoaded', () => {
             // Add next card to DOM
             nextCard.classList.remove(nextCardClass)
             currentCard.classList.remove(currentCardClass)
-            // cleanup
         }, 1000)
     }
 

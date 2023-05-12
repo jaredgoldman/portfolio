@@ -6,27 +6,27 @@ export const setupButtons = (cardIndex, container, cards) => {
     const nextButton = document.querySelector(".next-button");
     handleButtonAbility(prevButton, nextButton, cards.length, cardIndex);
 
-    prevButton.addEventListener("click", () => {
-        cardIndex = handleButtonClick(
-            "prev",
-            cardIndex,
-            container,
-            cards,
-            prevButton,
-            nextButton
-        );
-    });
+    [prevButton, nextButton].forEach((button) => {
+        button.addEventListener("click", () => {
+            cardIndex = handleButtonClick(
+                button.innerText.toLowerCase(),
+                cardIndex,
+                container,
+                cards,
+                prevButton,
+                nextButton
+            );
+        });
 
-    nextButton.addEventListener("click", () => {
-        cardIndex = handleButtonClick(
-            "next",
-            cardIndex,
-            container,
-            cards,
-            prevButton,
-            nextButton
-        );
-    });
+        // button.addEventListener('mouseenter', () => {
+        //     button.classList.add('fade-in-fast')
+        // })
+        // button.addEventListener('mouseleave', () => {
+        //     button.classList.add('fade-out-fast')
+        //     button.classList.remove('fade-in-fast')
+        // })
+
+    })
 }
 
 const handleButtonClick = (

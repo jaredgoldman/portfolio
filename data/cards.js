@@ -49,5 +49,13 @@ export default [
         description: 'This card features my resume',
         image: 'https://picsum.photos/200/300',
         class: 'resume'
+    },
+    {
+        title: 'Contact',
+        subtitle: 'This is a subtitle',
+        description: 'Please contact me at this email address',
+        image: 'https://picsum.photos/200/300',
+        class: 'contact'
     }
+
 ]

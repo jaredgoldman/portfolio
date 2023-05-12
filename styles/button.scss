@@ -1,0 +1,20 @@
+:root {
+    --button-inwards-distance: 4rem;
+}
+.button {
+    position: sticky;
+    top: 50%;
+    // border: none;
+    // background-color: transparent;
+    // font-size: 2rem;
+    z-index: 1;
+    // opacity: 0;
+}
+
+.prev-button {
+    left: var(--button-inwards-distance);
+}
+
+.next-button {
+    right: var(--button-inwards-distance);
+}

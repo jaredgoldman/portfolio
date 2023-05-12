@@ -1,9 +1,0 @@
-#overlay {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 80vh; }
-  #overlay .overlay-text {
-    font-size: 2rem;
-    font-weight: bold; }

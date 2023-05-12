@@ -1,9 +1,9 @@
 export default [
     {
-        title: 'About me',
-        subtitle: 'This is a subtitle',
-        description: 'This card is about me',
-        image: 'https://picsum.photos/200/300',
+        title: 'Jared Goldman',
+        subtitle: 'Full-Stack Developer',
+        description: 'My name is Jared Goldman and I\'m a curious full-stack developer looking to make dreams become reality',
+        // image: 'https://picsum.photos/200/300',
         class: 'about'
     },
     {

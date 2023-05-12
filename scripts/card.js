@@ -25,22 +25,28 @@ export const loadCard = (cardData, card = null) => {
         card = document.createElement('div')
     }
     // create a card description
+    const descriptionContainer = document.createElement('div')
+    descriptionContainer.className = 'description-container'
     const cardDescription = document.createElement('p')
     cardDescription.innerText = cardData.description
+    cardDescription.className = 'description'
+    descriptionContainer.appendChild(cardDescription)
 
     // create a card image container
     const cardImageContainer = document.createElement('div')
     cardImageContainer.className = 'card-image'
 
-    // Insert card image
-    const cardImage = document.createElement('img')
-    cardImage.src = cardData.image
+    if (cardData.image) {
+        // Insert card image
+        const cardImage = document.createElement('img')
+        cardImage.src = cardData.image
+        // Append card image to card image container
+        cardImageContainer.appendChild(cardImage)
 
-    // Append card image to card image container
-    cardImageContainer.appendChild(cardImage)
+    }
 
     // Put it all together
-    card.appendChild(cardDescription)
+    card.appendChild(descriptionContainer)
     card.appendChild(cardImageContainer)
     return card
 }

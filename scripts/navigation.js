@@ -17,15 +17,6 @@ export const setupButtons = (cardIndex, container, cards) => {
                 nextButton
             );
         });
-
-        // button.addEventListener('mouseenter', () => {
-        //     button.classList.add('fade-in-fast')
-        // })
-        // button.addEventListener('mouseleave', () => {
-        //     button.classList.add('fade-out-fast')
-        //     button.classList.remove('fade-in-fast')
-        // })
-
     })
 }
 

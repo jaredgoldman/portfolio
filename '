@@ -9,21 +9,16 @@
     z-index: 1;
     border: 1px solid black;
     width: 100px;
-    height: 70px;
-    border-radius: 25%;
-    opacity: 0;
-    transition: opacity 0.2s ease-in-out;
-    background-color: white;
-    color: black;
+    height: 100px;
+    border-radius: 90%;
+    transition: opacity 0.25s ease-in-out;
+    opacity: 1;
+    background-color: gray;
 }
 
 button:hover {
     cursor: pointer;
-    opacity: 1;
-}
-
-button:disable {
-    opacity: 0;
+    opacity: 0.5;
 }
 
 .prev-button {
@@ -33,4 +28,3 @@ button:disable {
 .next-button {
     right: var(--button-inwards-distance);
 }
-

@@ -5,14 +5,17 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/cards.css" />
-        <script defer src="script.js"></script>
-        <script defer src="canvas.js"></script>
+        <link rel="stylesheet" href="styles/animation.css" />
+        <script defer src="scripts/script.js" type="module"></script>
+        <script defer src="scripts/utils.js" type="module"></script>
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
         <main>
-            <!-- <canvas id="canvas"></canvas> -->
-            <section id="container">
+            <div id="overlay">
+                <h1 class="overlay-text">Jared Goldman - Developer</h1>
+            </div>
+            <section id="container" class="invisible">
                 <button class="prev-button">Prev</button>
                 <div id="card-container"></div>
                 <button class="next-button">Next</button>

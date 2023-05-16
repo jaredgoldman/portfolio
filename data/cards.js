@@ -4,14 +4,14 @@ export default [
         subtitle: 'Full-Stack Developer',
         description: 'My name is Jared Goldman and I\'m a curious full-stack developer looking to make dreams become reality',
         // image: 'https://picsum.photos/200/300',
-        class: 'about'
+        id: 'about'
     },
     {
         title: 'Projects',
         subtitle: 'This is a subtitle',
         description: 'This card is about my projects',
         image: 'https://picsum.photos/200/300',
-        class: 'projects',
+        id: 'projects',
         data: [
             {
                 title: 'Project 1',
@@ -48,14 +48,11 @@ export default [
         subtitle: 'This is a subtitle',
         description: 'This card features my resume',
         image: 'https://picsum.photos/200/300',
-        class: 'resume'
+        id: 'resume'
     },
     {
         title: 'Contact',
-        subtitle: 'This is a subtitle',
-        description: 'Please contact me at this email address',
-        image: 'https://picsum.photos/200/300',
-        class: 'contact'
+        subtitle: 'Feel free to contact me here',
+        id: 'contact'
     }
-
 ]

@@ -11,3 +11,16 @@ export const loadTitleComponent = (title, subtitle) => {
     titleComponent.appendChild(cardSubtitle)
     return titleComponent
 }
+
+export const loadNavComponent = (cardData) => {
+    const nav = document.createElement('ul')
+    nav.classList.add('nav')
+    cardData.forEach((card) => {
+        const navItem = document.createElement('li')
+        navItem.innerText = card.title
+        navItem.className = 'nav-item'
+        navItem.id = card.class
+        nav.appendChild(navItem)
+    })
+    return nav
+}

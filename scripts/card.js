@@ -2,59 +2,61 @@ import cardData from "../data/cards.js"
 import { loadTitleComponent } from "./component.js"
 
 export const loadCards = () => {
-    return cardData.map((cardData) => {
+    return cardData.map((data) => {
         // Create a card container
-        const card = document.createElement('div')
-        const classes = ['card', cardData.class]
+        let card = document.createElement('div')
+        const classes = ['card', data.id]
         card.classList.add(...classes)
         // create a card title
-        const titleComponent = loadTitleComponent(cardData.title, cardData.subtitle)
+        const titleComponent = loadTitleComponent(data.title, data.subtitle)
+        // const navComponent = loadNavComponent(cardData)
         card.appendChild(titleComponent)
-
-
-        if (cardData.class === 'projects') {
-            return loadProjectsCard(cardData.data, card)
-        } else {
-            return loadCard(cardData, card)
+        let cardRendered
+        switch (data.id) {
+            case 'projects':
+                cardRendered = loadProjectsCard(data.data, card)
+                break
+            case 'contact':
+                cardRendered = loadContactCard(data.data, card)
+                break
+            default:
+                cardRendered = loadCard(data, card)
         }
+        cardRendered.id = data.id
+        return cardRendered
     })
 }
 
-export const loadCard = (cardData, card = null) => {
+export const loadCard = (data, card = null) => {
     if (!card) {
         card = document.createElement('div')
     }
-    // create a card description
-    const descriptionContainer = document.createElement('div')
-    descriptionContainer.className = 'description-container'
-    const cardDescription = document.createElement('p')
-    cardDescription.innerText = cardData.description
-    cardDescription.className = 'description'
-    descriptionContainer.appendChild(cardDescription)
 
-    // create a card image container
-    const cardImageContainer = document.createElement('div')
-    cardImageContainer.className = 'card-image'
-
-    if (cardData.image) {
-        // Insert card image
+    if (data.image) {
+        const cardImageContainer = document.createElement('div')
+        cardImageContainer.className = 'card-image'
         const cardImage = document.createElement('img')
-        cardImage.src = cardData.image
-        // Append card image to card image container
+        cardImage.src = data.image
         cardImageContainer.appendChild(cardImage)
+        card.appendChild(cardImageContainer)
+    }
 
+    if (data.description) {
+        const descriptionContainer = document.createElement('div')
+        descriptionContainer.className = 'description-container'
+        const cardDescription = document.createElement('p')
+        cardDescription.innerText = data.description
+        cardDescription.className = 'description'
+        descriptionContainer.appendChild(cardDescription)
+        card.appendChild(descriptionContainer)
     }
 
     // Put it all together
-    card.appendChild(descriptionContainer)
-    card.appendChild(cardImageContainer)
     return card
 }
 
-
-
-const loadProjectsCard = (projectData, card) => {
-    projectData.forEach((project) => {
+const loadProjectsCard = (data, card) => {
+    data.forEach((project) => {
         const section = document.createElement('section')
         const innerCard = document.createElement('div')
         innerCard.className = 'inner-card'
@@ -106,3 +108,33 @@ const loadProjectsCard = (projectData, card) => {
     })
     return card
 }
+
+const loadContactCard = (data, card) => {
+    const form = document.createElement('form')
+    form.className = 'contact-form'
+    const formInner = document.createElement('div')
+    formInner.className = 'form-inner'
+    form.className = 'contact-form'
+    const nameInput = document.createElement('input')
+    nameInput.type = 'text'
+    nameInput.name = 'name'
+    nameInput.placeholder = 'Name'
+    const emailInput = document.createElement('input')
+    emailInput.type = 'email'
+    emailInput.name = 'email'
+    emailInput.placeholder = 'Email'
+    const messageInput = document.createElement('textarea')
+    messageInput.name = 'message'
+    messageInput.placeholder = 'Message'
+    const submitButton = document.createElement('button')
+    submitButton.type = 'submit'
+    submitButton.innerText = 'Send'
+    formInner.appendChild(nameInput)
+    formInner.appendChild(emailInput)
+    formInner.appendChild(messageInput)
+    formInner.appendChild(submitButton)
+    form.appendChild(formInner)
+    card.appendChild(form)
+    return card
+}
+

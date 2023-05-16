@@ -1,78 +1,74 @@
 import { adjustUrlParams } from "./utils.js";
-import cardData from "../data/cards.js"
 
-export const setupButtons = (cardIndex, container, cards) => {
-    const prevButton = document.querySelector(".prev-button");
-    const nextButton = document.querySelector(".next-button");
-    handleButtonAbility(prevButton, nextButton, cards.length, cardIndex);
+let localCardIndex
 
-    [prevButton, nextButton].forEach((button) => {
-        button.addEventListener("click", () => {
-            cardIndex = handleButtonClick(
-                button.innerText.toLowerCase(),
-                cardIndex,
-                container,
-                cards,
-                prevButton,
-                nextButton
+export const setupButtons = (container, cards, cardIndex) => {
+    localCardIndex = cardIndex
+    const navItems = document.querySelectorAll(".nav-item");
+
+    navItems.forEach((navItem) => {
+        navItem.addEventListener("click", () => {
+            transitionCard(
+                navItem.innerText.toLowerCase(),
+                cards, container,
+                navItems
             );
         });
     })
 }
 
-const handleButtonClick = (
-    direction,
-    cardIndex,
-    container,
-    cards,
-    prevButton,
-    nextButton
-) => {
-    cardIndex = transitionCard(direction, cardIndex, container, cards);
-    handleButtonAbility(prevButton, nextButton, cards.length, cardIndex);
-    adjustUrlParams(cardData[cardIndex].class);
-    return cardIndex;
-}
+const transitionCard = (nextCardName, cards, container, navItems) => {
+    console.log({
+        localCardIndex
+    })
+    // TODO: disable all buttons
+    navItems.forEach((navItem) => {
+        navItem.classList.add("disabled")
+    })
 
-const transitionCard = (direction, cardIndex, container, cards) => {
+    // update url
+    adjustUrlParams(nextCardName)
+    // find what the current card is
+    const currentCard = cards[localCardIndex]
+    // find what the next card is
+    const nextCardIndex = cards.findIndex((card) => card.id === nextCardName)
+    const nextCard = cards[nextCardIndex]
+    // figure out what directiion we need to swipe to get to that card
+    const transitionDirection = localCardIndex > nextCardIndex ? 'right' : 'left'
+
+    // add appropriate classes to create transition
     let currentCardClass = 'slide-out-left'
     let nextCardClass = 'slide-in-right'
-    let nextCardIndex = cardIndex
-    if (direction === 'next' && cardIndex < cards.length - 1) {
-        nextCardIndex += 1
-    } else if (direction === 'prev' && cardIndex > 0) {
-        nextCardIndex -= 1
+    if (transitionDirection === 'right') {
         currentCardClass = 'slide-out-right'
         nextCardClass = 'slide-in-left'
-    } else {
-        return
     }
 
-    // Grab the current card and the next card
-    const currentCard = container.firstChild
-    const nextCard = cards[nextCardIndex]
+    // console.log({
+    //     currentCard,
+    //     nextCard,
+    // })
+    // make the magic happen
     currentCard.classList.add(currentCardClass)
     nextCard.classList.add(nextCardClass)
     container.appendChild(nextCard)
 
     setTimeout(() => {
-        // Remove current card from DOM
-        container.removeChild(currentCard)
-        // Add next card to DOM
-        nextCard.classList.remove(nextCardClass)
         currentCard.classList.remove(currentCardClass)
+        nextCard.classList.remove(nextCardClass)
+        // Remove current card from DOM
+        if (container.contains(currentCard) && currentCard !== nextCard) {
+            container.removeChild(currentCard)
+        }
+        navItems.forEach((navItem) => {
+            if (navItem.innerText.toLowerCase() !== nextCardName) {
+                navItem.classList.remove('disabled')
+            }
+        })
+
     }, 1000)
 
-    return nextCardIndex
+    localCardIndex = nextCardIndex
 }
 
-const handleButtonAbility = (prevButton, nextButton, cardLength, cardIndex) => {
-    if (cardIndex === 0) {
-        prevButton.disabled = true
-    } else if (cardIndex === cardLength - 1) {
-        nextButton.disabled = true
-    } else {
-        prevButton.disabled = false
-        nextButton.disabled = false
-    }
-}
+

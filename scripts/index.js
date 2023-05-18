@@ -1,54 +1,63 @@
-import {
-    loadCards,
-    loadCard,
-} from "./card.js";
-import { setupButtons } from "./navigation.js";
-import cardData from "../data/cards.js"
+let containerOffset = 0;
+let isUpdating = false;
+let observer; // Declare the IntersectionObserver as a global variable
+let cards
 
-export let cardIndex = 0
+const handleWheelEvent = (event) => {
+    event.preventDefault();
 
-document.addEventListener("DOMContentLoaded", () => {
-    // Start with overlay
-    triggerInitialOverlay();
-    // log current url
-    const urlParams = new URLSearchParams(window.location.search);
-    const lastPath = urlParams.get("card");
+    // Calculate the scroll direction
+    const scrollDirection = Math.sign(event.deltaY);
 
-    const cards = loadCards();
+    // Define the distance to move the elements
+    const moveDistance = 120;
 
-    // Account for refresh
-    if (lastPath) cardIndex = cardData.findIndex((card) => card.id === lastPath);
+    // Update the container's horizontal offset
+    containerOffset += moveDistance * scrollDirection;
 
-    const card = cards[cardIndex];
-    const container = document.querySelector("#card-container");
+    container.style.setProperty('--container-offset', `${containerOffset}px`);
 
-    // add fade-in animation
-    container.classList.add("fade-in");
-    container.appendChild(card);
+    observe()
+};
 
-    // setup buttons
-    setupButtons(container, cards, cardIndex);
-    setupScrollListener();
-});
-
-const triggerInitialOverlay = () => {
-    const container = document.querySelector("#container");
-    const nav = document.querySelector("#nav");
-    container.style.display = "none";
-    nav.style.display = "none";
-    // hide container
-    const overlay = document.querySelector("#overlay");
-    overlay.classList.add("fade-out-slow");
-    setTimeout(() => {
-        overlay.style.display = "none";
-        container.style.display = "flex";
-        nav.style.display = "flex";
-    }, 2000);
-}
-
-const setupScrollListener = () => {
-    const container = document.querySelector("#container");
-    container.addEventListener("wheel", (event) => {
-        const scrollDir = event.deltaY > 0 ? "down" : "up";
+const observe = () => {
+    cards.forEach((element) => {
+        observer.observe(element);
     });
 }
+
+const instantiateObserver = () => {
+    observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            const element = entry.target;
+            const isVisible = entry.isIntersecting;
+            const isFocused = element.classList.contains('focused');
+            const isUnfocused = element.classList.contains('unfocused');
+
+            if (isVisible && isUnfocused) {
+                // console.log('visible', element.innerText);
+                element.classList.remove('unfocused');
+                element.classList.add('focused');
+            } else if (!isVisible && isFocused) {
+                // console.log('invisible', element.innerText);
+                element.classList.remove('focused');
+                element.classList.add('unfocused');
+            }
+        });
+    }, {
+        root: null,
+        threshold: 0.9,
+    });
+
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    cards = document.querySelectorAll('.card');
+    cards.forEach((element) => {
+        element.classList.add('unfocused');
+    });
+    instantiateObserver(); // Instantiate the IntersectionObserver
+    container.addEventListener('wheel', handleWheelEvent);
+    observe()
+});
+

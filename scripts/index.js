@@ -4,12 +4,22 @@ let container
 
 const handleWheelEvent = (event) => {
     event.preventDefault()
-
     // Calculate the scroll direction
     const scrollDirection = Math.sign(event.deltaY)
 
+    // disable scrolling right on the last card
+    if (
+        scrollDirection === 1 &&
+        cards[cards.length - 1].classList.contains('focused')
+    ) {
+        return
+    }
+    // find distance to the next card
+    const cardWidth = cards[0].offsetWidth
+    const cardMargin = parseInt(window.getComputedStyle(cards[0]).marginRight)
+    const cardDistance = cardWidth + cardMargin
     // Define the distance to move the elements
-    const moveDistance = 500 // Adjust this value as needed
+    const moveDistance = cardDistance // Adjust this value as needed
 
     // Determine the current scroll position
     const currentScrollPosition = container.scrollLeft
@@ -23,7 +33,7 @@ const handleWheelEvent = (event) => {
 }
 
 const smoothScrollTo = (targetPosition) => {
-    const duration = 300
+    const duration = 350
     const startPosition = container.scrollLeft
     const distance = targetPosition - startPosition
     let startTime = null

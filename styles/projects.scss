@@ -10,13 +10,19 @@
         margin: 0.35rem;
 
         .project-title {
+            text-align: right;
             font-size: 1.5rem;
             font-weight: 500;
         }
 
-        .project-link {
-            margin-top: 1rem;
-            margin-right: 0.5rem;
+        .project-links {
+            min-height: o.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: flex-end;
+            .project-link {
+                margin-left: 0.5rem;
+            }
         }
     }
 }

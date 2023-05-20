@@ -5,14 +5,18 @@
     overflow-x: hidden;
 }
 .card-container {
-    width: 200%;
+    width: 300%;
     height: 100vh;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-items: center;
     overflow-x: hidden; /* change this from scroll to hidden */
     scroll-behavior: auto;
     transition: scroll-left 0.1s ease-in-out;
+
+    .card:nth-child(1) {
+        margin-left: 5%;
+    }
 }
 
 .card-container::-webkit-scrollbar {
@@ -20,9 +24,9 @@
 }
 
 .card {
-    width: 100%;
+    width: 25%;
+    margin-right: 5%;
     height: 80%;
-    margin: 0px 40px;
     transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
     border: 1px solid #ccc;
 
@@ -38,6 +42,7 @@
         }
 
         .card-subtitle {
+            margin-top: 0.25rem;
             font-size: 1.5rem;
         }
 

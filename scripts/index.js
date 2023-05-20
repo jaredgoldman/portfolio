@@ -2,10 +2,18 @@ let observer
 let cards
 let container
 
-const handleWheelEvent = (event) => {
+const handleCardTransition = (event) => {
     event.preventDefault()
-    // Calculate the scroll direction
-    const scrollDirection = Math.sign(event.deltaY)
+    let scrollDirection
+
+    if (event.type === 'keydown') {
+        event.key === 'ArrowRight'
+            ? (scrollDirection = 1)
+            : (scrollDirection = -1)
+    } else {
+        // Calculate the scroll direction
+        scrollDirection = Math.sign(event.deltaY)
+    }
 
     // disable scrolling right on the last card
     if (
@@ -18,8 +26,9 @@ const handleWheelEvent = (event) => {
     const cardWidth = cards[0].offsetWidth
     const cardMargin = parseInt(window.getComputedStyle(cards[0]).marginRight)
     const cardDistance = cardWidth + cardMargin
+
     // Define the distance to move the elements
-    const moveDistance = cardDistance // Adjust this value as needed
+    const moveDistance = cardDistance
 
     // Determine the current scroll position
     const currentScrollPosition = container.scrollLeft
@@ -103,5 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
     cards.forEach((card) => observer.observe(card))
 
     container = document.querySelector('.container')
-    container.addEventListener('wheel', handleWheelEvent)
+    // Listen for scroll event
+    document.addEventListener('keydown', handleCardTransition)
+    container.addEventListener('wheel', handleCardTransition)
 })

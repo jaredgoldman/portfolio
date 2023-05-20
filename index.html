@@ -5,7 +5,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="css/main.css" />
         <script defer src="scripts/index.js" type="module"></script>
-        <script defer src="scripts/utils.js" type="module"></script>
+        <script defer src="scripts/cards.js" type="module"></script>
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
@@ -15,9 +15,75 @@
             <!-- </div> -->
             <section id="container" class="container">
                 <div id="card-container" class="card-container">
-                    <div id="card-about" class="card about">About</div>
-                    <div id="card-projects" class="card projects">Projects</div>
-                    <div id="card-resume" class="card resume">Resume</div>
+                    <div id="card-about" class="card about">
+                        <div class="card-inner">
+                            <h1 class="card-title">Jared Goldman</h1>
+                            <h3 class="card-subtitle">Software Developer</h3>
+                            <div class="bio">
+                                <p>
+                                    My name is Jared Goldman and I'm a
+                                    full-stack software developer and
+                                    open-source contributor originating from
+                                    Canada. After being fascinated with
+                                    computers and tech my entire life, I finally
+                                    started coding during the pandemic. I
+                                    quickly fell down a deep, beautiful rabbit
+                                    hole and continue to have my mind blown on
+                                    daily basis keeping up with the latest in
+                                    web and software dev. I love the web,
+                                    creating beautiful dynamic UIs and building
+                                    scalable backend infrastructure and I'm also
+                                    starting to explore native software
+                                    development computer science, data
+                                    structures and alogrithms. My skillset
+                                    includes Typescript/Javascript, Python,
+                                    Java, React (Next.Js, Gatsby), PHP,
+                                    HTML/CSS, Svelte, ExpressJS, Postgres,
+                                    MongoDb, Docker, Discord.js and AWS (EC2,
+                                    Amplify). Nice to be acquainted!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="card-projects" class="card projects">
+                        <div class="card-inner">
+                            <h1 class="card-title">Projects</h1>
+                            <h3 class="card-subtitle">Placeholder</h3>
+                            <div class="projects-inner"></div>
+                        </div>
+                    </div>
+                    <div id="card-resume" class="card resume">
+                        <div class="card-inner">
+                            <h1 class="card-title">Say Hello!</h1>
+                            <h3 class="card-subtitle">
+                                Feel free to contact me or maybe take a look at
+                                my resume?
+                            </h3>
+                            <div class="form-container">
+                                <form class="contact-form">
+                                    <label for="">Name</label>
+                                    <input
+                                        type="text"
+                                        name="name"
+                                        placeholder="Your name"
+                                    />
+                                    <label for="">Email</label>
+                                    <input
+                                        type="email"
+                                        name=""
+                                        placeholder="Your email"
+                                    />
+                                    <label for="">Message</label>
+                                    <textarea
+                                        type="text"
+                                        name=""
+                                        placeholder=""
+                                    ></textarea>
+                                    <button type="submit">Submit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </main>

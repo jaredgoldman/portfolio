@@ -1,42 +1,67 @@
-:root {
-    --container-offset: 0;
-}
-
 .container {
-    display: relative;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+}
+.card-container {
     width: 200%;
     height: 100vh;
-    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden; /* change this from scroll to hidden */
+    scroll-behavior: auto;
+    transition: scroll-left 0.1s ease-in-out;
+}
 
-    .card-container {
-        width: 100%;
-        height: 100%;
+.card-container::-webkit-scrollbar {
+    display: none;
+}
+
+.card {
+    width: 100%;
+    height: 80%;
+    margin: 0px 40px;
+    transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+    border: 1px solid #ccc;
+
+    .card-inner {
         display: flex;
-        align-items: center;
-        justify-content: center; /* Add this to align the cards to the left */
+        flex-direction: column;
+        margin: 1rem;
+        height: 100%;
+        flex: 1;
 
-        .card {
-            width: 90vw;
-            height: 90vh;
-            margin: 0px 40px;
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out,
-                scale 0.3s ease-in-out; /* Update the order of properties */
-            border: 1px solid #ccc;
-            background-color: gray;
+        .card-title {
+            font-size: 3rem;
+        }
+
+        .card-subtitle {
+            font-size: 1.5rem;
+        }
+
+        .bio {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 5rem;
+
+            p {
+                width: 70%;
+                line-height: 1.5rem;
+            }
         }
     }
 }
 
-.disabled {
-    pointer-events: none;
-}
-
 .focused {
-    transform: translateX(var(--container-offset, 0)) scale(1.05);
+    transform: scale(1.05);
     opacity: 1;
 }
 
 .unfocused {
-    transform: translateX(var(--container-offset, 0)) scale(1);
+    transform: scale(1);
     opacity: 0.5;
 }

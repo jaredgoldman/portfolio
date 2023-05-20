@@ -1,63 +1,97 @@
-let containerOffset = 0;
-let isUpdating = false;
-let observer; // Declare the IntersectionObserver as a global variable
+let observer
 let cards
+let container
 
 const handleWheelEvent = (event) => {
-    event.preventDefault();
+    event.preventDefault()
 
     // Calculate the scroll direction
-    const scrollDirection = Math.sign(event.deltaY);
+    const scrollDirection = Math.sign(event.deltaY)
 
     // Define the distance to move the elements
-    const moveDistance = 120;
+    const moveDistance = 500 // Adjust this value as needed
 
-    // Update the container's horizontal offset
-    containerOffset += moveDistance * scrollDirection;
+    // Determine the current scroll position
+    const currentScrollPosition = container.scrollLeft
 
-    container.style.setProperty('--container-offset', `${containerOffset}px`);
+    // Calculate the target scroll position
+    const targetScrollPosition =
+        currentScrollPosition + moveDistance * scrollDirection
 
-    observe()
-};
+    // Smoothly scroll the container
+    smoothScrollTo(targetScrollPosition)
+}
 
-const observe = () => {
-    cards.forEach((element) => {
-        observer.observe(element);
-    });
+const smoothScrollTo = (targetPosition) => {
+    const duration = 300
+    const startPosition = container.scrollLeft
+    const distance = targetPosition - startPosition
+    let startTime = null
+
+    const animationStep = (currentTime) => {
+        if (startTime === null) {
+            startTime = currentTime
+        }
+
+        const elapsedTime = currentTime - startTime
+        const scrollValue = easeInOutQuad(
+            elapsedTime,
+            startPosition,
+            distance,
+            duration
+        )
+
+        container.scrollLeft = scrollValue
+
+        if (elapsedTime < duration) {
+            requestAnimationFrame(animationStep)
+        }
+    }
+
+    requestAnimationFrame(animationStep)
+}
+
+// Thank you stackoverflow: https://stackoverflow.com/questions/13462001/ease-in-and-ease-out-animation-formula
+const easeInOutQuad = (t, b, c, d) => {
+    t /= d / 2
+    if (t < 1) return (c / 2) * t * t + b
+    t--
+    return (-c / 2) * (t * (t - 2) - 1) + b
 }
 
 const instantiateObserver = () => {
-    observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            const element = entry.target;
-            const isVisible = entry.isIntersecting;
-            const isFocused = element.classList.contains('focused');
-            const isUnfocused = element.classList.contains('unfocused');
+    observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const element = entry.target
+                const isVisible = entry.isIntersecting
+                const isFocused = element.classList.contains('focused')
+                const isUnfocused = element.classList.contains('unfocused')
 
-            if (isVisible && isUnfocused) {
-                // console.log('visible', element.innerText);
-                element.classList.remove('unfocused');
-                element.classList.add('focused');
-            } else if (!isVisible && isFocused) {
-                // console.log('invisible', element.innerText);
-                element.classList.remove('focused');
-                element.classList.add('unfocused');
-            }
-        });
-    }, {
-        root: null,
-        threshold: 0.9,
-    });
-
-};
+                if (isVisible && isUnfocused) {
+                    element.classList.remove('unfocused')
+                    element.classList.add('focused')
+                } else if (!isVisible && isFocused) {
+                    element.classList.remove('focused')
+                    element.classList.add('unfocused')
+                }
+            })
+        },
+        {
+            root: null,
+            threshold: 0.9,
+        }
+    )
+}
 
 document.addEventListener('DOMContentLoaded', () => {
-    cards = document.querySelectorAll('.card');
+    cards = document.querySelectorAll('.card')
     cards.forEach((element) => {
-        element.classList.add('unfocused');
-    });
-    instantiateObserver(); // Instantiate the IntersectionObserver
-    container.addEventListener('wheel', handleWheelEvent);
-    observe()
-});
+        element.classList.add('unfocused')
+    })
+    instantiateObserver()
+    cards.forEach((card) => observer.observe(card))
 
+    container = document.querySelector('.container')
+    container.addEventListener('wheel', handleWheelEvent)
+})

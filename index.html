@@ -3,13 +3,36 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="css/main.css" />
+        <link rel="stylesheet" href="styles/style.css" />
+        <link rel="stylesheet" href="styles/reset.css" />
         <script defer src="scripts/index.js" type="module"></script>
         <script defer src="scripts/cards.js" type="module"></script>
+        <script defer src="scripts/mode.js" type="module"></script>
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
         <main>
+            <div class="mode-group">
+                <fieldset>
+                    <label for="light">Light</label>
+                    <input
+                        id="dark"
+                        type="radio"
+                        name="mode"
+                        value="light"
+                        class="radio"
+                    />
+                    <label for="dark">Dark</label>
+                    <input
+                        id="light"
+                        type="radio"
+                        name="mode"
+                        value="dark"
+                        class="radio"
+                        checked
+                    />
+                </fieldset>
+            </div>
             <!-- <div id="overlay"> -->
             <!--     <h1 class="overlay-text">Jared Goldman</h1> -->
             <!-- </div> -->
@@ -19,7 +42,7 @@
                         <div class="card-inner">
                             <h1 class="card-title">Jared Goldman</h1>
                             <h3 class="card-subtitle">Software Developer</h3>
-                            <div class="bio">
+                            <div class="bio-pic">
                                 <p>
                                     My name is Jared Goldman and I'm a
                                     full-stack software developer and
@@ -42,6 +65,13 @@
                                     MongoDb, Docker, Discord.js and AWS (EC2,
                                     Amplify). Nice to be acquainted!
                                 </p>
+                                <div class="image-container">
+                                    <img
+                                        src="/assets/jared.jpg"
+                                        alt="me"
+                                        loading="lazy"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -58,27 +88,29 @@
                             <h3 class="card-subtitle">
                                 Feel free to contact me or maybe take a look at
                                 my
-                                <a href="" download="jg_resume.pdf">resume?</a>
+                                <a href="" download="jg_resume.pdf">resume</a>?
                             </h3>
                             <div class="form-container">
                                 <form class="contact-form">
-                                    <label for="">Name</label>
+                                    <label for="name">Name</label>
                                     <input
                                         type="text"
                                         name="name"
                                         placeholder="Your name"
                                     />
-                                    <label for="">Email</label>
+                                    <label for="email">Email</label>
                                     <input
                                         type="email"
-                                        name=""
+                                        name="email"
                                         placeholder="Your email"
                                     />
-                                    <label for="">Message</label>
+                                    <label for="message">Message</label>
                                     <textarea
                                         type="text"
-                                        name=""
+                                        name="message"
                                         placeholder=""
+                                        rows="5"
+                                        cols="33"
                                     ></textarea>
                                     <button type="submit">Submit</button>
                                 </form>

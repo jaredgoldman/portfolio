@@ -1,9 +1,11 @@
 let observer
 let cards
 let container
+let isScrolling = false
 
 const handleCardTransition = (event) => {
     event.preventDefault()
+    if (isScrolling) return
     let scrollDirection
 
     if (event.type === 'keydown') {
@@ -39,6 +41,7 @@ const handleCardTransition = (event) => {
 
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
+    isScrolling = true
 }
 
 const smoothScrollTo = (targetPosition) => {
@@ -64,6 +67,8 @@ const smoothScrollTo = (targetPosition) => {
 
         if (elapsedTime < duration) {
             requestAnimationFrame(animationStep)
+        } else {
+            isScrolling = false
         }
     }
 
@@ -103,16 +108,18 @@ const instantiateObserver = () => {
     )
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    cards = document.querySelectorAll('.card')
-    cards.forEach((element) => {
-        element.classList.add('unfocused')
-    })
-    instantiateObserver()
-    cards.forEach((card) => observer.observe(card))
-
-    container = document.querySelector('.container')
-    // Listen for scroll event
-    document.addEventListener('keydown', handleCardTransition)
-    container.addEventListener('wheel', handleCardTransition)
+cards = document.querySelectorAll('.card')
+cards.forEach((element) => {
+    element.classList.add('unfocused')
 })
+instantiateObserver()
+cards.forEach((card) => observer.observe(card))
+
+container = document.querySelector('.container')
+// Listen for scroll event
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+        handleCardTransition(event)
+    }
+})
+container.addEventListener('wheel', handleCardTransition)

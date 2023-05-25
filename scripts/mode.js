@@ -13,11 +13,32 @@ const darkVars = {
 
 document.addEventListener('DOMContentLoaded', () => {
     const input = document.querySelector('#mode-checkbox')
+    const cardContent = document.querySelector('.card-content_right')
+    const initialStyle = { ...cardContent.style }
 
     input.addEventListener('change', () => {
-        const vars = input.checked ? lightVars : darkVars
+        const mode = input.checked ? 'light' : 'dark'
+        const vars = mode === 'dark' ? darkVars : lightVars
+        handleGradientModeChange(mode, cardContent, initialStyle)
         Object.entries(vars).forEach(([key, value]) => {
             document.documentElement.style.setProperty(key, value)
         })
     })
 })
+
+const handleGradientModeChange = (mode, cardContent, initialStyle) => {
+    cardContent.style.transitionDelay = '0.5s'
+    if (mode === 'light') {
+        cardContent.style.backgroundImage = 'url(../assets/jg_kid.jpg)'
+        cardContent.style.backgroundSize = 'cover'
+        cardContent.style.backgroundPosition = 'center'
+    } else {
+        applyPreviousStyle(initialStyle, cardContent)
+    }
+}
+
+const applyPreviousStyle = (prevStyle, element) => {
+    for (let property in prevStyle) {
+        element.style[property] = prevStyle[property]
+    }
+}

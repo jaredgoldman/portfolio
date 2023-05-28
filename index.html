@@ -6,12 +6,19 @@
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/reset.css" />
         <script defer src="scripts/index.js" type="module"></script>
-        <script defer src="scripts/cards.js" type="module"></script>
+        <script defer src="scripts/projects.js" type="module"></script>
         <script defer src="scripts/mode.js" type="module"></script>
+        <script defer src="scripts/modal.js" type="module"></script>
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
         <main>
+            <dialog id="projectModal" class="modal">
+                <div class="modal-header">
+                    <button class="close">&times;</button>
+                </div>
+                <div class="modal-content"></div>
+            </dialog>
             <nav class="header">
                 <div class="mode-group">
                     <label class="switch">

@@ -29,8 +29,8 @@ document.addEventListener('DOMContentLoaded', () => {
 const handleGradientModeChange = (mode, cardContent, initialStyle) => {
     cardContent.style.transitionDelay = '0.5s'
     if (mode === 'light') {
-        cardContent.style.backgroundImage = 'url(../assets/jg_kid.jpg)'
-        cardContent.style.backgroundSize = 'cover'
+        cardContent.style.backgroundImage = 'url(../assets/jg_kid_cropped.jpg)'
+        cardContent.style.backgroundSize = 'contain'
         cardContent.style.backgroundPosition = 'center'
     } else {
         applyPreviousStyle(initialStyle, cardContent)

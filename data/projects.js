@@ -6,6 +6,7 @@ export default {
             image: 'https://picsum.photos/200/300',
             github: 'https://github.com',
             deployed: 'https://google.com',
+            id: 'piker',
         },
         {
             title: 'Jared Goldman Music',
@@ -13,6 +14,7 @@ export default {
             image: 'https://picsum.photos/200/300',
             github: 'https://github.com',
             deployed: 'https://google.com',
+            id: 'jared-goldman-music',
         },
         {
             title: 'NFT Factory',
@@ -20,6 +22,7 @@ export default {
             image: 'https://picsum.photos/200/300',
             github: 'https://github.com',
             deployed: 'https://google.com',
+            id: 'nft-factory',
         },
         {
             title: 'My Crypto',
@@ -27,6 +30,7 @@ export default {
             image: 'https://picsum.photos/200/300',
             github: 'https://github.com',
             deployed: 'https://google.com',
+            id: 'my-crypto',
         },
         {
             title: 'My Portfolio',
@@ -34,6 +38,7 @@ export default {
             image: 'https://picsum.photos/200/300',
             github: 'https://github.com',
             deployed: 'https://google.com',
+            id: 'my-portfolio',
         },
     ],
 }

@@ -28,7 +28,7 @@ const loadModalContent = (projectId) => {
     if (project.deployed) {
         const deployed = document.createElement('a')
         deployed.href = project.deployed
-        deployed.textContent = project.deployed.split('/')[2]
+        deployed.textContent = 'Visit Site'
         deployed.classList.add('modal-link')
         links.appendChild(deployed)
     }

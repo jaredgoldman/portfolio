@@ -1,3 +1,5 @@
+import { updateConfig } from './particles.js'
+
 const lightVars = {
     '--primary-background-color': 'white',
     '--primary-color': 'black',
@@ -23,6 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Object.entries(vars).forEach(([key, value]) => {
             document.documentElement.style.setProperty(key, value)
         })
+        updateConfig(mode)
     })
 })
 

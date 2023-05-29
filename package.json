@@ -11,8 +11,11 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "live-server": "^1.2.2",
         "node-sass": "^8.0.0",
-        "nodemon": "^2.0.22",
-        "live-server": "^1.2.2"
+        "nodemon": "^2.0.22"
+    },
+    "dependencies": {
+        "particles.js": "^2.0.0"
     }
 }

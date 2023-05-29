@@ -12,20 +12,46 @@ const loadProjects = () => {
 
 const loadModalContent = (projectId) => {
     const project = projects.data.find((project) => project.id === projectId)
-    console.log(project)
-    const modalContent = document.querySelector('.modal-content')
-    const title = document.createElement('h2')
-    title.textContent = project.title
-    title.classList.add('modal-title')
+    const modalRight = document.querySelector('.modal-content_right')
+    const modalLeft = document.querySelector('.modal-content_left')
+
+    const modalTitle = document.querySelector('.modal-title')
+    modalTitle.textContent = project.title
+
     const description = document.createElement('p')
     description.textContent = project.description
     description.classList.add('modal-description')
+
+    const links = document.createElement('div')
+    links.classList.add('modal-links')
+
+    if (project.deployed) {
+        const deployed = document.createElement('a')
+        deployed.href = project.deployed
+        deployed.textContent = project.deployed.split('/')[2]
+        deployed.classList.add('modal-link')
+        links.appendChild(deployed)
+    }
+
+    if (project.github) {
+        const github = document.createElement('a')
+        github.href = project.github
+        github.textContent = 'Github'
+        github.classList.add('modal-link')
+        links.appendChild(github)
+    }
+
+    description.appendChild(links)
+
+    const imageContainer = document.createElement('div')
+    imageContainer.classList.add('image-container')
+
     const image = document.createElement('img')
     image.src = project.image
 
-    modalContent.appendChild(title)
-    modalContent.appendChild(description)
-    modalContent.appendChild(image)
+    imageContainer.appendChild(image)
+    modalLeft.appendChild(imageContainer)
+    modalRight.appendChild(description)
 }
 
 const setupProjectListeners = () => {
@@ -45,13 +71,13 @@ const setupProjectListeners = () => {
 }
 
 const closeModal = (modal) => {
-    modal.style.display = 'none'
-    const modalContent = document.querySelector('.modal-content')
+    const modalRight = document.querySelector('.modal-content_right')
+    const modalLeft = document.querySelector('.modal-content_left')
 
-    // remove all childeren of modalContent
-    while (modalContent.firstChild) {
-        modalContent.removeChild(modalContent.firstChild)
-    }
+    modal.style.display = 'none'
+
+    modalLeft.removeChild(modalLeft.firstChild)
+    modalRight.removeChild(modalRight.firstChild)
 }
 
 const loadProjectHeadings = () => {

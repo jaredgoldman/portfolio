@@ -121,15 +121,17 @@ footer {
                 background-size: 50vh auto;
                 border: none;
             }
+
             .card-content_left {
                 width: 50%;
                 display: flex;
                 flex-direction: column;
                 justify-content: center;
+
                 & p {
                     padding: 2rem;
                     line-height: 1.5rem;
-                    text-align: center;
+                    text-align: justify;
                 }
             }
         }
@@ -195,8 +197,6 @@ footer {
 }
 
 .image-container {
-    margin-top: 2rem;
-    width: 37rem;
     height: auto;
     object-fit: contain;
 
@@ -297,16 +297,23 @@ input:checked + .slider:before {
 
     .modal-header {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
+        align-items: center;
         background-color: var(--primary-background-color);
+        color: var(--primary-color);
+
+        .modal-title {
+            font-size: 2rem;
+            margin-left: 3rem;
+        }
 
         .close {
             margin: 1rem;
             font-size: 2rem;
-            color: var(--primary-color);
             cursor: pointer;
             background-color: var(--primary-background-color);
             border: none;
+            color: var(--primary-color);
         }
 
         .close :hover {
@@ -316,5 +323,42 @@ input:checked + .slider:before {
 
     .modal-content {
         color: var(--primary-color);
+        display: flex;
+
+        .modal-content_left {
+            width: 50%;
+            padding: 3rem;
+
+            .image-container {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .modal-content_right {
+            width: 50%;
+            padding: 3rem;
+
+            .modal-description {
+                line-height: 2rem;
+                text-align: justify;
+            }
+            .modal-links {
+                display: flex;
+                padding: 2rem;
+                justify-content: space-evenly;
+
+                .modal-link {
+                    margin: 0 1rem;
+                    font-size: 2rem;
+                    color: var(--primary-color);
+                    text-decoration: none;
+                }
+
+                .modal-link:hover {
+                    color: var(--secondary-color);
+                }
+            }
+        }
     }
 }

@@ -1,3 +1,5 @@
+import { asyncForEach, wait } from './utils.js'
+
 let observer
 let cards
 let container
@@ -7,14 +9,25 @@ const handleCardTransition = (event) => {
     event.preventDefault()
     if (isScrolling) return
     let scrollDirection
-
     if (event.type === 'keydown') {
         event.key === 'ArrowRight'
             ? (scrollDirection = 1)
             : (scrollDirection = -1)
-    } else {
-        // Calculate the scroll direction
-        scrollDirection = Math.sign(event.deltaY)
+    }
+    if (event.type === 'wheel') {
+        const deltaX = event.deltaX
+        const deltaY = event.deltaY
+
+        // Calculate the absolute delta values
+        const absDeltaX = Math.abs(deltaX)
+        const absDeltaY = Math.abs(deltaY)
+
+        // Compare the absolute delta values
+        if (absDeltaX > absDeltaY) {
+            scrollDirection = Math.sign(event.deltaX)
+        } else if (absDeltaY > absDeltaX) {
+            scrollDirection = Math.sign(event.deltaY)
+        }
     }
 
     // disable scrolling right on the last card
@@ -108,23 +121,55 @@ const instantiateObserver = () => {
     )
 }
 
-cards = document.querySelectorAll('.card')
-cards.forEach((element) => {
-    element.classList.add('unfocused')
-})
-instantiateObserver()
-cards.forEach((card) => observer.observe(card))
+const setupCards = () => {
+    cards = document.querySelectorAll('.card')
+    cards.forEach((element) => {
+        element.classList.add('unfocused')
+    })
+    instantiateObserver()
+    cards.forEach((card) => observer.observe(card))
 
-container = document.querySelector('.container')
-// Listen for scroll event
-document.addEventListener('keydown', (event) => {
-    if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-        handleCardTransition(event)
-    }
-})
-container.addEventListener('wheel', handleCardTransition)
+    container = document.querySelector('.container')
+    // Listen for scroll event
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+            handleCardTransition(event)
+        }
+    })
+    container.addEventListener('wheel', handleCardTransition)
+}
 
-/* particlesJS.load(@dom-id, @path-json, @callback (optional)); */
-particlesJS.load('particles-js', 'particles.json', function () {
-    console.log('callback - particles.js config loaded')
+const triggerInitialOverlay = async () => {
+    const container = document.querySelector('#main')
+    container.style.display = 'none'
+    const overlay = document.querySelector('#overlay')
+    const overlayText = 'Jared Goldman'
+    const textArr = overlayText.split('')
+    // Add chars
+    textArr.forEach((letter) => {
+        const el = document.createElement('span')
+        el.classList.add('overlay-char')
+        el.style.visibility = 'hidden'
+        if (letter === ' ') letter = '\u00A0'
+        el.innerText = letter
+        overlay.appendChild(el)
+    })
+    // Fade in chars
+    const overlayChars = document.querySelectorAll('.overlay-char')
+    await asyncForEach(overlayChars, async (char) => {
+        char.style.visibility = 'visible'
+        char.classList.add('fade-in')
+        await wait(50)
+    })
+    await wait(1000)
+    // Fade out overlay
+    overlay.classList.add('fade-out')
+    await wait(500)
+    overlay.style.display = 'none'
+    container.style.display = 'flex'
+}
+
+document.addEventListener('DOMContentLoaded', async () => {
+    triggerInitialOverlay()
+    setupCards()
 })

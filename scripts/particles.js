@@ -16,7 +16,7 @@ export const updateConfig = (mode) => {
     particlesJS('particles-js', newConfig)
 }
 
-const config = {
+export const config = {
     particles: {
         number: {
             value: 80,

@@ -1,15 +1,8 @@
-:root {
-    --primary-background-color: black;
-    --primary-color: white;
-    --primary-border-color: white;
-    --secondary-color: #ccc;
-}
-
 body {
     height: 100vh;
     color: var(--primary-color);
     transition: all 0.3s ease-in-out;
-    background-color: transparent;
+    background-color: var(--primary-background-color);
     &::placeholder {
         color: var(--primary-color);
     }
@@ -22,9 +15,9 @@ body {
 
 main {
     height: 100%;
-    display: flex;
+    display: none;
     flex-direction: column;
-    background-color: var(--primary-background-color);
+    transition: all 0.3s ease-in-out;
 }
 
 nav {

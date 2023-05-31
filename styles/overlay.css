@@ -1,0 +1,13 @@
+.overlay {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: var(--primary-background-color);
+}
+
+.overlay-char {
+    font-size: 10rem;
+}

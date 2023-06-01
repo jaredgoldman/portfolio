@@ -3,7 +3,6 @@ import { request } from './utils.js'
 
 const loadProjects = async () => {
     const { data } = await request('/projects')
-    console.log(data)
     return data.map(({ attributes }) => {
         const heading = document.createElement('h2')
         heading.classList.add('project-title')

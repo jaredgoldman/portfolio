@@ -159,13 +159,14 @@ const triggerInitialOverlay = async () => {
     await asyncForEach(overlayChars, async (char) => {
         char.style.visibility = 'visible'
         char.classList.add('fade-in')
-        await wait(50)
+        await wait(25)
     })
     await wait(1000)
     // Fade out overlay
     overlay.classList.add('fade-out')
     await wait(500)
     overlay.style.display = 'none'
+    container.classList.add('fade-in')
     container.style.display = 'flex'
 }
 

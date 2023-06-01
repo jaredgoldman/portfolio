@@ -1,11 +1,14 @@
 import projects from '../data/projects.js'
+import { request } from './utils.js'
 
-const loadProjects = () => {
-    return projects.data.map((project) => {
+const loadProjects = async () => {
+    const { data } = await request('/projects')
+    console.log(data)
+    return data.map(({ attributes }) => {
         const heading = document.createElement('h2')
         heading.classList.add('project-title')
-        heading.textContent = project.title
-        heading.id = project.id
+        heading.textContent = attributes.title
+        heading.id = attributes.title.toLowerCase().replace(/\s/g, '-')
         return heading
     })
 }
@@ -80,15 +83,15 @@ const closeModal = (modal) => {
     modalRight.removeChild(modalRight.firstChild)
 }
 
-const loadProjectHeadings = () => {
+const loadProjectHeadings = async () => {
     const projectsContainer = document.querySelector('.projects-inner')
-    const projects = loadProjects()
+    const projects = await loadProjects()
     projects.forEach((project) => {
         projectsContainer.appendChild(project)
     })
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    loadProjectHeadings()
+document.addEventListener('DOMContentLoaded', async () => {
+    await loadProjectHeadings()
     setupProjectListeners()
 })

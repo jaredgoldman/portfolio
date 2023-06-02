@@ -1,4 +1,4 @@
-import { asyncForEach, wait } from './utils.js'
+import { triggerInitialOverlay } from './overlay.js'
 
 let observer
 let cards
@@ -29,6 +29,9 @@ const handleCardTransition = (event) => {
             scrollDirection = Math.sign(event.deltaY)
         }
     }
+    if (event.type === 'click') {
+        scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+    }
 
     // disable scrolling right on the last card
     if (
@@ -39,8 +42,13 @@ const handleCardTransition = (event) => {
     }
     // find distance to the next card
     const cardWidth = cards[0].offsetWidth
-    const cardMargin = parseInt(window.getComputedStyle(cards[0]).marginRight)
-    const cardDistance = cardWidth + cardMargin
+    const cardMarginRight = parseInt(
+        window.getComputedStyle(cards[0]).marginRight
+    )
+    const cardMarginLeft = parseInt(
+        window.getComputedStyle(cards[0]).marginLeft
+    )
+    const cardDistance = cardWidth + cardMarginRight + cardMarginLeft
 
     // Define the distance to move the elements
     const moveDistance = cardDistance
@@ -123,13 +131,16 @@ const instantiateObserver = () => {
 
 const setupCards = () => {
     cards = document.querySelectorAll('.card')
+    container = document.querySelector('#container')
+    const chevrons = document.querySelectorAll('.chev')
+
     cards.forEach((element) => {
         element.classList.add('unfocused')
     })
+
     instantiateObserver()
     cards.forEach((card) => observer.observe(card))
 
-    container = document.querySelector('.container')
     // Listen for scroll event
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
@@ -137,37 +148,9 @@ const setupCards = () => {
         }
     })
     container.addEventListener('wheel', handleCardTransition)
-}
-
-const triggerInitialOverlay = async () => {
-    const container = document.querySelector('#main')
-    container.style.display = 'none'
-    const overlay = document.querySelector('#overlay')
-    const overlayText = 'Jared Goldman'
-    const textArr = overlayText.split('')
-    // Add chars
-    textArr.forEach((letter) => {
-        const el = document.createElement('span')
-        el.classList.add('overlay-char')
-        el.style.visibility = 'hidden'
-        if (letter === ' ') letter = '\u00A0'
-        el.innerText = letter
-        overlay.appendChild(el)
+    chevrons.forEach((chev) => {
+        chev.addEventListener('click', handleCardTransition)
     })
-    // Fade in chars
-    const overlayChars = document.querySelectorAll('.overlay-char')
-    await asyncForEach(overlayChars, async (char) => {
-        char.style.visibility = 'visible'
-        char.classList.add('fade-in')
-        await wait(25)
-    })
-    await wait(1000)
-    // Fade out overlay
-    overlay.classList.add('fade-out')
-    await wait(500)
-    overlay.style.display = 'none'
-    container.classList.add('fade-in')
-    container.style.display = 'flex'
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

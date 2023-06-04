@@ -1,14 +1,26 @@
 import { triggerInitialOverlay } from './overlay.js'
+import { closeModal } from './projects.js'
 
 let observer
 let cards
 let container
 let isScrolling = false
+let cardIndex = 0
+let initialLoad = true
 
 const handleCardTransition = (event) => {
     event.preventDefault()
     if (isScrolling) return
     let scrollDirection
+    const currentCard = cards[cardIndex]
+    const modal = document.querySelector('#project-modal')
+    // close modal if open
+    if (currentCard.id === 'card-projects' && modal.style.display === 'block') {
+        setTimeout(() => {
+            closeModal()
+        }, 500)
+    }
+
     if (event.type === 'keydown') {
         event.key === 'ArrowRight'
             ? (scrollDirection = 1)
@@ -50,19 +62,20 @@ const handleCardTransition = (event) => {
     )
     const cardDistance = cardWidth + cardMarginRight + cardMarginLeft
 
-    // Define the distance to move the elements
-    const moveDistance = cardDistance
-
-    // Determine the current scroll position
+    const scrollDistance = Math.max(cardDistance, window.innerWidth)
     const currentScrollPosition = container.scrollLeft
 
-    // Calculate the target scroll position
-    const targetScrollPosition =
-        currentScrollPosition + moveDistance * scrollDirection
+    let targetScrollPosition =
+        currentScrollPosition + scrollDistance * scrollDirection
+    targetScrollPosition =
+        Math.round(targetScrollPosition / cardDistance) * cardDistance
 
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
     isScrolling = true
+    // Update the card index
+    scrollDirection === 1 ? cardIndex++ : cardIndex--
+    handleChevVisibility()
 }
 
 const smoothScrollTo = (targetPosition) => {
@@ -153,7 +166,66 @@ const setupCards = () => {
     })
 }
 
+const handleChevVisibility = () => {
+    const nextCard = cards[cardIndex + 1] ?? null
+    const prevCard = cards[cardIndex - 1] ?? null
+    const prevChev = document.querySelector('#prev-chev')
+    const nextChev = document.querySelector('#next-chev')
+    setTimeout(() => {
+        nextChev.innerText = nextCard?.id.replace('card-', '') + ' >'
+        prevChev.innerText = '< ' + prevCard?.id.replace('card-', '') ?? ''
+    }, 300)
+    prevChev.classList.remove('fade-in', 'fade-out')
+    nextChev.classList.remove('fade-in', 'fade-out')
+    const prevChevShouldBeVisible = cardIndex !== 0
+    const nextChevShouldBeVisible = cardIndex !== cards.length - 1
+
+    // Handle initial load visibility
+    if (initialLoad) {
+        nextChev.classList.add('visible', 'fade-in')
+        return
+    }
+    // Handle chevron visibility
+    if (prevChevShouldBeVisible && !prevChev.classList.contains('visible')) {
+        prevChev.classList.add('visible', 'fade-in')
+    } else if (
+        !prevChevShouldBeVisible &&
+        prevChev.classList.contains('visible')
+    ) {
+        prevChev.classList.add('fade-out')
+    }
+
+    if (nextChevShouldBeVisible && !nextChev.classList.contains('visible')) {
+        nextChev.classList.add('visible', 'fade-in')
+    } else if (
+        !nextChevShouldBeVisible &&
+        nextChev.classList.contains('visible')
+    ) {
+        nextChev.classList.add('fade-out')
+    }
+    // // once the fade out animation is complete, remove the classLis
+    prevChev.addEventListener('animationend', () => {
+        // if this is true, prevChev should have faded in
+        if (!prevChevShouldBeVisible) {
+            prevChev.classList.remove('visible')
+        } else {
+            prevChev.classList.add('visible')
+        }
+    })
+
+    nextChev.addEventListener('animationend', () => {
+        // if this is true, nextChev should have faded in
+        if (!nextChevShouldBeVisible) {
+            nextChev.classList.remove('visible')
+        } else {
+            nextChev.classList.add('visible')
+        }
+    })
+}
+
 document.addEventListener('DOMContentLoaded', async () => {
-    triggerInitialOverlay()
+    await triggerInitialOverlay()
     setupCards()
+    handleChevVisibility()
+    initialLoad = false
 })

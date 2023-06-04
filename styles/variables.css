@@ -1,6 +1,9 @@
 :root {
     --primary-background-color: black;
     --primary-color: white;
+    --secondary-color: #fca311;
+    --secondary-background-color: #131314;
     --primary-border-color: white;
-    --secondary-color: #ccc;
+    --transition-duration: 0.3s;
+    --transition-duration-fast: 0.1s;
 }

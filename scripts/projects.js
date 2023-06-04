@@ -57,12 +57,13 @@ const loadModalContent = (projectId) => {
 }
 
 const setupProjectListeners = () => {
-    const modal = document.querySelector('#projectModal')
+    const modal = document.querySelector('#project-modal')
     const projects = document.querySelectorAll('.project-title')
     projects.forEach((project) => {
         project.addEventListener('click', (event) => {
             loadModalContent(event.target.id)
             modal.style.display = 'block'
+            modal.classList.add('fade-in')
         })
     })
 
@@ -72,14 +73,20 @@ const setupProjectListeners = () => {
     })
 }
 
-const closeModal = (modal) => {
+export const closeModal = () => {
+    const modal = document.querySelector('#project-modal')
     const modalRight = document.querySelector('.modal-content_right')
     const modalLeft = document.querySelector('.modal-content_left')
 
-    modal.style.display = 'none'
+    modal.classList.remove('fade-in')
+    modal.classList.add('fade-out')
 
-    modalLeft.removeChild(modalLeft.firstChild)
-    modalRight.removeChild(modalRight.firstChild)
+    setTimeout(() => {
+        modal.classList.remove('fade-out')
+        modal.style.display = 'none'
+        modalLeft.removeChild(modalLeft.firstChild)
+        modalRight.removeChild(modalRight.firstChild)
+    }, 300)
 }
 
 const loadProjectHeadings = async () => {

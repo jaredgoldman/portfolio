@@ -2,15 +2,17 @@ import { updateConfig } from './particles.js'
 
 const lightVars = {
     '--primary-background-color': 'white',
+    '--secondary-background-color': 'gray',
     '--primary-color': 'black',
+    '--secondary-color': '#6b705c',
     '--primary-border-color': 'black',
-    '--secondary-color': '#ccc',
 }
 const darkVars = {
     '--primary-background-color': 'black',
+    '--secondary-background-color': 'transparent',
     '--primary-color': 'white',
     '--primary-border-color': 'white',
-    '--secondary-color': '#ccc',
+    '--secondary-color': '#fca311',
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,11 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 const handleGradientModeChange = (mode, cardContent, initialStyle) => {
-    cardContent.style.transitionDelay = '0.5s'
     if (mode === 'light') {
-        cardContent.style.backgroundImage = 'url(../assets/jg_kid_cropped.jpg)'
+        cardContent.style.backgroundImage = 'url(../assets/jg_ny.jpg)'
         cardContent.style.backgroundSize = 'contain'
         cardContent.style.backgroundPosition = 'center'
+        cardContent.style.transform = 'translateY(0%)'
     } else {
         applyPreviousStyle(initialStyle, cardContent)
     }

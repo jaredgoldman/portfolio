@@ -1,0 +1,102 @@
+.modal {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary-background-color);
+    z-index: 1000;
+    overflow: hidden;
+    box-sizing: border-box;
+    transition: all var(--transition-duration-fast) ease-in-out;
+    border: 2px solid var(--primary-border-color);
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        background-color: var(--primary-background-color);
+        color: var(--primary-color);
+
+        .modal-title-container {
+            margin-left: 3rem;
+
+            .modal-title {
+                margin-top: 2rem;
+                margin-bottom: 0.5rem;
+                color: var(--primary-color);
+                transition: color var(--transition-duration) ease-in-out;
+                font-size: 2rem;
+            }
+            .modal-subtitle {
+                font-size: 1.25rem;
+            }
+        }
+
+        .close {
+            margin: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            background-color: var(--primary-background-color);
+            border: none;
+            color: var(--primary-color);
+        }
+
+        .close :hover {
+            color: var(--secondary-color);
+        }
+    }
+
+    .modal-content {
+        color: var(--primary-color);
+        display: flex;
+
+        .modal-content_left {
+            width: 50%;
+            padding: 3rem;
+
+            .image-container {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        .modal-content_right {
+            width: 50%;
+            padding: 3rem;
+            display: flex;
+            justify-content: center;
+
+            .modal-description {
+                width: 90%;
+                line-height: 2rem;
+                text-align: justify;
+            }
+
+            .modal-links {
+                display: flex;
+                padding: 2rem;
+                justify-content: space-evenly;
+
+                .modal-link {
+                    margin: 0 1rem;
+                    font-size: 1.25rem;
+                    color: var(--primary-color);
+                    text-decoration: none;
+                    border: 2px solid var(--primary-border-color);
+                    padding: 0.5rem 1rem;
+                    border-radius: 30px;
+                }
+
+                .modal-link:hover {
+                    color: var(--secondary-color);
+                    border: 2px solid var(--secondary-color);
+                }
+            }
+        }
+    }
+}
+
+modal.show {
+    opacity: 1;
+}

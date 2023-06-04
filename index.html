@@ -8,31 +8,24 @@
         <link rel="stylesheet" href="styles/style.css" />
         <link rel="stylesheet" href="styles/animations.css" />
         <link rel="stylesheet" href="styles/overlay.css" />
+        <link rel="stylesheet" href="styles/modal.css" />
+        <link rel="stylesheet" href="styles/slider.css" />
+        <link rel="stylesheet" href="styles/cards.css" />
         <script src="scripts/index.js" type="module"></script>
         <script defer src="scripts/projects.js" type="module"></script>
         <script defer src="scripts/mode.js" type="module"></script>
         <script defer src="scripts/bio.js" type="module"></script>
         <script defer src="scripts/overlay.js" type="module"></script>
+        <script defer src="scripts/contact.js" type="module"></script>
         <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-        <!-- <script defer src="scripts/particles.js" type="module"></script> -->
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
         <div id="overlay" class="overlay"></div>
         <div id="particles-js" class="particles"></div>
-        <span id="next-chev" class="chev chev-right">></span>
-        <span id="prev-chev" class="chev chev-left"><</span>
+        <span id="next-chev" class="chev next-chev"></span>
+        <span id="prev-chev" class="chev prev-chev"></span>
         <main id="main">
-            <dialog id="projectModal" class="modal">
-                <div class="modal-header">
-                    <h1 class="modal-title">Project Title</h1>
-                    <button class="close">&times;</button>
-                </div>
-                <div class="modal-content">
-                    <div class="modal-content_left"></div>
-                    <div class="modal-content_right"></div>
-                </div>
-            </dialog>
             <nav class="header">
                 <div class="mode-group">
                     <label class="switch">
@@ -43,10 +36,25 @@
             </nav>
             <section id="container" class="container">
                 <div id="card-container" class="card-container">
-                    <div id="card-about" class="card about">
+                    <div id="card-welcome" class="card about">
+                        <div class="about-inner">
+                            <h1 class="main-heading">Welcome</h1>
+                            <h1 class="secondary-heading">My name is</h1>
+                            <h1 class="main-heading">Jared Goldman</h1>
+                            <h1 class="secondary-heading">
+                                and I'm a full stack developer
+                            </h1>
+                            <div class="about-links">
+                                <a href="">LinkedIn</a>
+                                <a href="">Github</a>
+                                <a href="">Resume</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="card-bio" class="card">
                         <div class="card-inner">
-                            <h1 class="card-title">Jared Goldman</h1>
-                            <h3 class="card-subtitle">Software Developer</h3>
+                            <h1 class="card-title">About me</h1>
                             <div class="card-content">
                                 <div class="card-content_left">
                                     <p id="bio"></p>
@@ -56,13 +64,30 @@
                         </div>
                     </div>
                     <div id="card-projects" class="card projects">
+                        <div id="project-modal" class="modal">
+                            <div class="modal-header">
+                                <div class="modal-title-container">
+                                    <h1 class="modal-title">Project Title</h1>
+                                    <h3 class="modal-subtitle">
+                                        Project subtitle
+                                    </h3>
+                                </div>
+                                <div class="button-container">
+                                    <button class="close">&times;</button>
+                                </div>
+                            </div>
+                            <div class="modal-content">
+                                <div class="modal-content_left"></div>
+                                <div class="modal-content_right"></div>
+                            </div>
+                        </div>
+
                         <div class="card-inner">
-                            <h1 class="card-title">Projects</h1>
-                            <h3 class="card-subtitle">Placeholder</h3>
+                            <h1 class="card-title">Check out my projects</h1>
                             <div class="projects-inner"></div>
                         </div>
                     </div>
-                    <div id="card-resume" class="card resume">
+                    <div id="card-contact" class="card resume">
                         <div class="card-inner">
                             <h1 class="card-title">Say Hello!</h1>
                             <h3 class="card-subtitle">
@@ -71,21 +96,29 @@
                                 <a href="" download="jg_resume.pdf">resume</a>?
                             </h3>
                             <div class="form-container">
-                                <form class="contact-form">
+                                <form
+                                    id="contact"
+                                    class="contact-form"
+                                    method="post"
+                                    target="_self"
+                                >
                                     <label for="name">Name</label>
                                     <input
+                                        id="contact-name"
                                         type="text"
                                         name="name"
                                         placeholder="Your name"
                                     />
                                     <label for="email">Email</label>
                                     <input
+                                        id="contact-email"
                                         type="email"
                                         name="email"
                                         placeholder="Your email"
                                     />
                                     <label for="message">Message</label>
                                     <textarea
+                                        id="contact-message"
                                         type="text"
                                         name="message"
                                         placeholder=""

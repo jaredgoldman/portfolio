@@ -59,18 +59,24 @@ const loadModalContent = (projectId) => {
 const setupProjectListeners = () => {
     const modal = document.querySelector('#project-modal')
     const projects = document.querySelectorAll('.project-title')
+    const close = document.querySelector('.close')
+
     projects.forEach((project) => {
         project.addEventListener('click', (event) => {
-            loadModalContent(event.target.id)
-            modal.style.display = 'block'
-            modal.classList.add('fade-in')
+            openModal(event, modal)
         })
     })
 
-    const close = document.querySelector('.close')
     close.addEventListener('click', () => {
         closeModal(modal)
     })
+}
+
+const openModal = (event, modal) => {
+    loadModalContent(event.target.id)
+    modal.showModal()
+    modal.classList.add('fade-in')
+    handleBackgroundElementVisibility(false)
 }
 
 export const closeModal = () => {
@@ -82,8 +88,9 @@ export const closeModal = () => {
     modal.classList.add('fade-out')
 
     setTimeout(() => {
+        handleBackgroundElementVisibility(true)
         modal.classList.remove('fade-out')
-        modal.style.display = 'none'
+        modal.close()
         modalLeft.removeChild(modalLeft.firstChild)
         modalRight.removeChild(modalRight.firstChild)
     }, 300)
@@ -95,6 +102,18 @@ const loadProjectHeadings = async () => {
     projects.forEach((project) => {
         projectsContainer.appendChild(project)
     })
+}
+
+const handleBackgroundElementVisibility = (visibility) => {
+    const main = document.querySelector('#main')
+    const nav = document.querySelector('#navigation')
+    if (visibility) {
+        main.style.display = 'block'
+        nav.style.display = 'block'
+    } else {
+        main.style.display = 'none'
+        nav.style.display = 'none'
+    }
 }
 
 document.addEventListener('DOMContentLoaded', async () => {

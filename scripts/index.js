@@ -1,21 +1,35 @@
 import { triggerInitialOverlay } from './overlay.js'
 import { closeModal } from './projects.js'
+import {
+    easeInOutQuad,
+    handleClassVisibility,
+    handleAnimationEnd,
+} from './utils.js'
+import { CARD_TRANSITION_DURATION } from '../constants.js'
 
 let observer
 let cards
 let container
-let isScrolling = false
 let cardIndex = 0
 let initialLoad = true
+export let isScrolling = false
 
 const handleCardTransition = (event) => {
     event.preventDefault()
+
+    if (event.target.id === 'bio') {
+        return
+    }
+
     if (isScrolling) return
     let scrollDirection
     const currentCard = cards[cardIndex]
     const modal = document.querySelector('#project-modal')
     // close modal if open
-    if (currentCard.id === 'card-projects' && modal.style.display === 'block') {
+    if (
+        currentCard?.id === 'card-projects' &&
+        modal.style.display === 'block'
+    ) {
         setTimeout(() => {
             closeModal()
         }, 500)
@@ -78,8 +92,91 @@ const handleCardTransition = (event) => {
     handleChevVisibility()
 }
 
-const smoothScrollTo = (targetPosition) => {
-    const duration = 350
+const instantiateObserver = () => {
+    observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const element = entry.target
+                const isVisible = entry.isIntersecting
+                const isFocused = element.classList.contains('focused')
+                const isUnfocused = element.classList.contains('unfocused')
+
+                if (isVisible && isUnfocused) {
+                    element.classList.remove('unfocused')
+                    element.classList.add('focused')
+                } else if (!isVisible && isFocused) {
+                    element.classList.remove('focused')
+                    element.classList.add('unfocused')
+                }
+            })
+        },
+        {
+            root: null,
+            threshold: 0.9,
+        }
+    )
+}
+
+const setupCardsAndListeners = () => {
+    cards = document.querySelectorAll('.card')
+    container = document.querySelector('#container')
+    const chevrons = document.querySelectorAll('.chev')
+
+    cards.forEach((element) => {
+        element.classList.add('unfocused')
+    })
+
+    instantiateObserver()
+    cards.forEach((card) => observer.observe(card))
+
+    // Listen for scroll event
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
+            handleCardTransition(event)
+        }
+    })
+    container.addEventListener('wheel', handleCardTransition)
+    chevrons.forEach((chev) => {
+        chev.addEventListener('click', handleCardTransition)
+    })
+}
+
+const handleChevVisibility = () => {
+    const nextCard = cards[cardIndex + 1] ?? null
+    const prevCard = cards[cardIndex - 1] ?? null
+    const prevChev = document.querySelector('#prev-chev')
+    const nextChev = document.querySelector('#next-chev')
+
+    prevChev.classList.remove('fade-in', 'fade-out')
+    nextChev.classList.remove('fade-in', 'fade-out')
+    const prevChevShouldBeVisible = cardIndex !== 0
+    const nextChevShouldBeVisible = cardIndex !== cards.length - 1
+
+    // change chev text
+    setTimeout(() => {
+        nextChev.innerText = nextChevShouldBeVisible
+            ? nextCard?.id.replace('card-', '') + ' >'
+            : ''
+        prevChev.innerText = prevChevShouldBeVisible
+            ? '< ' + prevCard?.id.replace('card-', '')
+            : ''
+    }, CARD_TRANSITION_DURATION)
+    // Handle initial load visibility
+    if (initialLoad) {
+        nextChev.classList.add('visible', 'fade-in')
+        return
+    }
+    // Handle chevron visibility
+    handleClassVisibility(prevChev, prevChevShouldBeVisible)
+    handleClassVisibility(nextChev, nextChevShouldBeVisible)
+
+    // once the fade out animation is complete, remove the classList
+    handleAnimationEnd(prevChev, prevChevShouldBeVisible)
+    handleAnimationEnd(nextChev, nextChevShouldBeVisible)
+}
+
+export const smoothScrollTo = (targetPosition) => {
+    const duration = CARD_TRANSITION_DURATION
     const startPosition = container.scrollLeft
     const distance = targetPosition - startPosition
     let startTime = null
@@ -109,123 +206,9 @@ const smoothScrollTo = (targetPosition) => {
     requestAnimationFrame(animationStep)
 }
 
-// Thank you stackoverflow: https://stackoverflow.com/questions/13462001/ease-in-and-ease-out-animation-formula
-const easeInOutQuad = (t, b, c, d) => {
-    t /= d / 2
-    if (t < 1) return (c / 2) * t * t + b
-    t--
-    return (-c / 2) * (t * (t - 2) - 1) + b
-}
-
-const instantiateObserver = () => {
-    observer = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                const element = entry.target
-                const isVisible = entry.isIntersecting
-                const isFocused = element.classList.contains('focused')
-                const isUnfocused = element.classList.contains('unfocused')
-
-                if (isVisible && isUnfocused) {
-                    element.classList.remove('unfocused')
-                    element.classList.add('focused')
-                } else if (!isVisible && isFocused) {
-                    element.classList.remove('focused')
-                    element.classList.add('unfocused')
-                }
-            })
-        },
-        {
-            root: null,
-            threshold: 0.9,
-        }
-    )
-}
-
-const setupCards = () => {
-    cards = document.querySelectorAll('.card')
-    container = document.querySelector('#container')
-    const chevrons = document.querySelectorAll('.chev')
-
-    cards.forEach((element) => {
-        element.classList.add('unfocused')
-    })
-
-    instantiateObserver()
-    cards.forEach((card) => observer.observe(card))
-
-    // Listen for scroll event
-    document.addEventListener('keydown', (event) => {
-        if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-            handleCardTransition(event)
-        }
-    })
-    container.addEventListener('wheel', handleCardTransition)
-    chevrons.forEach((chev) => {
-        chev.addEventListener('click', handleCardTransition)
-    })
-}
-
-const handleChevVisibility = () => {
-    const nextCard = cards[cardIndex + 1] ?? null
-    const prevCard = cards[cardIndex - 1] ?? null
-    const prevChev = document.querySelector('#prev-chev')
-    const nextChev = document.querySelector('#next-chev')
-    setTimeout(() => {
-        nextChev.innerText = nextCard?.id.replace('card-', '') + ' >'
-        prevChev.innerText = '< ' + prevCard?.id.replace('card-', '') ?? ''
-    }, 300)
-    prevChev.classList.remove('fade-in', 'fade-out')
-    nextChev.classList.remove('fade-in', 'fade-out')
-    const prevChevShouldBeVisible = cardIndex !== 0
-    const nextChevShouldBeVisible = cardIndex !== cards.length - 1
-
-    // Handle initial load visibility
-    if (initialLoad) {
-        nextChev.classList.add('visible', 'fade-in')
-        return
-    }
-    // Handle chevron visibility
-    if (prevChevShouldBeVisible && !prevChev.classList.contains('visible')) {
-        prevChev.classList.add('visible', 'fade-in')
-    } else if (
-        !prevChevShouldBeVisible &&
-        prevChev.classList.contains('visible')
-    ) {
-        prevChev.classList.add('fade-out')
-    }
-
-    if (nextChevShouldBeVisible && !nextChev.classList.contains('visible')) {
-        nextChev.classList.add('visible', 'fade-in')
-    } else if (
-        !nextChevShouldBeVisible &&
-        nextChev.classList.contains('visible')
-    ) {
-        nextChev.classList.add('fade-out')
-    }
-    // // once the fade out animation is complete, remove the classLis
-    prevChev.addEventListener('animationend', () => {
-        // if this is true, prevChev should have faded in
-        if (!prevChevShouldBeVisible) {
-            prevChev.classList.remove('visible')
-        } else {
-            prevChev.classList.add('visible')
-        }
-    })
-
-    nextChev.addEventListener('animationend', () => {
-        // if this is true, nextChev should have faded in
-        if (!nextChevShouldBeVisible) {
-            nextChev.classList.remove('visible')
-        } else {
-            nextChev.classList.add('visible')
-        }
-    })
-}
-
 document.addEventListener('DOMContentLoaded', async () => {
     await triggerInitialOverlay()
-    setupCards()
+    setupCardsAndListeners()
     handleChevVisibility()
     initialLoad = false
 })

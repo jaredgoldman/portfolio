@@ -7,5 +7,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
     } = await request('/portfolio-bio')
     const bio = document.querySelector('#bio')
-    bio.innerText = text
+    bio.innerHTML = text
+    bio.addEventListener('wheel', (e) => {
+        e.stopPropagation()
+    })
 })

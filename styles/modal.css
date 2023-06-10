@@ -24,9 +24,11 @@
                 color: var(--primary-color);
                 transition: color var(--transition-duration) ease-in-out;
                 font-size: 2rem;
+                font-family: var(--primary-font-family);
             }
             .modal-subtitle {
                 font-size: 1.25rem;
+                font-family: var(--secondary-font-family);
             }
         }
 
@@ -47,6 +49,7 @@
     .modal-content {
         color: var(--primary-color);
         display: flex;
+        font-family: var(--secondary-font-family);
 
         .modal-content_left {
             width: 50%;

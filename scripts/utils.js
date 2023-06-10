@@ -51,3 +51,8 @@ export const handleAnimationEnd = (element, shouldBeVisible) => {
         }
     })
 }
+
+export const fadeElement = (element, shouldBeVisible) => {
+    handleClassVisibility(element, shouldBeVisible)
+    handleAnimationEnd(element, shouldBeVisible)
+}

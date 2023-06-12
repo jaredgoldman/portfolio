@@ -1,1 +1,2 @@
 export const CARD_TRANSITION_DURATION = 350
+export const MOBILE_BREAKPOINT = 700

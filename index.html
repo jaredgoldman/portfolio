@@ -3,14 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="styles/reset.css" />
-        <link rel="stylesheet" href="styles/variables.css" />
         <link rel="stylesheet" href="styles/style.css" />
-        <link rel="stylesheet" href="styles/animations.css" />
-        <link rel="stylesheet" href="styles/overlay.css" />
-        <link rel="stylesheet" href="styles/modal.css" />
-        <link rel="stylesheet" href="styles/slider.css" />
-        <link rel="stylesheet" href="styles/cards.css" />
         <script src="scripts/index.js" type="module"></script>
         <script defer src="scripts/projects.js" type="module"></script>
         <script defer src="scripts/mode.js" type="module"></script>
@@ -55,8 +48,8 @@
             </nav>
             <section id="container" class="container">
                 <div id="card-container" class="card-container">
-                    <div id="card-welcome" class="card about">
-                        <div class="about-inner">
+                    <div id="card-welcome" class="card">
+                        <div class="welcome-inner">
                             <!-- <h1 class="main-heading">Welcome</h1> -->
                             <!-- <h1 class="secondary-heading">My name is</h1> -->
                             <h1 class="main-heading">Jared Goldman</h1>
@@ -76,25 +69,32 @@
                     </div>
 
                     <div id="card-bio" class="card">
-                        <div class="card-inner">
+                        <div class="bio-inner">
                             <h1 class="card-title">About me</h1>
                             <div class="card-content">
-                                <div class="card-content_left">
+                                <div
+                                    class="card-content_left"
+                                    id="card-content_left"
+                                >
                                     <p id="bio"></p>
-                                    <h1>Accolades</h1>
+                                    <div
+                                        class="recommendations"
+                                        id="recommendations"
+                                    ></div>
                                 </div>
                                 <div class="card-content_right fade-in"></div>
                             </div>
                         </div>
                     </div>
-                    <div id="card-projects" class="card projects">
-                        <div class="card-inner">
+
+                    <div id="card-projects" class="card">
+                        <div class="projects-inner">
                             <h1 class="card-title">Check out my projects</h1>
-                            <div class="projects-inner"></div>
+                            <div class="projects" id="projects"></div>
                         </div>
                     </div>
-                    <div id="card-contact" class="card resume">
-                        <div class="card-inner">
+                    <div id="card-contact" class="card">
+                        <div class="contact-inner">
                             <h1 class="card-title">Say Hello!</h1>
                             <h3 class="card-subtitle">
                                 Feel free to contact me or maybe take a look at

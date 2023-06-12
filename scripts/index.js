@@ -5,7 +5,7 @@ import {
     handleClassVisibility,
     handleAnimationEnd,
 } from './utils.js'
-import { CARD_TRANSITION_DURATION } from '../constants.js'
+import { CARD_TRANSITION_DURATION, MOBILE_BREAKPOINT } from '../constants.js'
 
 let observer
 let cards
@@ -146,20 +146,17 @@ const handleChevVisibility = () => {
     const prevCard = cards[cardIndex - 1] ?? null
     const prevChev = document.querySelector('#prev-chev')
     const nextChev = document.querySelector('#next-chev')
-
+    const isWeb = window.innerWidth > MOBILE_BREAKPOINT
     prevChev.classList.remove('fade-in', 'fade-out')
     nextChev.classList.remove('fade-in', 'fade-out')
     const prevChevShouldBeVisible = cardIndex !== 0
     const nextChevShouldBeVisible = cardIndex !== cards.length - 1
-
+    const nextChevText = isWeb ? nextCard?.id.replace('card-', '') + ' >' : '>'
+    const prevChevText = isWeb ? '< ' + prevCard?.id.replace('card-', '') : '<'
     // change chev text
     setTimeout(() => {
-        nextChev.innerText = nextChevShouldBeVisible
-            ? nextCard?.id.replace('card-', '') + ' >'
-            : ''
-        prevChev.innerText = prevChevShouldBeVisible
-            ? '< ' + prevCard?.id.replace('card-', '')
-            : ''
+        nextChev.innerText = nextChevShouldBeVisible ? nextChevText : ''
+        prevChev.innerText = prevChevShouldBeVisible ? prevChevText : ''
     }, CARD_TRANSITION_DURATION)
     // Handle initial load visibility
     if (initialLoad) {

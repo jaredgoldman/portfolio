@@ -1,0 +1,112 @@
+body {
+    height: 100vh;
+    width: 100vw;
+    color: var(--primary-color);
+    transition: all var(--transition-duration) ease-in-out;
+    background-color: var(--primary-background-color);
+    overflow: hidden;
+    &::placeholder {
+        color: var(--primary-color);
+    }
+
+    & a {
+        color: var(--secondary-color);
+        cursor: pointer;
+    }
+}
+
+main {
+    height: 100%;
+    display: none;
+    flex-direction: column;
+    transition: all var(--transition-duration) ease-in-out;
+}
+
+nav {
+    height: 20%;
+    display: flex;
+    align-items: center;
+}
+
+footer {
+    height: 5%;
+}
+
+.particles {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    overflow: hidden;
+}
+
+.chev {
+    position: absolute;
+    bottom: 50%;
+    display: none;
+    font-size: 1.25rem;
+    white-space: nowrap;
+    color: var(--primary-color);
+    cursor: pointer;
+    font-weight: bold;
+    z-index: 100;
+    text-align: center;
+    width: 5rem;
+    transition: all var(--transition-du0.3remration-fast) ease-in-out;
+    font-family: var(--secondary-font-family);
+}
+
+.chev.visible {
+    display: block;
+}
+
+.chev:hover {
+    transform: scale(1.1);
+    color: var(--secondary-color);
+}
+
+.prev-chev {
+    left: 4rem;
+}
+
+.next-chev {
+    right: 6rem;
+}
+
+.container {
+    position: relative;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.image-container {
+    height: auto;
+    object-fit: contain;
+
+    & img {
+        width: 100%;
+        height: auto;
+    }
+}
+/* Animation */
+.focused {
+    transform: scale(1.05);
+    opacity: 1;
+}
+
+.unfocused {
+    transform: scale(1);
+    opacity: 0.5;
+}
+
+@media only screen and (max-width: 600px) {
+    .chev {
+        width: 2.5rem;
+    }
+    .prev-chev {
+        left: 0;
+    }
+
+    .next-chev {
+        right: 0;
+    }
+}

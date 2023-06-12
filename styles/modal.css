@@ -100,3 +100,37 @@
 .modal::backdrop {
     background-color: var(--primary-background-color);
 }
+
+@media (max-width: 600px) {
+    .modal {
+        .modal-header {
+            .modal-title-container {
+                margin-left: 0;
+            }
+            .button-container {
+                .close {
+                    margin: 0;
+                }
+            }
+        }
+        .modal-content {
+            flex-direction: column;
+            .modal-content_right,
+            .modal-content_left {
+                padding: 2rem 0;
+                width: 100%;
+            }
+            .modal-content_left {
+                display: flex;
+                justify-content: center;
+                width: 100%;
+            }
+            .modal-content_right {
+                padding: 0;
+                .modal-description {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

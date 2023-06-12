@@ -74,6 +74,7 @@ const setupProjectListeners = () => {
 
 const openModal = (event, modal) => {
     loadModalContent(event.target.id)
+    //XXX: add fomralized fade method here
     modal.showModal()
     modal.classList.add('fade-in')
     handleBackgroundElementVisibility(false)
@@ -97,7 +98,7 @@ export const closeModal = () => {
 }
 
 const loadProjectHeadings = async () => {
-    const projectsContainer = document.querySelector('.projects-inner')
+    const projectsContainer = document.querySelector('#projects')
     const projects = await loadProjects()
     projects.forEach((project) => {
         projectsContainer.appendChild(project)

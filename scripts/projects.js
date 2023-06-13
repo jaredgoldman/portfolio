@@ -1,8 +1,19 @@
-import projects from '../data/projects.js'
 import { request } from './utils.js'
+import { API_URL } from '../config.js'
+
+let projects = []
 
 const loadProjects = async () => {
-    const { data } = await request('/projects')
+    const { data } = await request('/projects?populate=image')
+
+    // map projects for later use
+    projects = data.map((project) => {
+        return {
+            ...project.attributes,
+            id: project.attributes.title.toLowerCase().replace(/\s/g, '-'),
+        }
+    })
+
     return data.map(({ attributes }) => {
         const heading = document.createElement('h2')
         heading.classList.add('project-title')
@@ -13,7 +24,7 @@ const loadProjects = async () => {
 }
 
 const loadModalContent = (projectId) => {
-    const project = projects.data.find((project) => project.id === projectId)
+    const project = projects.find((project) => project.id === projectId)
     const modalRight = document.querySelector('.modal-content_right')
     const modalLeft = document.querySelector('.modal-content_left')
 
@@ -49,7 +60,7 @@ const loadModalContent = (projectId) => {
     imageContainer.classList.add('image-container')
 
     const image = document.createElement('img')
-    image.src = project.image
+    image.src = `${API_URL}${project.image.data.attributes.url}`
 
     imageContainer.appendChild(image)
     modalLeft.appendChild(imageContainer)

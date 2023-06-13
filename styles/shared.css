@@ -20,10 +20,10 @@ main {
     display: none;
     flex-direction: column;
     transition: all var(--transition-duration) ease-in-out;
+    overflow: hidden;
 }
 
 nav {
-    height: 20%;
     display: flex;
     align-items: center;
 }
@@ -99,6 +99,9 @@ footer {
 }
 
 @media only screen and (max-width: 600px) {
+    nav {
+        height: 20%;
+    }
     .chev {
         width: 2.5rem;
     }

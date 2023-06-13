@@ -109,7 +109,7 @@ const handleBackgroundElementVisibility = (visibility) => {
     const main = document.querySelector('#main')
     const nav = document.querySelector('#navigation')
     if (visibility) {
-        main.style.display = 'block'
+        main.style.display = 'flex'
         nav.style.display = 'block'
     } else {
         main.style.display = 'none'

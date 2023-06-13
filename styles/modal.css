@@ -103,6 +103,8 @@
 
 @media (max-width: 600px) {
     .modal {
+        overflow-y: auto;
+
         .modal-header {
             .modal-title-container {
                 margin-left: 0;
@@ -129,8 +131,18 @@
                 padding: 0;
                 .modal-description {
                     width: 100%;
+                    font-size: 0.8rem;
+                }
+                .modal-links {
+                    .modal-link {
+                        padding: 0.25rem 0.5rem;
+                        font-size: 0.75rem;
+                    }
                 }
             }
         }
+    }
+    .modal::-webkit-scrollbar {
+        display: none;
     }
 }

@@ -14,38 +14,36 @@ let cardIndex = 0
 let initialLoad = true
 export let isScrolling = false
 
-// Touch variables
-let startX
-let endX
-
 const handleCardTransition = (event) => {
     event.preventDefault()
 
     if (isScrolling) return
+    const currentCard = cards[cardIndex]
+    const modal = document.querySelector('#project-modal')
 
     const scrollDirection = determineScrollDirection(event)
     if (!canTransition(event, scrollDirection)) return
 
+    // // close modal if open
+    // if (
+    //     currentCard?.id === 'card-projects' &&
+    //     modal.style.display === 'block'
+    // ) {
+    //     setTimeout(() => {
+    //         closeModal()
+    //     }, 500)
+    // }
+    //
     // find distance to the next card
     const targetScrollPosition = determineTargetScrollPosition(scrollDirection)
-
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
-
     // Update the card index
     scrollDirection === 1 ? cardIndex++ : cardIndex--
     handleChevVisibility()
 }
 
 const determineTargetScrollPosition = (scrollDirection) => {
-    const cardDistance = getCardDistance()
-    const scrollDistance = Math.max(cardDistance, window.innerWidth)
-    const currentScrollPosition = container.scrollLeft
-
-    return Math.round(currentScrollPosition + scrollDistance * scrollDirection)
-}
-
-const getCardDistance = () => {
     const cardWidth = cards[0].offsetWidth
     const cardMarginRight = parseInt(
         window.getComputedStyle(cards[0]).marginRight
@@ -53,7 +51,12 @@ const getCardDistance = () => {
     const cardMarginLeft = parseInt(
         window.getComputedStyle(cards[0]).marginLeft
     )
-    return cardWidth + cardMarginRight + cardMarginLeft
+    const cardDistance = cardWidth + cardMarginRight + cardMarginLeft
+
+    const scrollDistance = Math.max(cardDistance, window.innerWidth)
+    const currentScrollPosition = container.scrollLeft
+
+    return Math.round(currentScrollPosition + scrollDistance * scrollDirection)
 }
 
 const determineScrollDirection = (event) => {
@@ -81,24 +84,11 @@ const determineScrollDirection = (event) => {
     if (event.type === 'click') {
         scrollDirection = event.target.id === 'next-chev' ? 1 : -1
     }
-    if (event.type === 'touchend') {
-        endX = event.changedTouches[0].clientX
-
-        const deltaX = endX - startX
-
-        if (Math.abs(deltaX) >= minSwipeDistance) {
-            if (deltaX > 0) {
-                scrollDirection = 1
-            } else {
-                scrollDirection = -1
-            }
-        }
-    }
     return scrollDirection
 }
 
 const canTransition = (event, scrollDirection) => {
-    if (event.target.id === 'bio-inner') {
+    if (event.target.id === 'bio') {
         return
     }
     // disable scrolling beyond first/last cards
@@ -159,29 +149,11 @@ const setupCardsAndListeners = () => {
     chevrons.forEach((chev) => {
         chev.addEventListener('click', handleCardTransition)
     })
-    window.addEventListener('resize', handleResize)
-    document.addEventListener('touchstart', handleSwipeStart)
-    document.addEventListener('touchend', handleCardTransition)
-}
-const handleSwipeStart = (event) => {
-    startX = event.touches[0].clientX
-}
-
-const handleResize = () => {
-    const modal = document.querySelector('#project-modal')
-
-    if (cardIndex > 0) {
-        if (modal.open) closeModal()
-        smoothScrollTo(0)
-        cardIndex = 0
-    }
-    setTimeout(() => {
-        handleChevVisibility()
-    }, 200)
 }
 
 const handleChevVisibility = () => {
     const isWeb = window.innerWidth > MOBILE_BREAKPOINT
+
     const nextCard = cards[cardIndex + 1] ?? null
     const prevCard = cards[cardIndex - 1] ?? null
     const prevChev = document.querySelector('#prev-chev')
@@ -194,23 +166,23 @@ const handleChevVisibility = () => {
     const nextChevShouldBeVisible = cardIndex !== cards.length - 1
     const nextChevText = isWeb ? nextCard?.id.replace('card-', '') + ' >' : '>'
     const prevChevText = isWeb ? '< ' + prevCard?.id.replace('card-', '') : '<'
-
     // change chev text
     setTimeout(() => {
         nextChev.innerText = nextChevShouldBeVisible ? nextChevText : ''
         prevChev.innerText = prevChevShouldBeVisible ? prevChevText : ''
     }, CARD_TRANSITION_DURATION)
-
     // Handle initial load visibility
     if (initialLoad) {
         nextChev.classList.add('visible', 'fade-in')
         return
     }
-
+    // console.log({
+    //     prevChevShouldBeVisible,
+    //     nextChevShouldBeVisible,
+    // })
     // Handle chevron visibility
     handleClassVisibility(prevChev, prevChevShouldBeVisible)
     handleClassVisibility(nextChev, nextChevShouldBeVisible)
-
     // once the fade out animation is complete, remove the classList
     handleAnimationEnd(prevChev, prevChevShouldBeVisible)
     handleAnimationEnd(nextChev, nextChevShouldBeVisible)
@@ -232,7 +204,6 @@ export const smoothScrollTo = (targetPosition) => {
         const scrollValue = easeInOutQuad(
             elapsedTime,
             startPosition,
-
             distance,
             duration
         )

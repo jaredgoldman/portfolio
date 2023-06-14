@@ -69,8 +69,7 @@ const determineScrollDirection = (event) => {
         event.key === 'ArrowRight'
             ? (scrollDirection = 1)
             : (scrollDirection = -1)
-    }
-    if (event.type === 'wheel') {
+    } else if (event.type === 'wheel') {
         const deltaX = event.deltaX
         const deltaY = event.deltaY
 
@@ -85,10 +84,10 @@ const determineScrollDirection = (event) => {
             scrollDirection = Math.sign(event.deltaY)
         }
     }
-    if (event.type === 'click') {
-        scrollDirection = event.target.id === 'next-chev' ? 1 : -1
-    }
-    if (event.type === 'touchend') {
+    // if (event.type === 'click') {
+    //     scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+    // }
+    else if (event.type === 'touchend') {
         endX = event.changedTouches[0].clientX
 
         const deltaX = endX - startX

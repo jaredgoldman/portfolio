@@ -1,2 +1,3 @@
 export const CARD_TRANSITION_DURATION = 350
 export const MOBILE_BREAKPOINT = 700
+export const MIN_SWIPE_DISTANCE = 35

@@ -5,7 +5,11 @@ import {
     handleClassVisibility,
     handleAnimationEnd,
 } from './utils.js'
-import { CARD_TRANSITION_DURATION, MOBILE_BREAKPOINT } from '../constants.js'
+import {
+    CARD_TRANSITION_DURATION,
+    MOBILE_BREAKPOINT,
+    MIN_SWIPE_DISTANCE,
+} from '../constants.js'
 
 let observer
 let cards
@@ -86,7 +90,7 @@ const determineScrollDirection = (event) => {
 
         const deltaX = endX - startX
 
-        if (Math.abs(deltaX) >= minSwipeDistance) {
+        if (Math.abs(deltaX) >= MIN_SWIPE_DISTANCE) {
             if (deltaX > 0) {
                 scrollDirection = 1
             } else {
@@ -163,6 +167,7 @@ const setupCardsAndListeners = () => {
     document.addEventListener('touchstart', handleSwipeStart)
     document.addEventListener('touchend', handleCardTransition)
 }
+
 const handleSwipeStart = (event) => {
     startX = event.touches[0].clientX
 }

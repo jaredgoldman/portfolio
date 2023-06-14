@@ -1,0 +1,171 @@
+.card-container {
+  width: 400%;
+  height: 100%;
+  padding-top: 2%;
+  padding-bottom: 2%;
+  display: flex;
+  align-items: center;
+  overflow-y: hidden;
+  justify-content: space-evenly;
+  scroll-behavior: auto;
+  transition: scroll-left var(--transition-duration) ease-in-out;
+  box-sizing: border-box; }
+
+.card {
+  height: 100%;
+  margin: 0 4%;
+  width: calc((100% - 8%) / 4);
+  transition: all var(--transition-duration) ease-in-out;
+  box-sizing: border-box;
+  background: transparent; }
+  .card .bio-inner {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    box-sizing: border-box;
+    overflow-y: auto; }
+    .card .bio-inner .card-content {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      font-family: var(--primary-font-family);
+      font-weight: 300; }
+      .card .bio-inner .card-content .card-content_right {
+        width: 50%;
+        height: 100%;
+        transition: all var(--transition-duration) ease-in-out;
+        transform: translateY(-6%);
+        background: linear-gradient(to right, var(--primary-background-color), rgba(0, 0, 0, 0) 20%), linear-gradient(to bottom, var(--primary-background-color), rgba(0, 0, 0, 0) 15%), linear-gradient(to top, var(--primary-background-color), rgba(0, 0, 0, 0) 20%), linear-gradient(to left, var(--primary-background-color), rgba(0, 0, 0, 0) 20%), url(../assets/images/jared_cropped-full.jpg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 50vh auto;
+        border: none; }
+      .card .bio-inner .card-content .card-content_left {
+        width: 62%;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start; }
+        .card .bio-inner .card-content .card-content_left p {
+          font-size: 1rem;
+          line-height: 1.5rem;
+          text-align: justify;
+          color: var(--primary-color);
+          transition: color var(--transition-duration) ease-in-out; }
+        .card .bio-inner .card-content .card-content_left .recommendations .recommendations-heading {
+          font-size: 1.5rem;
+          margin-top: 1rem;
+          color: var(--primary-color);
+          transition: color var(--transition-duration) ease-in-out; }
+        .card .bio-inner .card-content .card-content_left .recommendations .recommendation .recommendation-title {
+          transition: color var(--transition-duration) ease-in-out;
+          color: var(--primary-color);
+          margin: 1rem 0; }
+  .card .bio-inner::-webkit-scrollbar {
+    display: none; }
+  .card .welcome-inner {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem; }
+    .card .welcome-inner .main-heading {
+      font-size: 5rem;
+      font-family: var(--primary-font-family);
+      color: var(--primary-color); }
+    .card .welcome-inner .secondary-heading {
+      font-size: 2.5rem;
+      font-family: var(--secondary-font-family);
+      color: var(--primary-color); }
+    .card .welcome-inner h1 {
+      width: 100%;
+      margin-bottom: 2rem; }
+    .card .welcome-inner .about-links {
+      margin-top: 5rem;
+      width: 100%;
+      display: flex;
+      justify-content: space-evenly; }
+      .card .welcome-inner .about-links a {
+        font-size: 2rem;
+        font-family: var(--secondary-font-family); }
+  .card .projects-inner {
+    width: 100%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .card .projects-inner .projects {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      height: 100%; }
+      .card .projects-inner .projects .project-title {
+        text-align: right;
+        font-size: 2rem;
+        font-weight: 500;
+        margin: 1rem;
+        font-family: var(--secondary-font-family);
+        transition: color var(--transition-duration) ease-in-outo;
+        color: var(--primary-color); }
+      .card .projects-inner .projects .project-title:hover {
+        color: var(--secondary-color);
+        cursor: pointer; }
+  .card .contact-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+
+.card-title {
+  transition: color var(--transition-duration) ease-in-out;
+  font-size: 3rem;
+  text-align: center;
+  margin: 3rem 0;
+  z-index: 100;
+  font-family: var(--primary-font-family);
+  color: var(--primary-color); }
+
+.card-subtitle {
+  margin-top: 0.25rem;
+  font-size: 1.5rem;
+  color: var(--primary-color);
+  transition: color var(--transition-duration) ease-in-out;
+  text-align: center;
+  font-family: var(--secondary-font-family); }
+
+@media only screen and (max-width: 600px) {
+  .card {
+    margin: 0;
+    width: 25%; }
+    .card .welcome-inner {
+      text-align: center;
+      padding: 0; }
+      .card .welcome-inner .main-heading {
+        font-size: 3rem; }
+      .card .welcome-inner .secondary-heading {
+        font-size: 2rem; }
+    .card .bio-inner {
+      overflow-y: auto; }
+      .card .bio-inner .card-content .card-content_right {
+        display: none; }
+      .card .bio-inner .card-content .card-content_left {
+        width: 100%;
+        margin: 0 1rem; }
+        .card .bio-inner .card-content .card-content_left .recommendations {
+          padding-bottom: 2rem; }
+  ::-webkit-scrollbar {
+    -webkit-appearance: none; }
+  .about-links {
+    flex-direction: column;
+    align-items: center;
+    margin-top: 2rem; }
+    .about-links a {
+      margin: 0.5rem 0;
+      font-size: 1.5rem; }
+  .card-title {
+    font-size: 1.75rem;
+    margin: 1rem 0; }
+  .card-subtitle {
+    font-size: 1rem;
+    max-width: 80%; } }

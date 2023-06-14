@@ -1,5 +1,4 @@
 import { API_KEY, API_URL } from '../config.js'
-import { CARD_TRANSITION_DURATION } from '../constants.js'
 
 export const request = async (path, method = 'GET', data = null) => {
     const body = method !== 'GET' && data ? JSON.stringify(data) : null

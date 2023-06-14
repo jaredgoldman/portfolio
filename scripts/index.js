@@ -11,6 +11,7 @@ import {
     MIN_SWIPE_DISTANCE,
 } from '../constants.js'
 
+let isWeb = true
 let observer
 let cards
 let container
@@ -83,11 +84,12 @@ const determineScrollDirection = (event) => {
         } else if (absDeltaY > absDeltaX) {
             scrollDirection = Math.sign(event.deltaY)
         }
-    }
-    // if (event.type === 'click') {
-    //     scrollDirection = event.target.id === 'next-chev' ? 1 : -1
-    // }
-    else if (event.type === 'touchend') {
+    } else if (
+        event.target.id === 'next-chev' ||
+        event.target.id === 'prev-chev'
+    ) {
+        scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+    } else if (event.type === 'touchend') {
         endX = event.changedTouches[0].clientX
 
         const deltaX = endX - startX
@@ -138,7 +140,7 @@ const instantiateObserver = () => {
         },
         {
             root: null,
-            threshold: 0.9,
+            threshold: 0.6,
         }
     )
 }
@@ -176,8 +178,8 @@ const handleSwipeStart = (event) => {
 
 const handleResize = () => {
     const modal = document.querySelector('#project-modal')
-
-    if (cardIndex > 0) {
+    console.log('resize')
+    if (cardIndex > 0 || container.scrollLeft > 0) {
         if (modal.open) closeModal()
         smoothScrollTo(0)
         cardIndex = 0
@@ -188,7 +190,6 @@ const handleResize = () => {
 }
 
 const handleChevVisibility = () => {
-    const isWeb = window.innerWidth > MOBILE_BREAKPOINT
     const nextCard = cards[cardIndex + 1] ?? null
     const prevCard = cards[cardIndex - 1] ?? null
     const prevChev = document.querySelector('#prev-chev')
@@ -257,6 +258,7 @@ export const smoothScrollTo = (targetPosition) => {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
+    isWeb = window.innerWidth > MOBILE_BREAKPOINT
     await triggerInitialOverlay()
     setupCardsAndListeners()
     handleChevVisibility()

@@ -28,16 +28,18 @@ const handleCardTransition = (event) => {
     if (isScrolling) return
 
     const scrollDirection = determineScrollDirection(event)
+    console.log('scrollDirection', scrollDirection)
     if (!canTransition(event, scrollDirection)) return
 
     // find distance to the next card
     const targetScrollPosition = determineTargetScrollPosition(scrollDirection)
-
+    console.log('targetScrollPosition', targetScrollPosition)
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
 
     // Update the card index
     scrollDirection === 1 ? cardIndex++ : cardIndex--
+    console.log('cardIndex', cardIndex)
     handleChevVisibility()
 }
 

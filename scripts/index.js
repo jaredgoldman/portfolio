@@ -63,6 +63,7 @@ const getCardDistance = () => {
 }
 
 const determineScrollDirection = (event) => {
+    console.log('eventType', event.type)
     let scrollDirection = 0
     if (event.type === 'keydown') {
         event.key === 'ArrowRight'

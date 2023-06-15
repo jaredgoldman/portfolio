@@ -7,11 +7,11 @@ import {
 } from './utils.js'
 import {
     CARD_TRANSITION_DURATION,
-    MOBILE_BREAKPOINT,
+    RESPONSIVE_BREAKPOINT,
     MIN_SWIPE_DISTANCE,
 } from '../constants.js'
 
-let isWeb = true
+let isResponsive = true
 let observer
 let cards
 let container
@@ -19,6 +19,9 @@ let cardIndex = 0
 let initialLoad = true
 export let isScrolling = false
 
+const setIsWeb = () => {
+    isResponsive = window.innerWidth > RESPONSIVE_BREAKPOINT ? true : false
+}
 // Touch variables
 let startX
 let endX
@@ -64,12 +67,13 @@ const getCardDistance = () => {
 }
 
 const determineScrollDirection = (event) => {
-    console.log('eventType', event.type)
     let scrollDirection = 0
+    // Handle keyboard events
     if (event.type === 'keydown') {
         event.key === 'ArrowRight'
             ? (scrollDirection = 1)
             : (scrollDirection = -1)
+        // Handle scroll events
     } else if (event.type === 'wheel') {
         const deltaX = event.deltaX
         const deltaY = event.deltaY
@@ -84,11 +88,13 @@ const determineScrollDirection = (event) => {
         } else if (absDeltaY > absDeltaX) {
             scrollDirection = Math.sign(event.deltaY)
         }
+        // Handle click and touch on nav button events
     } else if (
         event.target.id === 'next-chev' ||
         event.target.id === 'prev-chev'
     ) {
         scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+        // Handle mobile swipe
     } else if (event.type === 'touchend') {
         endX = event.changedTouches[0].clientX
 
@@ -96,9 +102,9 @@ const determineScrollDirection = (event) => {
 
         if (Math.abs(deltaX) >= MIN_SWIPE_DISTANCE) {
             if (deltaX > 0) {
-                scrollDirection = 1
-            } else {
                 scrollDirection = -1
+            } else {
+                scrollDirection = 1
             }
         }
     }
@@ -177,16 +183,14 @@ const handleSwipeStart = (event) => {
 }
 
 const handleResize = () => {
+    setIsWeb()
     const modal = document.querySelector('#project-modal')
-    console.log('resize')
     if (cardIndex > 0 || container.scrollLeft > 0) {
         if (modal.open) closeModal()
         smoothScrollTo(0)
         cardIndex = 0
     }
-    setTimeout(() => {
-        handleChevVisibility()
-    }, 200)
+    handleChevVisibility()
 }
 
 const handleChevVisibility = () => {
@@ -200,8 +204,12 @@ const handleChevVisibility = () => {
 
     const prevChevShouldBeVisible = cardIndex !== 0
     const nextChevShouldBeVisible = cardIndex !== cards.length - 1
-    const nextChevText = isWeb ? nextCard?.id.replace('card-', '') + ' >' : '>'
-    const prevChevText = isWeb ? '< ' + prevCard?.id.replace('card-', '') : '<'
+    const nextChevText = isResponsive
+        ? nextCard?.id.replace('card-', '') + ' >'
+        : '>'
+    const prevChevText = isResponsive
+        ? '< ' + prevCard?.id.replace('card-', '')
+        : '<'
 
     // change chev text
     setTimeout(() => {
@@ -258,7 +266,7 @@ export const smoothScrollTo = (targetPosition) => {
 }
 
 document.addEventListener('DOMContentLoaded', async () => {
-    isWeb = window.innerWidth > MOBILE_BREAKPOINT
+    setIsWeb()
     await triggerInitialOverlay()
     setupCardsAndListeners()
     handleChevVisibility()

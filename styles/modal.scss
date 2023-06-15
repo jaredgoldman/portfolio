@@ -63,13 +63,21 @@
         .modal-content_right {
             width: 50%;
             padding: 3rem;
-            display: flex;
+            display: block;
             justify-content: center;
 
             .modal-description {
                 width: 90%;
                 line-height: 2rem;
                 text-align: justify;
+
+                ul {
+                    list-style: disc;
+
+                    li {
+                        margin-left: 2rem;
+                    }
+                }
             }
 
             .modal-links {

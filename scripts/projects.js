@@ -31,8 +31,8 @@ const loadModalContent = (projectId) => {
     const modalTitle = document.querySelector('.modal-title')
     modalTitle.textContent = project.title
 
-    const description = document.createElement('p')
-    description.textContent = project.description
+    const description = document.createElement('div')
+    description.innerHTML = project.description
     description.classList.add('modal-description')
 
     const links = document.createElement('div')

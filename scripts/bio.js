@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
     } = await request('/portfolio-bio')
     const { data: recommendations } = await request('/recommendations')
-    const bioInner = document.querySelector('#bio-inner')
+    const bioInner = document.querySelector('#card-content_left')
     const bio = document.querySelector('#bio')
     const reccomendationsEl = document.querySelector('#recommendations')
     const reccoHeading = document.createElement('h2')

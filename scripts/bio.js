@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         },
     } = await request('/portfolio-bio')
     const { data: recommendations } = await request('/recommendations')
-    const bioInner = document.querySelector('#card-content_left')
+    const contentLeft = document.querySelector('#card-content_left')
     const bio = document.querySelector('#bio')
     const reccomendationsEl = document.querySelector('#recommendations')
     const reccoHeading = document.createElement('h2')
@@ -20,7 +20,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     bio.innerHTML = text
 
     // Ensure we can scroll the bio
-    bioInner.addEventListener('wheel', (e) => {
+    contentLeft.addEventListener('wheel', (e) => {
+        e.stopPropagation()
+    })
+    contentLeft.addEventListener('touchstart', (e) => {
+        e.stopPropagation()
+    })
+    contentLeft.addEventListener('touchend', (e) => {
         e.stopPropagation()
     })
 })

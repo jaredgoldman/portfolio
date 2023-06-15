@@ -95,6 +95,7 @@ const determineScrollDirection = (event) => {
         event.target.id === 'prev-chev'
     ) {
         scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+        // We know
         return scrollDirection
         // Handle mobile swipe
     } else if (event.type === 'touchend') {

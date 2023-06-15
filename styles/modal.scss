@@ -108,6 +108,10 @@
     background-color: var(--primary-background-color);
 }
 
+.modal::-webkit-scrollbar {
+    display: none;
+}
+
 @media (max-width: 600px) {
     .modal {
         overflow-y: auto;

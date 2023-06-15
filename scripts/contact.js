@@ -1,6 +1,6 @@
 import { request } from './utils.js'
 
-const submitContactMessage = () => {
+export const loadContact = () => {
     const form = document.getElementById('contact')
     const nameInput = document.getElementById('contact-name')
     const emailInput = document.getElementById('contact-email')
@@ -27,7 +27,3 @@ const submitContactMessage = () => {
         }
     })
 }
-
-document.addEventListener('DOMContentLoaded', () => {
-    submitContactMessage()
-})

@@ -55,3 +55,12 @@ export const fadeElement = (element, shouldBeVisible) => {
     handleClassVisibility(element, shouldBeVisible)
     handleAnimationEnd(element, shouldBeVisible)
 }
+
+export const stopTouchPropagation = (element) => {
+    element.addEventListener('touchstart', (event) => {
+        event.stopPropagation()
+    })
+    element.addEventListener('touchend', (event) => {
+        event.stopPropagation()
+    })
+}

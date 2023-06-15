@@ -1,6 +1,23 @@
 import { request } from './utils.js'
 
-document.addEventListener('DOMContentLoaded', async () => {
+const createRecommendation = ({
+    recommender,
+    relationship,
+    recommendation,
+}) => {
+    const reccoEl = document.createElement('div')
+    reccoEl.classList.add('recommendation')
+    const reccoTitle = document.createElement('h3')
+    reccoTitle.classList.add('recommendation-title')
+    reccoTitle.innerHTML = `${recommender} - ${relationship}`
+    const recco = document.createElement('p')
+    recco.innerHTML = recommendation
+    reccoEl.appendChild(reccoTitle)
+    reccoEl.appendChild(recco)
+    return reccoEl
+}
+
+export const loadBio = async () => {
     const {
         data: {
             attributes: { text },
@@ -23,27 +40,4 @@ document.addEventListener('DOMContentLoaded', async () => {
     contentLeft.addEventListener('wheel', (e) => {
         e.stopPropagation()
     })
-    // contentLeft.addEventListener('touchstart', (e) => {
-    //     e.stopPropagation()
-    // })
-    // contentLeft.addEventListener('touchend', (e) => {
-    //     e.stopPropagation()
-    // })
-})
-
-const createRecommendation = ({
-    recommender,
-    relationship,
-    recommendation,
-}) => {
-    const reccoEl = document.createElement('div')
-    reccoEl.classList.add('recommendation')
-    const reccoTitle = document.createElement('h3')
-    reccoTitle.classList.add('recommendation-title')
-    reccoTitle.innerHTML = `${recommender} - ${relationship}`
-    const recco = document.createElement('p')
-    recco.innerHTML = recommendation
-    reccoEl.appendChild(reccoTitle)
-    reccoEl.appendChild(recco)
-    return reccoEl
 }

@@ -1,9 +1,9 @@
-import { request } from './utils.js'
+import { request, stopTouchPropagation } from './utils.js'
 import { API_URL } from '../config.js'
 
 let projects = []
 
-const loadProjects = async () => {
+const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
 
     // map projects for later use
@@ -73,11 +73,13 @@ const setupProjectListeners = () => {
     const close = document.querySelector('.close')
 
     projects.forEach((project) => {
+        stopTouchPropagation(project)
         project.addEventListener('click', (event) => {
             openModal(event, modal)
         })
     })
 
+    stopTouchPropagation(close)
     close.addEventListener('click', () => {
         closeModal(modal)
     })
@@ -110,7 +112,7 @@ export const closeModal = () => {
 
 const loadProjectHeadings = async () => {
     const projectsContainer = document.querySelector('#projects')
-    const projects = await loadProjects()
+    const projects = await loadProjectData()
     projects.forEach((project) => {
         projectsContainer.appendChild(project)
     })
@@ -128,7 +130,7 @@ const handleBackgroundElementVisibility = (visibility) => {
     }
 }
 
-document.addEventListener('DOMContentLoaded', async () => {
+export const loadProjects = async () => {
     await loadProjectHeadings()
     setupProjectListeners()
-})
+}

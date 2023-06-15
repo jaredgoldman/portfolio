@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', () => {
+export const loadParticles = () => {
     particlesJS('particles-js', config)
-})
+}
 
 export const updateConfig = (mode) => {
     let newConfig = config

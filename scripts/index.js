@@ -27,23 +27,24 @@ let startX
 let endX
 
 const handleCardTransition = (event) => {
+    if (isScrolling) return
     event.preventDefault()
 
-    if (isScrolling) return
-
     const scrollDirection = determineScrollDirection(event)
-    console.log('scrollDirection', scrollDirection)
     if (!canTransition(event, scrollDirection)) return
 
     // find distance to the next card
     const targetScrollPosition = determineTargetScrollPosition(scrollDirection)
-    console.log('targetScrollPosition', targetScrollPosition)
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
 
     // Update the card index
     scrollDirection === 1 ? cardIndex++ : cardIndex--
-    console.log('cardIndex', cardIndex)
+    console.log({
+        cardIndex,
+        scrollDirection,
+        targetScrollPosition,
+    })
     handleChevVisibility()
 }
 
@@ -94,6 +95,7 @@ const determineScrollDirection = (event) => {
         event.target.id === 'prev-chev'
     ) {
         scrollDirection = event.target.id === 'next-chev' ? 1 : -1
+        return scrollDirection
         // Handle mobile swipe
     } else if (event.type === 'touchend') {
         endX = event.changedTouches[0].clientX
@@ -106,12 +108,15 @@ const determineScrollDirection = (event) => {
             } else {
                 scrollDirection = 1
             }
+        } else {
+            scrollDirection = 0
         }
     }
     return scrollDirection
 }
 
 const canTransition = (event, scrollDirection) => {
+    if (!scrollDirection) return
     if (event.target.id === 'bio-inner') {
         return
     }

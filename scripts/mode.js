@@ -16,6 +16,7 @@ const darkVars = {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+    stopMobileHeaderPropagation()
     const input = document.querySelector('#mode-checkbox')
     const cardContent = document.querySelector('.card-content_right')
     const initialStyle = { ...cardContent.style }
@@ -30,6 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         updateConfig(mode)
     })
 })
+
+const stopMobileHeaderPropagation = () => {
+    const header = document.querySelector('#header')
+    header.addEventListener('touchstart', (event) => {
+        event.stopPropagation()
+    })
+    header.addEventListener('touchend', (event) => {
+        event.stopPropagation()
+    })
+}
 
 const handleGradientModeChange = (mode, cardContent, initialStyle) => {
     if (mode === 'light') {

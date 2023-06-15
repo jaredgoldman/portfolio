@@ -1,3 +1,3 @@
 export const CARD_TRANSITION_DURATION = 350
 export const RESPONSIVE_BREAKPOINT = 1000
-export const MIN_SWIPE_DISTANCE = 20
+export const MIN_SWIPE_DISTANCE = 35

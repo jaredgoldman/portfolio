@@ -23,12 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
     contentLeft.addEventListener('wheel', (e) => {
         e.stopPropagation()
     })
-    contentLeft.addEventListener('touchstart', (e) => {
-        e.stopPropagation()
-    })
-    contentLeft.addEventListener('touchend', (e) => {
-        e.stopPropagation()
-    })
+    // contentLeft.addEventListener('touchstart', (e) => {
+    //     e.stopPropagation()
+    // })
+    // contentLeft.addEventListener('touchend', (e) => {
+    //     e.stopPropagation()
+    // })
 })
 
 const createRecommendation = ({

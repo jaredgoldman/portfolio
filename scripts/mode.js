@@ -40,7 +40,7 @@ const handleGradientModeChange = (mode, cardContent, initialStyle) => {
         cardContent.style.backgroundImage = 'url(../assets/images/jg_ny.jpg)'
         cardContent.style.backgroundSize = 'contain'
         cardContent.style.backgroundPosition = 'center'
-        cardContent.style.transform = 'translateY(0%)'
+        cardContent.style.transform = 'translateY(-10%)'
     } else {
         applyPreviousStyle(initialStyle, cardContent)
     }

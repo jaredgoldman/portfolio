@@ -203,16 +203,16 @@ const handleChevVisibility = () => {
     const prevChevShouldBeVisible = cardIndex !== 0
     const nextChevShouldBeVisible = cardIndex !== cards.length - 1
     const nextChevText = isResponsive
-        ? nextCard?.id.replace('card-', '') + ' >'
+        ? nextCard?.id.replace('card-', '') + '<br>' + ' >'
         : '>'
     const prevChevText = isResponsive
-        ? '< ' + prevCard?.id.replace('card-', '')
+        ? prevCard?.id.replace('card-', '') + '<br>' + '<'
         : '<'
 
     // change chev text
     setTimeout(() => {
-        nextChev.innerText = nextChevShouldBeVisible ? nextChevText : ''
-        prevChev.innerText = prevChevShouldBeVisible ? prevChevText : ''
+        nextChev.innerHTML= nextChevShouldBeVisible ? nextChevText : ''
+        prevChev.innerHTML  = prevChevShouldBeVisible ? prevChevText : ''
     }, CARD_TRANSITION_DURATION)
 
     // Handle initial load visibility

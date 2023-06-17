@@ -106,10 +106,14 @@ footer {
         width: 2.5rem;
     }
     .prev-chev {
-        left: 0;
+        bottom: 1rem;
+        right: 1.5rem;
+        left: auto;
     }
 
     .next-chev {
+        bottom: 1rem;
         right: 0;
+        left: auto;
     }
 }

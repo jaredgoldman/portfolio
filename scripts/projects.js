@@ -54,15 +54,16 @@ const loadModalContent = (projectId) => {
         links.appendChild(github)
     }
 
-    description.appendChild(links)
-
     const imageContainer = document.createElement('div')
-    imageContainer.classList.add('image-container')
 
-    const image = document.createElement('img')
-    image.src = `${API_URL}${project.image.data.attributes.url}`
+    if (project?.image?.data?.attributes?.url) {
+        imageContainer.classList.add('image-container')
+        const image = document.createElement('img')
+        image.src = `${API_URL}${project.image.data.attributes.url}`
+        imageContainer.appendChild(image)
+    }
 
-    imageContainer.appendChild(image)
+    description.appendChild(links)
     modalLeft.appendChild(imageContainer)
     modalRight.appendChild(description)
 }

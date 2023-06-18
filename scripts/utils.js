@@ -56,6 +56,12 @@ export const fadeElement = (element, shouldBeVisible) => {
     handleAnimationEnd(element, shouldBeVisible)
 }
 
+/**
+ * @param {HTMLElement} element
+ * stops element's touchstart and touchend events from propagating
+ * to parent elements. Needed as we are listening to the entire container
+ * for scroll events
+ */
 export const stopTouchPropagation = (element) => {
     element.addEventListener('touchstart', (event) => {
         event.stopPropagation()

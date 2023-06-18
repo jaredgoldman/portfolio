@@ -1,5 +1,4 @@
 import { updateConfig } from './particles.js'
-import { stopTouchPropagation } from './utils.js'
 
 const lightVars = {
     '--primary-background-color': 'white',
@@ -17,12 +16,9 @@ const darkVars = {
 }
 
 export const loadMode = () => {
-    const header = document.querySelector('#header')
     const input = document.querySelector('#mode-checkbox')
     const cardContent = document.querySelector('.card-content_right')
     const initialStyle = { ...cardContent.style }
-
-    stopTouchPropagation(header)
 
     input.addEventListener('change', () => {
         const mode = input.checked ? 'light' : 'dark'

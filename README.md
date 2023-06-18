@@ -1,12 +1,9 @@
-# My Portfolia Site
+# My Portfolio Site
 
 ## About the site
 
 Hey, this is my little portfolio site. An attempt at using the platform (plus a CSS pre-processor... sorry not sorry). It's basically vanilla CSS/HTML/JS SPA that features a hand-made carousel and is powered
 by a Strapi backend somewhere in the cloud. Come in, stay for a while and let me know if you like it. Now I'm going to go actually build some projects to showcase here, wish me luck!
-
-Thanks,
-JG
 
 ## Build command (Netlify)
 

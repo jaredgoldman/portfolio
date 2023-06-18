@@ -25,7 +25,6 @@ let endX
 
 const handleCardTransition = (event) => {
     if (isScrolling) return
-    event.preventDefault()
 
     const scrollDirection = determineScrollDirection(event)
     if (!canTransition(event, scrollDirection)) return
@@ -211,8 +210,8 @@ const handleChevVisibility = () => {
 
     // change chev text
     setTimeout(() => {
-        nextChev.innerHTML= nextChevShouldBeVisible ? nextChevText : ''
-        prevChev.innerHTML  = prevChevShouldBeVisible ? prevChevText : ''
+        nextChev.innerHTML = nextChevShouldBeVisible ? nextChevText : ''
+        prevChev.innerHTML = prevChevShouldBeVisible ? prevChevText : ''
     }, CARD_TRANSITION_DURATION)
 
     // Handle initial load visibility

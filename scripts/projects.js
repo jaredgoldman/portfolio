@@ -23,6 +23,11 @@ const loadProjectData = async () => {
     })
 }
 
+/**
+ * @param {string} projectId
+ * loads content into modal element lazily on-click
+ * TODO: Figure out how to pre-load images in modal
+ */
 const loadModalContent = (projectId) => {
     const project = projects.find((project) => project.id === projectId)
     const modalRight = document.querySelector('.modal-content_right')
@@ -74,7 +79,6 @@ const setupProjectListeners = () => {
     const close = document.querySelector('.close')
 
     projects.forEach((project) => {
-        stopTouchPropagation(project)
         project.addEventListener('click', (event) => {
             openModal(event, modal)
         })
@@ -88,7 +92,6 @@ const setupProjectListeners = () => {
 
 const openModal = (event, modal) => {
     loadModalContent(event.target.id)
-    //XXX: add fomralized fade method here
     modal.showModal()
     modal.classList.add('fade-in')
     handleBackgroundElementVisibility(false)
@@ -110,7 +113,9 @@ export const closeModal = () => {
         modalRight.removeChild(modalRight.firstChild)
     }, 300)
 }
-
+/**
+ * Map project headings to clickable links
+ */
 const loadProjectHeadings = async () => {
     const projectsContainer = document.querySelector('#projects')
     const projects = await loadProjectData()

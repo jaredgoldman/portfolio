@@ -2,6 +2,9 @@ export const loadParticles = () => {
     particlesJS('particles-js', config)
 }
 
+/**
+ * Dynamically udpate particles config for dark/lght mode
+ */
 export const updateConfig = (mode) => {
     let newConfig = config
     if (mode === 'light') {

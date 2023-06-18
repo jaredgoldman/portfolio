@@ -24,7 +24,13 @@ export const wait = async (duration) => {
     })
 }
 
-// Thank you stackoverflow: https://stackoverflow.com/questions/13462001/ease-in-and-ease-out-animation-formula
+/**
+ * @param {number} t current time
+ * @param {number} b start value
+ * @param {number} c change in value
+ * @param {number} d duration
+ * https://stackoverflow.com/questions/13462001/ease-in-and-ease-out-animation-formula
+ */
 export const easeInOutQuad = (t, b, c, d) => {
     t /= d / 2
     if (t < 1) return (c / 2) * t * t + b
@@ -32,6 +38,11 @@ export const easeInOutQuad = (t, b, c, d) => {
     return (-c / 2) * (t * (t - 2) - 1) + b
 }
 
+/**
+ * @param {HTMLElement} element
+ * @param {boolean} shouldBeVisible
+ * adds or removes visible and fade-in || fade-out class depending on shouldBeVisible
+ */
 export const handleClassVisibility = (element, shouldBeVisible) => {
     element.classList.remove('fade-in', 'fade-out')
     if (shouldBeVisible && !element.classList.contains('visible')) {
@@ -41,6 +52,11 @@ export const handleClassVisibility = (element, shouldBeVisible) => {
     }
 }
 
+/**
+ * @param {HTMLElement} element
+ * @param {boolean} shouldBeVisible
+ * adds or removes visible class depending on shouldBeVisible
+ */
 export const handleAnimationEnd = (element, shouldBeVisible) => {
     element.addEventListener('animationend', () => {
         if (!shouldBeVisible) {
@@ -50,7 +66,12 @@ export const handleAnimationEnd = (element, shouldBeVisible) => {
         }
     })
 }
-
+/**
+ *
+ * @param {HTMLElement} elemen
+ * @param {boolean} shouldBeVisible
+ * fades element in or out depending on shouldBeVisible
+ *  */
 export const fadeElement = (element, shouldBeVisible) => {
     handleClassVisibility(element, shouldBeVisible)
     handleAnimationEnd(element, shouldBeVisible)

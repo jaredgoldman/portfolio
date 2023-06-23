@@ -1,4 +1,3 @@
-import { triggerInitialOverlay } from './overlay.js'
 import { closeModal } from './projects.js'
 import {
     easeInOutQuad,
@@ -268,7 +267,6 @@ const setIsWeb = () => {
 
 export const loadNavigation = async () => {
     setIsWeb()
-    await triggerInitialOverlay()
     setupCardsAndListeners()
     handleChevVisibility()
     initialLoad = false

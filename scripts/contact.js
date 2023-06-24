@@ -5,6 +5,7 @@ export const loadContact = () => {
     const nameInput = document.getElementById('contact-name')
     const emailInput = document.getElementById('contact-email')
     const messageInput = document.getElementById('contact-message')
+    const confirmation = document.getElementById('confirmation')
     // const successBadge = document.querySelector('.home-contact-form_success')
     form.addEventListener('submit', async (event) => {
         event.preventDefault()
@@ -12,18 +13,17 @@ export const loadContact = () => {
         const email = emailInput.value
         const message = messageInput.value
         const referrer = 'dev'
-        const res = await request('/contact', 'POST', {
-            name,
-            email,
-            message,
-            referrer,
-        })
-        if (res?.accepted?.length) {
-            console.log('message sent')
-            // successBadge.classList.add('home-contact-form_success-active')
-        } else {
-            // display error badge
-            console.log('message failed to send')
-        }
+        // const res = await request('/contact', 'POST', {
+        //     name,
+        //     email,
+        //     message,
+        //     referrer,
+        // })
+        // if (res?.accepted?.length) {
+        form.classList.remove('visible')
+        confirmation.classList.add('visible')
+        // } else {
+        // console.log('message failed to send')
+        // }
     })
 }

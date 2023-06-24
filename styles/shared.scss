@@ -98,6 +98,10 @@ footer {
     opacity: 0.5;
 }
 
+.visible {
+    display: none;
+}
+
 @media only screen and (max-width: 600px) {
     nav {
         height: 20%;

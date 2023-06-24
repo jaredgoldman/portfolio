@@ -1,11 +1,10 @@
 import { request, stopTouchPropagation } from './utils.js'
-import { API_URL } from '../config.js'
 
 let projects = []
 
 const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
-    console.log(data)
+
     // map projects for later use
     projects = data.map((project) => {
         return {
@@ -74,9 +73,9 @@ const loadModalContent = (projectId) => {
 }
 
 const setupProjectListeners = () => {
-    const modal = document.querySelector('#project-modal')
+    const modal = document.getElementById('project-modal')
     const projects = document.querySelectorAll('.project-title')
-    const close = document.querySelector('.close')
+    const close = document.getElementById('modal-close')
 
     projects.forEach((project) => {
         project.addEventListener('click', (event) => {

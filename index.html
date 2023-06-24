@@ -9,6 +9,14 @@
         <title>Jared Goldman | Developer</title>
     </head>
     <body>
+        <!-- <div class="contact-confirmation" id="confirmation"> -->
+        <!--     <button class="close" id="confirmation-close">&times;</button> -->
+        <!--     <span -->
+        <!--         >I've got your message! Thanks for reaching out. I'll respond as -->
+        <!--         soon as possible!</span -->
+        <!--     > -->
+        <!-- </div> -->
+
         <div class="loader-overlay">
             <div class="loader-spinner">
                 <img src="assets/images/spinner.png" />
@@ -27,7 +35,7 @@
                     <h1 class="modal-title">Project Title</h1>
                 </div>
                 <div class="button-container">
-                    <button class="close">&times;</button>
+                    <button class="close" id="modal-close">&times;</button>
                 </div>
             </div>
             <div class="modal-content">
@@ -109,9 +117,16 @@
                                 >?
                             </h3>
                             <div class="form-container">
+                                <div
+                                    class="contact-confirmation"
+                                    id="confirmation"
+                                >
+                                    I've got your message! Thanks for reaching
+                                    out. I'll respond as soon as possible!
+                                </div>
                                 <form
                                     id="contact"
-                                    class="contact-form"
+                                    class="contact-form visible"
                                     method="post"
                                     target="_self"
                                 >

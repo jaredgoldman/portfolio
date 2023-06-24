@@ -62,10 +62,9 @@ const loadModalContent = (projectId) => {
     const imageContainer = document.createElement('div')
 
     if (project?.image?.data?.attributes?.url) {
-        console.log(project.image)
         imageContainer.classList.add('image-container')
         const image = document.createElement('img')
-        image.src = `${project.image.data.attributes.url}`
+        image.src = project.image.data.attributes.url
         imageContainer.appendChild(image)
     }
 

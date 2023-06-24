@@ -156,8 +156,12 @@ const setupCardsAndListeners = () => {
         element.classList.add('unfocused')
     })
 
-    instantiateObserver()
-    cards.forEach((card) => observer.observe(card))
+    // Add delay setting up observer so focused animation
+    // triggers after loader is done
+    setTimeout(() => {
+        instantiateObserver()
+        cards.forEach((card) => observer.observe(card))
+    }, 1250)
 
     // Listen for scroll event
     document.addEventListener('keydown', (event) => {

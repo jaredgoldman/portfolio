@@ -11,14 +11,27 @@ const createRecommendation = ({
     recommender,
     relationship,
     recommendation,
+    linkedIn,
 }) => {
     const reccoEl = document.createElement('div')
     reccoEl.classList.add('recommendation')
-    const reccoTitle = document.createElement('h3')
+
+    const reccoTitle = document.createElement('div')
     reccoTitle.classList.add('recommendation-title')
-    reccoTitle.innerHTML = `${recommender} - ${relationship}`
+
+    const reccoLink = document.createElement('a')
+    reccoLink.href = linkedIn
+    reccoLink.target = '_blank'
+    reccoLink.innerText = recommender
+
+    const relationshipEl = document.createElement('span')
+    relationshipEl.innerHTML = ` - ${relationship}`
+
     const recco = document.createElement('p')
     recco.innerHTML = recommendation
+
+    reccoTitle.appendChild(reccoLink)
+    reccoTitle.appendChild(relationshipEl)
     reccoEl.appendChild(reccoTitle)
     reccoEl.appendChild(recco)
     return reccoEl

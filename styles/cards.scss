@@ -72,6 +72,12 @@
                 justify-content: flex-start;
                 overflow-y: scroll;
 
+                & h2 {
+                    font-size: 1.5rem;
+                    margin-top: 1rem;
+                    color: var(--primary-color);
+                    transition: color var(--transition-duration) ease-in-out;
+                }
                 & p {
                     font-size: 1rem;
                     line-height: 1.5rem;

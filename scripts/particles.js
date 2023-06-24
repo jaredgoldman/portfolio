@@ -3,6 +3,7 @@ export const loadParticles = () => {
 }
 
 /**
+ * @param {string} mode - dark/light mode
  * Dynamically udpate particles config for dark/lght mode
  */
 export const updateConfig = (mode) => {

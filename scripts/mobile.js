@@ -1,6 +1,8 @@
 import { stopTouchPropagation } from './utils.js'
 
-// Ensure mobile devices can be accessed on mobile
+/**
+ * Ensure mobile devices can be accessed on mobile
+ */
 export const disableMobileTouchPropogation = () => {
     const aboutLinks = document.querySelectorAll('.about-links a')
     const projects = document.querySelectorAll('.project-title')

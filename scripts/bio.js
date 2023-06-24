@@ -1,5 +1,12 @@
 import { request } from './utils.js'
 
+/**
+ * @param {Object} recommendation - recommendation object
+ * @param {String} recommendation.recommender - name of recommender
+ * @param {String} recommendation.relationship - relationship to recommender
+ * @returns {HTMLElement} - recommendation element
+ * Load individual recommendations
+ */
 const createRecommendation = ({
     recommender,
     relationship,

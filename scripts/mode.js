@@ -15,6 +15,9 @@ const darkVars = {
     '--secondary-color': '#fca311',
 }
 
+/**
+ * Apply dark/light mode on toggle
+ */
 export const loadMode = () => {
     const input = document.querySelector('#mode-checkbox')
     const cardContent = document.querySelector('.card-content_right')
@@ -31,6 +34,9 @@ export const loadMode = () => {
     })
 }
 
+/**
+ * Change about me picture css properties when we change to mode
+ */
 const handleGradientModeChange = (mode, cardContent, initialStyle) => {
     if (mode === 'light') {
         cardContent.style.backgroundImage = 'url(../assets/images/jg_ny.jpg)'

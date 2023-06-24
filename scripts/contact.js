@@ -1,5 +1,8 @@
 import { request } from './utils.js'
 
+/**
+ * Load contact form, listen for submissions and display confirmation/error message after submit
+ */
 export const loadContact = () => {
     const form = document.getElementById('contact')
     const nameInput = document.getElementById('contact-name')

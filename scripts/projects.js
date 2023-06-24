@@ -20,7 +20,7 @@ const loadProjectData = async () => {
         heading.id = attributes.title.toLowerCase().replace(/\s/g, '-')
         return heading
     })
-}
+
 
 /**
  * @param {string} projectId

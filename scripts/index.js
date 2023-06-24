@@ -6,6 +6,9 @@ import { loadContact } from './contact.js'
 import { loadProjects } from './projects.js'
 import { disableMobileTouchPropogation } from './mobile.js'
 
+/**
+ * Main js loading process
+ */
 document.addEventListener('DOMContentLoaded', async () => {
     await loadNavigation()
     await loadBio()

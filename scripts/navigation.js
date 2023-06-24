@@ -22,6 +22,10 @@ export let isScrolling = false
 let startX
 let endX
 
+/**
+ * @param {Event} event - event object
+ * Main function for handling card navigation
+ */
 const handleCardTransition = (event) => {
     if (isScrolling) return
 
@@ -38,6 +42,10 @@ const handleCardTransition = (event) => {
     handleChevVisibility()
 }
 
+/**
+ * @event {Number} scrollDirection - 1 or -1
+ * @returns {Boolean} - true if the card can transition
+ */
 const determineTargetScrollPosition = (scrollDirection) => {
     const cardDistance = getCardDistance()
     const scrollDistance = Math.max(cardDistance, window.innerWidth)
@@ -46,6 +54,10 @@ const determineTargetScrollPosition = (scrollDirection) => {
     return Math.round(currentScrollPosition + scrollDistance * scrollDirection)
 }
 
+/**
+ * Calculate current width of each card
+ * @returns {Number} - width of each card
+ */
 const getCardDistance = () => {
     const cardWidth = cards[0].offsetWidth
     const cardMarginRight = parseInt(
@@ -57,6 +69,10 @@ const getCardDistance = () => {
     return cardWidth + cardMarginRight + cardMarginLeft
 }
 
+/**
+ * Considering characteristics of the event, determine the scrool direction
+ * @param {Event} event - event object
+ */
 const determineScrollDirection = (event) => {
     let scrollDirection = 0
     // Handle keyboard events
@@ -106,6 +122,11 @@ const determineScrollDirection = (event) => {
     return scrollDirection
 }
 
+/**
+ * Check if we can allow a horizontal card transition
+ * @param {Event} event - event object
+ * @param {Number} scrollDirection - 1 or -1
+ */
 const canTransition = (event, scrollDirection) => {
     if (!scrollDirection) return
     if (event.target.id === 'bio-inner') {
@@ -122,6 +143,10 @@ const canTransition = (event, scrollDirection) => {
     return true
 }
 
+/**
+ * Instantitiate observer to add focuses/ufocused classes to scale cards
+ * on scroll
+ */
 const instantiateObserver = () => {
     observer = new IntersectionObserver(
         (entries) => {
@@ -147,6 +172,9 @@ const instantiateObserver = () => {
     )
 }
 
+/**
+ * Instaniate intersections observer and add listeners to handle card transitions
+ */
 const setupCardsAndListeners = () => {
     cards = document.querySelectorAll('.card')
     container = document.querySelector('#container')
@@ -163,28 +191,32 @@ const setupCardsAndListeners = () => {
         cards.forEach((card) => observer.observe(card))
     }, 1250)
 
-    // Listen for scroll event
+    // Set up interactions listeners
+    container.addEventListener('wheel', handleCardTransition)
+    window.addEventListener('resize', handleResize)
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
             handleCardTransition(event)
         }
     })
-    container.addEventListener('wheel', handleCardTransition)
     chevrons.forEach((chev) => {
         chev.addEventListener('click', handleCardTransition)
     })
-    window.addEventListener('resize', handleResize)
-    document.addEventListener('touchstart', handleSwipeStart)
+    // store initial start touch state to calculate swipe direction
+    document.addEventListener('touchstart', (event) => {
+        startX = event.touches[0].clientX
+    })
     document.addEventListener('touchend', handleCardTransition)
 }
 
-const handleSwipeStart = (event) => {
-    startX = event.touches[0].clientX
-}
-
+/**
+ * Handle window resize
+ * TODO: figure out how to re-center to current card
+ */
 const handleResize = () => {
     setIsWeb()
     const modal = document.querySelector('#project-modal')
+    // If we're not on the first card already, just scroll back to the beginning
     if (cardIndex > 0 || container.scrollLeft > 0) {
         if (modal.open) closeModal()
         smoothScrollTo(0)
@@ -193,6 +225,10 @@ const handleResize = () => {
     handleChevVisibility()
 }
 
+/**
+ * handle visibility of naviation chevrons depending on card index
+ * and viewport size
+ */
 const handleChevVisibility = () => {
     const nextCard = cards[cardIndex + 1] ?? null
     const prevCard = cards[cardIndex - 1] ?? null
@@ -232,6 +268,10 @@ const handleChevVisibility = () => {
     handleAnimationEnd(nextChev, nextChevShouldBeVisible)
 }
 
+/**
+ * Utilze quadratic util function to scroll horizontaly through cards
+ * @param {targetPosition} targetPosition - target scroll position in px
+ */
 const smoothScrollTo = (targetPosition) => {
     isScrolling = true
     const duration = CARD_TRANSITION_DURATION

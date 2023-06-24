@@ -5,7 +5,7 @@ let projects = []
 
 const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
-
+    console.log(data)
     // map projects for later use
     projects = data.map((project) => {
         return {
@@ -62,9 +62,10 @@ const loadModalContent = (projectId) => {
     const imageContainer = document.createElement('div')
 
     if (project?.image?.data?.attributes?.url) {
+        console.log(project.image)
         imageContainer.classList.add('image-container')
         const image = document.createElement('img')
-        image.src = `${API_URL}${project.image.data.attributes.url}`
+        image.src = `${project.image.data.attributes.url}`
         imageContainer.appendChild(image)
     }
 

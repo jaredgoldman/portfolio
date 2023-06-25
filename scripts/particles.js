@@ -1,5 +1,5 @@
-export const loadParticles = () => {
-    particlesJS('particles-js', config)
+export const loadParticles = async () => {
+    await particlesJS('particles-js', config)
 }
 
 /**

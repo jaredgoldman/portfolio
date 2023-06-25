@@ -10,11 +10,11 @@ import { disableMobileTouchPropogation } from './mobile.js'
  * Main js loading process
  */
 document.addEventListener('DOMContentLoaded', async () => {
+    await loadParticles()
     await loadNavigation()
     await loadBio()
     await loadProjects()
     disableMobileTouchPropogation()
-    loadParticles()
     loadMode()
     loadContact()
 })

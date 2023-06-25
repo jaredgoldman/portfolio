@@ -31,7 +31,6 @@ const loadProjectData = async () => {
         projectYear.classList.add('project-title_year')
         heading.appendChild(projectTitle)
         heading.appendChild(projectYear)
-        console.log(heading.id)
         return heading
     })
 }

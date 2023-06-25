@@ -6,18 +6,31 @@ const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
 
     // map projects for later use
-    projects = data.map((project) => {
-        return {
-            ...project.attributes,
-            id: project.attributes.title.toLowerCase().replace(/\s/g, '-'),
-        }
-    })
+    projects = data
+        .map((project) => {
+            return {
+                ...project.attributes,
+                id: project.attributes.title.toLowerCase().replace(/\s/g, '-'),
+            }
+        })
+        .sort((a, b) => {
+            const aDate = new Date(a.date)
+            const bDate = new Date(b.date)
+            return bDate - aDate
+        })
 
-    return data.map(({ attributes }) => {
-        const heading = document.createElement('h2')
+    return projects.map((project) => {
+        const heading = document.createElement('div')
         heading.classList.add('project-title')
-        heading.textContent = attributes.title
-        heading.id = attributes.title.toLowerCase().replace(/\s/g, '-')
+        const projectTitle = document.createElement('span')
+        projectTitle.classList.add('project-title_heading')
+        projectTitle.textContent = project.title
+        const projectYear = document.createElement('span')
+        projectYear.innerText = ` (${project.date.split('-')[0]})`
+        projectYear.classList.add('project-title_year')
+        heading.appendChild(projectTitle)
+        heading.appendChild(projectYear)
+        heading.id = project.title.toLowerCase().replace(/\s/g, '-')
         return heading
     })
 }

@@ -170,10 +170,17 @@
                 margin: 1rem;
                 font-family: var(--secondary-font-family);
                 transition: color var(--transition-duration) ease-in-outo;
+            }
+
+            .project-title_heading {
                 color: var(--primary-color);
             }
 
-            .project-title:hover {
+            .project-title_year {
+                color: var(--tertiary-color);
+            }
+
+            .project-title_heading:hover {
                 color: var(--secondary-color);
                 cursor: pointer;
             }

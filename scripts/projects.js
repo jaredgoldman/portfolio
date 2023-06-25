@@ -5,7 +5,7 @@ let projects = []
 const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
 
-    // map projects for later use
+    // map project data for later use
     projects = data
         .map((project) => {
             return {
@@ -18,19 +18,20 @@ const loadProjectData = async () => {
             const bDate = new Date(b.date)
             return bDate - aDate
         })
-
+    // return html elements representing project headings
     return projects.map((project) => {
         const heading = document.createElement('div')
         heading.classList.add('project-title')
         const projectTitle = document.createElement('span')
         projectTitle.classList.add('project-title_heading')
         projectTitle.textContent = project.title
+        projectTitle.id = project.title.toLowerCase().replace(/\s/g, '-')
         const projectYear = document.createElement('span')
         projectYear.innerText = ` (${project.date.split('-')[0]})`
         projectYear.classList.add('project-title_year')
         heading.appendChild(projectTitle)
         heading.appendChild(projectYear)
-        heading.id = project.title.toLowerCase().replace(/\s/g, '-')
+        console.log(heading.id)
         return heading
     })
 }
@@ -87,7 +88,7 @@ const loadModalContent = (projectId) => {
 
 const setupProjectListeners = () => {
     const modal = document.getElementById('project-modal')
-    const projects = document.querySelectorAll('.project-title')
+    const projects = document.querySelectorAll('.project-title_heading')
     const close = document.getElementById('modal-close')
 
     projects.forEach((project) => {
@@ -103,6 +104,7 @@ const setupProjectListeners = () => {
 }
 
 const openModal = (event, modal) => {
+    console.log(event.target.id)
     loadModalContent(event.target.id)
     modal.showModal()
     modal.classList.add('fade-in')

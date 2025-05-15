@@ -12,10 +12,10 @@
     "license": "ISC",
     "devDependencies": {
         "live-server": "^1.2.2",
-        "nodemon": "^2.0.22"
+        "nodemon": "^2.0.22",
+        "sass": "^1.88.0"
     },
     "dependencies": {
-        "node-sass": "^8.0.0",
-        "particles.js": "^2.0.0"
+        "particles.js": "^2.0.0",
     }
 }

@@ -48,6 +48,18 @@ const loadModalContent = (projectId) => {
     const modalTitle = document.querySelector('.modal-title')
     modalTitle.textContent = project.title
 
+    // Remove any existing subtitle
+    const titleContainer = modalTitle.parentNode
+    const oldSubtitle = titleContainer.querySelector('.modal-subtitle')
+    if (oldSubtitle) {
+        oldSubtitle.remove()
+    }
+    // Add year as subtitle
+    const modalSubtitle = document.createElement('div')
+    modalSubtitle.classList.add('modal-subtitle')
+    modalSubtitle.textContent = project.date.split('-')[0]
+    titleContainer.appendChild(modalSubtitle)
+
     const description = document.createElement('div')
     description.innerHTML = project.description
     description.classList.add('modal-description')

@@ -216,12 +216,27 @@ const setupCardsAndListeners = () => {
 const handleResize = () => {
     setIsWeb()
     const modal = document.querySelector('#project-modal')
-    // If we're not on the first card already, just scroll back to the beginning
-    if (cardIndex > 0 || container.scrollLeft > 0) {
-        if (modal.open) closeModal()
-        smoothScrollTo(0)
-        cardIndex = 0
-    }
+    if (modal.open) closeModal()
+
+    // Clamp cardIndex to valid range
+    cardIndex = Math.max(0, Math.min(cardIndex, cards.length - 1))
+
+    // Calculate the new card width and margins
+    const cardWidth = cards[0].offsetWidth
+    const cardMarginRight = parseInt(window.getComputedStyle(cards[0]).marginRight)
+    const cardMarginLeft = parseInt(window.getComputedStyle(cards[0]).marginLeft)
+    const totalCardWidth = cardWidth + cardMarginRight + cardMarginLeft
+
+    // Calculate the center position for the current card
+    const containerWidth = container.offsetWidth
+    const targetPosition = (cardIndex * totalCardWidth) - ((containerWidth - cardWidth) / 2)
+
+    // Ensure we don't scroll past the start
+    const finalPosition = Math.max(0, targetPosition)
+    
+    // Smoothly scroll to the new position
+    smoothScrollTo(finalPosition)
+
     handleChevVisibility()
 }
 

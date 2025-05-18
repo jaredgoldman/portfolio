@@ -7,34 +7,43 @@ import { RESPONSIVE_BREAKPOINT } from '../constants.js'
 
 export const loadScrollIndicator = () => {
     const scrollIndicator = document.getElementById('scroll-indicator')
-    const container = document.getElementById('container')
+    const container = document.getElementById('card-container')
+    
     let isWebDevice = window.innerWidth > RESPONSIVE_BREAKPOINT
-    let hasScrolled = false
     
-    // Function to update indicator visibility
-    const updateIndicatorVisibility = () => {
-        // Only show on web devices (not mobile)
-        if (isWebDevice && !hasScrolled) {
-            scrollIndicator.classList.add('visible')
-        } else {
-            scrollIndicator.classList.remove('visible')
-        }
-    }
+    // Function to show indicator and then fade it out
+    const showAndFadeIndicator = () => {
+        if (!isWebDevice) return;
+        
+        // First clear any existing classes
+        scrollIndicator.classList.remove('fade-out');
+        
+        // Make it visible
+        scrollIndicator.classList.add('visible');
+        
+        // Set timeout to add fade-out class
+        setTimeout(() => {
+            // Add the fade-out class
+            scrollIndicator.classList.add('fade-out');
+            
+            // Remove the visible class after fade animation completes
+            setTimeout(() => {
+                scrollIndicator.classList.remove('visible');
+                scrollIndicator.classList.remove('fade-out');
+            }, 1000); // Match the CSS transition duration
+        }, 4000); // How long to show before fading
+    };
     
-    // Initialize visibility
-    updateIndicatorVisibility()
-
-    // Hide scroll indicator after first horizontal scroll
-    container.addEventListener('scroll', () => {
-        if (!hasScrolled && container.scrollLeft > 10) {
-            hasScrolled = true
-            updateIndicatorVisibility()
-        }
-    })
+    // Initialize indicator with a delay to ensure DOM is ready
+    setTimeout(showAndFadeIndicator, 1000);
     
-    // Update based on window resize (for responsive design)
+    // Update device status on resize, but don't show indicator
     window.addEventListener('resize', () => {
-        isWebDevice = window.innerWidth > RESPONSIVE_BREAKPOINT
-        updateIndicatorVisibility()
-    })
+        isWebDevice = window.innerWidth > RESPONSIVE_BREAKPOINT;
+    });
+    
+    // Show on page load
+    window.addEventListener('load', () => {
+        setTimeout(showAndFadeIndicator, 1500);
+    });
 } 

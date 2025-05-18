@@ -511,7 +511,12 @@ const handleChevVisibility = () => {
 
     // Handle initial load visibility
     if (initialLoad) {
-        nextChev.classList.add('visible', 'fade-in')
+        if (nextChevShouldBeVisible) {
+            nextChev.classList.add('visible', 'fade-in')
+        }
+        if (prevChevShouldBeVisible) {
+            prevChev.classList.add('visible', 'fade-in')
+        }
         return
     }
 

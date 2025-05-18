@@ -1,4 +1,5 @@
 import { closeModal } from './projects.js'
+import { areProjectsLoaded } from './projects.js'
 import {
     easeInOutQuad,
     handleClassVisibility,
@@ -367,6 +368,30 @@ const initializeFromUrl = () => {
     if (!cards || !container) {
         console.warn('Cards or container not ready yet')
         return false
+    }
+
+    // Check if we're loading to the projects section
+    const isProjectsSection = targetSection === 'projects';
+    
+    // If we're loading to projects section and projects aren't loaded yet, 
+    // keep the loader visible
+    if (isProjectsSection && !areProjectsLoaded()) {
+        console.log('Loading projects section, waiting for projects to load');
+        // Keep the loader overlay visible
+        const loaderOverlay = document.querySelector('.loader-overlay');
+        if (loaderOverlay) {
+            loaderOverlay.style.animation = 'none';
+            loaderOverlay.style.opacity = '1';
+            
+            // Set up an interval to check when projects are loaded
+            const checkProjectsLoaded = setInterval(() => {
+                if (areProjectsLoaded()) {
+                    // Once projects are loaded, fade out the loader
+                    loaderOverlay.style.animation = 'fadeOut 1.25s ease-in-out forwards';
+                    clearInterval(checkProjectsLoaded);
+                }
+            }, 100);
+        }
     }
 
     console.log('Looking for card with ID:', `card-${targetSection}`)

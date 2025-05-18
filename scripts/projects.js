@@ -1,6 +1,11 @@
 import { request, stopTouchPropagation } from './utils.js'
 
 let projects = []
+export let projectsLoaded = false;
+
+export const areProjectsLoaded = () => {
+    return projectsLoaded;
+};
 
 const loadProjectData = async () => {
     const { data } = await request('/projects?populate=image')
@@ -152,4 +157,5 @@ const handleBackgroundElementVisibility = (visibility) => {
 export const loadProjects = async () => {
     await loadProjectHeadings()
     setupProjectListeners()
+    projectsLoaded = true;
 }

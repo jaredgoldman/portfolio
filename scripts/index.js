@@ -6,6 +6,7 @@ import { loadContact } from './contact.js'
 import { loadProjects, areProjectsLoaded } from './projects.js'
 import { disableMobileTouchPropogation } from './mobile.js'
 import { loadScrollIndicator } from './scrollIndicator.js'
+import { loadPillIndicator } from './pillIndicator.js'
 
 /**
  * Keep the loader visible initially
@@ -46,6 +47,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     loadMode()
     loadContact()
     loadScrollIndicator()
+    loadPillIndicator()
     
     // If we're not on the projects page, fade out the loader
     const currentSection = window.location.pathname.split('/').pop() || 

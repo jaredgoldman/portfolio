@@ -516,22 +516,33 @@ const handleChevVisibility = () => {
     const prevChev = document.querySelector('#prev-chev')
     const nextChev = document.querySelector('#next-chev')
 
-    prevChev.classList.remove('fade-in', 'fade-out')
-    nextChev.classList.remove('fade-in', 'fade-out')
+    prevChev.classList.remove('fade-in', 'fade-out', 'visible')
+    nextChev.classList.remove('fade-in', 'fade-out', 'visible')
 
     const prevChevShouldBeVisible = cardIndex !== 0
     const nextChevShouldBeVisible = cardIndex !== cards.length - 1
     const nextChevText = isResponsive
-        ? nextCard?.id.replace('card-', '') + '<br>' + ' >'
-        : '>'
+        ? `<span class="chev-section">${nextCard?.id.replace('card-', '')}</span><span class="chev-arrow" aria-hidden="true">›</span>`
+        : '<span class="chev-arrow" aria-hidden="true">›</span>'
     const prevChevText = isResponsive
-        ? prevCard?.id.replace('card-', '') + '<br>' + '<'
-        : '<'
+        ? `<span class="chev-arrow" aria-hidden="true">‹</span><span class="chev-section">${prevCard?.id.replace('card-', '')}</span>`
+        : '<span class="chev-arrow" aria-hidden="true">‹</span>'
 
-    // change chev text
+    // change chev text and clear if should be hidden
     setTimeout(() => {
-        nextChev.innerHTML = nextChevShouldBeVisible ? nextChevText : ''
-        prevChev.innerHTML = prevChevShouldBeVisible ? prevChevText : ''
+        if (nextChevShouldBeVisible) {
+            nextChev.innerHTML = nextChevText
+        } else {
+            nextChev.innerHTML = ''
+            nextChev.classList.remove('visible')
+        }
+        
+        if (prevChevShouldBeVisible) {
+            prevChev.innerHTML = prevChevText
+        } else {
+            prevChev.innerHTML = ''
+            prevChev.classList.remove('visible')
+        }
     }, CARD_TRANSITION_DURATION)
 
     // Handle initial load visibility

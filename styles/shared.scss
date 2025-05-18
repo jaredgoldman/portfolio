@@ -49,33 +49,77 @@ footer {
     position: absolute;
     bottom: 50%;
     display: none;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
     white-space: nowrap;
     color: var(--primary-color);
     cursor: pointer;
     font-weight: bold;
     z-index: 100;
     text-align: center;
-    width: 5rem;
+    width: auto;
+    min-width: 3rem;
+    max-width: 9rem;
     transition: all var(--transition-duration-fast) ease-in-out;
     font-family: var(--secondary-font-family);
+    background-color: rgba(var(--primary-background-color-rgb), 0.5);
+    border-radius: 1rem;
+    padding: 0.5rem 1rem;
+    border: 1px solid rgba(var(--primary-color-rgb), 0.2);
+    box-shadow: 0 0 10px rgba(var(--secondary-color-rgb), 0.2);
+    letter-spacing: 0.05rem;
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    line-height: 1;
+    opacity: 0;
+    visibility: hidden;
 }
 
 .chev.visible {
-    display: block;
+    display: flex;
+    opacity: 1;
+    visibility: visible;
 }
 
 .chev:hover {
     transform: scale(1.1);
     color: var(--secondary-color);
+    background-color: rgba(var(--primary-background-color-rgb), 0.7);
+    border-color: var(--secondary-color);
+    box-shadow: 0 0 15px rgba(var(--secondary-color-rgb), 0.4);
+}
+
+.chev-arrow {
+    display: inline-block;
+    font-size: 1.75rem;
+    line-height: 1;
+    flex-shrink: 0;
+    position: relative;
+    top: -0.075em;
+}
+
+.chev-section {
+    display: inline-block;
+    margin: 0 0.5rem;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1rem;
+    opacity: 0.9;
+    max-width: 6rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    position: relative;
+    line-height: 1;
 }
 
 .prev-chev {
-    left: 4rem;
+    left: 2rem;
 }
 
 .next-chev {
-    right: 6rem;
+    right: 2rem;
 }
 
 .container {
@@ -95,6 +139,7 @@ footer {
         height: auto;
     }
 }
+
 /* Animation */
 .focused {
     transform: scale(1.05);
@@ -106,27 +151,133 @@ footer {
     opacity: 0.5;
 }
 
-.visible {
-    display: none;
-}
-
 @media only screen and (max-width: 600px) {
     nav {
         height: 20%;
     }
     .chev {
-        font-size: 1.75rem;
-        width: 2.5rem;
+        font-size: 1.5rem;
+        min-width: 2.5rem;
+        max-width: 7rem;
+        padding: 0.4rem 0.6rem;
+        border-radius: 0.5rem;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .chev-section {
+        margin: 0.25rem 0;
+        font-size: 0.7rem;
+        max-width: 100%;
+        text-align: center;
+    }
+    .chev-arrow {
+        font-size: 1.3rem;
+        top: 0;
     }
     .prev-chev {
         bottom: 1rem;
-        right: 1.75rem;
+        right: 4rem;
         left: auto;
     }
 
     .next-chev {
         bottom: 1rem;
-        right: 0;
+        right: 1rem;
         left: auto;
+    }
+}
+
+/* Scroll indicator styles */
+#scroll-indicator.scroll-indicator {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3rem;
+    height: 3rem;
+    background-color: rgba(var(--secondary-color-rgb), 0.2);
+    border: 1px solid rgba(var(--secondary-color-rgb), 0.6);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+    pointer-events: none;
+    box-shadow: 0 0 15px rgba(var(--secondary-color-rgb), 0.4);
+    backdrop-filter: blur(4px);
+}
+
+#scroll-indicator.scroll-indicator::before {
+    content: '';
+    width: 0.75rem;
+    height: 0.75rem;
+    border-right: 3px solid var(--secondary-color);
+    border-bottom: 3px solid var(--secondary-color);
+    transform: rotate(45deg) translateY(-0.125rem);
+}
+
+/* Explicitly target scroll-indicator.visible to avoid any class conflicts */
+#scroll-indicator.scroll-indicator.visible {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+@media only screen and (max-width: 600px) {
+    #scroll-indicator.scroll-indicator {
+        bottom: 7rem;
+        width: 2.5rem; 
+        height: 2.5rem;
+    }
+}
+
+/* Mouse-shaped scroll indicator - positioned in top right */
+#pill-indicator.pill-indicator {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    width: 1.5rem;
+    height: 3rem;
+    background-color: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.8);
+    border-radius: 0.9rem;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    overflow: visible;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 1s ease-out;
+}
+
+.pill-dot {
+    position: absolute;
+    width: 0.6rem;
+    height: 0.6rem;
+    background-color: #ff9900;
+    border-radius: 50%;
+    transform: translateX(-50%) translateY(0);
+    left: 50%;
+    top: 0.6rem;
+    transition: opacity 1s ease-out;
+    box-shadow: 0 0 8px rgba(255, 153, 0, 0.7);
+}
+
+@media only screen and (max-width: 600px) {
+    #pill-indicator.pill-indicator {
+        width: 0.6rem;
+        height: 4rem;
+        top: 1rem;
+        right: 1rem;
+    }
+    
+    .pill-dot {
+        width: 0.5rem;
+        height: 0.5rem;
     }
 }

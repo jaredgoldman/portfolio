@@ -11,4 +11,10 @@
     --transition-duration-fast: 0.1s;
     --primary-font-family: 'Inconsolata', monospace;
     --secondary-font-family: 'Source Code Pro', monospace;
+    
+    /* RGB values for use with opacity/transparency */
+    --primary-background-color-rgb: 0, 0, 0; /* black */
+    --primary-color-rgb: 255, 255, 255; /* white */
+    --secondary-color-rgb: 252, 163, 17; /* #fca311 */
+    --tertiary-color-rgb: 145, 145, 144; /* #919190 */
 }

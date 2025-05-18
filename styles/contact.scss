@@ -4,19 +4,25 @@
     flex-direction: column;
     align-items: center;
     height: 100%;
-    margin-top: 10rem;
+    margin-top: 8rem;
 
     .contact-form {
         display: none;
         flex-direction: column;
-        gap: 1rem;
+        gap: 1.5rem;
         width: 30rem;
+        padding: 2rem;
+        background-color: rgba(var(--primary-background-color-rgb), 0.8);
+        border-radius: 1rem;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(var(--primary-color-rgb), 0.1);
 
         .input-group {
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
             width: 100%;
         }
 
@@ -24,17 +30,29 @@
             color: var(--primary-color);
             transition: color var(--transition-duration) ease-in-out;
             font-family: var(--secondary-font-family);
+            font-size: 1.1rem;
+            margin-left: 0.3rem;
+            font-weight: 500;
         }
 
         & input,
         & textarea {
             padding: 1rem;
-            background-color: var(--primary-background-color);
+            background-color: rgba(var(--primary-background-color-rgb), 0.7);
             color: var(--primary-color);
-            border: 2px solid var(--primary-border-color);
+            border: 2px solid rgba(var(--primary-color-rgb), 0.3);
+            border-radius: 0.75rem;
             font-size: 1rem;
             text-align: left;
             vertical-align: top;
+            transition: all 0.3s ease;
+        }
+
+        & input:focus,
+        & textarea:focus {
+            border-color: var(--secondary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(var(--secondary-color-rgb), 0.3);
         }
 
         & textarea {
@@ -44,23 +62,54 @@
 
         & button {
             width: 50%;
-            margin: 1rem auto;
-            border: 2px solid var(--primary-border-color);
-            border-radius: 20px;
-            background-color: var(--primary-background-color);
-            padding: 0.5rem;
+            margin: 1.5rem auto 0.5rem;
+            border: 2px solid rgba(var(--primary-color-rgb), 0.5);
+            border-radius: 2rem;
+            background-color: rgba(var(--primary-background-color-rgb), 0.7);
+            padding: 0.8rem;
             color: var(--primary-color);
             font-family: var(--secondary-font-family);
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        & button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(var(--secondary-color-rgb), 0.3), transparent);
+            transition: all 0.5s ease;
+            z-index: -1;
         }
 
         & button:hover {
             color: var(--secondary-color);
             border: 2px solid var(--secondary-color);
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
+
+        & button:hover::before {
+            left: 100%;
+        }
+
+        & button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
         & input::placeholder,
         & textarea::placeholder {
             font-family: var(--secondary-font-family);
-            color: var(--tertiary-color);
+            color: rgba(var(--primary-color-rgb), 0.5);
             font-style: italic;
             text-align: left;
             vertical-align: top;
@@ -78,6 +127,12 @@
         line-height: 1.5rem;
         width: 20rem;
         text-align: center;
+        background-color: rgba(var(--primary-background-color-rgb), 0.8);
+        border-radius: 1rem;
+        padding: 2rem;
+        backdrop-filter: blur(5px);
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(var(--primary-color-rgb), 0.1);
     }
 }
 
@@ -97,7 +152,8 @@
     .form-container {
         margin-top: 2rem;
         .contact-form {
-            width: 95%;
+            width: 90%;
+            padding: 1.5rem;
         }
     }
 }

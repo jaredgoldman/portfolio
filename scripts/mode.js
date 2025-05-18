@@ -6,6 +6,10 @@ const lightVars = {
     '--primary-color': 'black',
     '--secondary-color': '#6b705c',
     '--primary-border-color': 'black',
+    '--primary-background-color-rgb': '255, 255, 255',
+    '--primary-color-rgb': '0, 0, 0',
+    '--secondary-color-rgb': '107, 112, 92',
+    '--tertiary-color-rgb': '120, 120, 120'
 }
 const darkVars = {
     '--primary-background-color': 'black',
@@ -13,6 +17,10 @@ const darkVars = {
     '--primary-color': 'white',
     '--primary-border-color': 'white',
     '--secondary-color': '#fca311',
+    '--primary-background-color-rgb': '0, 0, 0',
+    '--primary-color-rgb': '255, 255, 255',
+    '--secondary-color-rgb': '252, 163, 17',
+    '--tertiary-color-rgb': '145, 145, 144'
 }
 
 /**

@@ -5,6 +5,7 @@ import { loadMode } from './mode.js'
 import { loadContact } from './contact.js'
 import { loadProjects } from './projects.js'
 import { disableMobileTouchPropogation } from './mobile.js'
+import { loadScrollIndicator } from './scrollIndicator.js'
 
 /**
  * Main js loading process
@@ -17,4 +18,5 @@ document.addEventListener('DOMContentLoaded', async () => {
     disableMobileTouchPropogation()
     loadMode()
     loadContact()
+    loadScrollIndicator()
 })

@@ -9,7 +9,7 @@
 
 .fade-in {
     animation-name: fadeIn;
-    animation: fadeIn 1s;
+    animation: fadeIn 0.3s ease-in-out forwards;
 }
 
 @keyframes fadeOut {
@@ -23,5 +23,59 @@
 
 .fade-out {
     animation-name: fadeOut;
-    animation: fadeOut 1s;
+    animation: fadeOut 0.3s ease-in-out forwards;
+}
+
+@keyframes pulseChevron {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+@keyframes floatDown {
+    0% {
+        transform: translateX(-50%) translateY(-0.5rem);
+    }
+    50% {
+        transform: translateX(-50%) translateY(0.5rem);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-0.5rem);
+    }
+}
+
+.chev.visible {
+    animation: fadeIn 0.3s ease-in-out, pulseChevron 2s ease-in-out infinite;
+    display: flex;
+}
+
+/* Scroll indicator animation - with important to override any conflicts */
+.scroll-indicator.visible {
+    animation: fadeIn 0.3s ease-in-out, floatDown 2s ease-in-out infinite !important;
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: flex !important;
+}
+
+/* Pill dot bobbing animation */
+@keyframes bobUpDown {
+    0% {
+        transform: translateX(-50%) translateY(-0.15rem);
+    }
+    50% {
+        transform: translateX(-50%) translateY(0.15rem);
+    }
+    100% {
+        transform: translateX(-50%) translateY(-0.15rem);
+    }
+}
+
+.pill-dot.bobbing {
+    animation: bobUpDown 1s ease-in-out infinite;
 }

@@ -457,7 +457,12 @@ const setupCardsAndListeners = () => {
         }
     })
     chevrons.forEach((chev) => {
-        chev.addEventListener('click', handleCardTransition)
+        chev.addEventListener('click', (event) => {
+            // If the click is on a child element, use the parent chevron's id
+            const targetId = event.target.closest('.chev')?.id || event.target.id;
+            const eventWithTarget = { ...event, target: { id: targetId } };
+            handleCardTransition(eventWithTarget);
+        });
     })
     // store initial start touch state to calculate swipe direction
     document.addEventListener('touchstart', (event) => {

@@ -67,9 +67,12 @@
             justify-content: center;
 
             .modal-description {
-                width: 90%;
+                max-width: 38rem;
+                margin-left: auto;
+                margin-right: auto;
+                width: 100%;
                 line-height: 2rem;
-                text-align: justify;
+                text-align: left;
                 h1 {
                     font-weight: bold;
                 }

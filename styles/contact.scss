@@ -123,16 +123,101 @@
         justify-content: center;
         font-family: var(--secondary-font-family);
         color: var(--primary-color);
-        height: 10rem;
-        line-height: 1.5rem;
-        width: 20rem;
+        min-height: 12rem;
+        line-height: 1.6rem;
+        width: 26rem;
         text-align: center;
         background-color: rgba(var(--primary-background-color-rgb), 0.8);
         border-radius: 1rem;
-        padding: 2rem;
+        padding: 2.5rem;
         backdrop-filter: blur(5px);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         border: 1px solid rgba(var(--primary-color-rgb), 0.1);
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: confirmationPop 0.5s forwards;
+
+        &::before {
+            content: "";
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background-color: rgba(var(--secondary-color-rgb), 0.1);
+            border-radius: 50%;
+            top: -75px;
+            right: -75px;
+            z-index: -1;
+        }
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background-color: rgba(var(--secondary-color-rgb), 0.08);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            z-index: -1;
+        }
+
+        .confirmation-icon {
+            font-size: 3rem;
+            color: var(--secondary-color);
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            
+            &.success::before {
+                content: "✓";
+                display: inline-block;
+                animation: checkmark 0.8s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+            }
+            
+            &.error::before {
+                content: "✕";
+                display: inline-block;
+                animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            }
+        }
+
+        .confirmation-message {
+            font-size: 1.1rem;
+            font-weight: 500;
+            margin-bottom: 1.5rem;
+            max-width: 100%;
+            opacity: 0;
+            transform: translateY(10px);
+            animation: fadeInUp 0.6s 0.3s forwards;
+        }
+
+        .back-button {
+            padding: 0.7rem 1.5rem;
+            border: 2px solid rgba(var(--secondary-color-rgb), 0.7);
+            background-color: rgba(var(--primary-background-color-rgb), 0.4);
+            color: var(--secondary-color);
+            border-radius: 2rem;
+            font-family: var(--secondary-font-family);
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            opacity: 0;
+            transform: translateY(15px);
+            animation: fadeInUp 0.6s 0.5s forwards;
+            
+            &:hover {
+                background-color: rgba(var(--secondary-color-rgb), 0.1);
+                transform: translateY(-3px);
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            }
+            
+            &:active {
+                transform: translateY(0);
+            }
+        }
     }
 }
 
@@ -148,12 +233,70 @@
     display: flex;
 }
 
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes checkmark {
+    0% {
+        transform: scale(0);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes shake {
+    10%, 90% {
+        transform: translate3d(-1px, 0, 0);
+    }
+    20%, 80% {
+        transform: translate3d(2px, 0, 0);
+    }
+    30%, 50%, 70% {
+        transform: translate3d(-3px, 0, 0);
+    }
+    40%, 60% {
+        transform: translate3d(3px, 0, 0);
+    }
+}
+
+@keyframes confirmationPop {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    70% {
+        opacity: 1;
+        transform: scale(1.05);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
 @media only screen and (max-width: 1000px) {
     .form-container {
         margin-top: 2rem;
         .contact-form {
             width: 90%;
             padding: 1.5rem;
+        }
+        .contact-confirmation {
+            width: 90%;
+            padding: 2rem;
         }
     }
 }

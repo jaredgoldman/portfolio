@@ -16,22 +16,50 @@ const darkVars = {
 }
 
 /**
- * Apply dark/light mode on toggle
+ * Check if system prefers dark mode
+ */
+const prefersDarkMode = () => {
+    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+}
+
+/**
+ * Apply mode based on preference
+ */
+const applyMode = (isDark, cardContent, initialStyle) => {
+    const mode = isDark ? 'dark' : 'light';
+    const vars = isDark ? darkVars : lightVars;
+    handleGradientModeChange(mode, cardContent, initialStyle);
+    Object.entries(vars).forEach(([key, value]) => {
+        document.documentElement.style.setProperty(key, value);
+    });
+    updateConfig(mode);
+}
+
+/**
+ * Apply dark/light mode on toggle and listen for system preference changes
  */
 export const loadMode = () => {
     const input = document.querySelector('#mode-checkbox')
     const cardContent = document.querySelector('.card-content_right')
     const initialStyle = { ...cardContent.style }
-
+    
+    // Set initial state based on system preference
+    const systemPrefersDark = prefersDarkMode();
+    input.checked = !systemPrefersDark; // Checkbox is checked for light mode
+    applyMode(systemPrefersDark, cardContent, initialStyle);
+    
+    // Listen for toggle changes
     input.addEventListener('change', () => {
-        const mode = input.checked ? 'light' : 'dark'
-        const vars = mode === 'dark' ? darkVars : lightVars
-        handleGradientModeChange(mode, cardContent, initialStyle)
-        Object.entries(vars).forEach(([key, value]) => {
-            document.documentElement.style.setProperty(key, value)
-        })
-        updateConfig(mode)
+        const isDark = !input.checked;
+        applyMode(isDark, cardContent, initialStyle);
     })
+    
+    // Listen for system preference changes
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', (e) => {
+        const newPrefersDark = e.matches;
+        input.checked = !newPrefersDark; // Update checkbox state
+        applyMode(newPrefersDark, cardContent, initialStyle);
+    });
 }
 
 /**

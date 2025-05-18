@@ -1,9 +1,8 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <!-- Open Graph Meta Tags -->
         <meta
             property="og:title"
             content="Jared Goldman | Full-Stack Software Developer"
@@ -19,6 +18,7 @@
         <meta property="og:url" content="https://jaredgoldman.dev" />
 
         <link rel="stylesheet" href="css/main.css" />
+        <link rel="icon" href="favicon.ico" type="image/x-icon">
         <script src="scripts/index.js" type="module"></script>
         <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
         <title>Jared Goldman | Full-Stack Developer</title>
@@ -113,16 +113,18 @@
 
                     <div id="card-contact" class="card">
                         <div class="contact-inner">
-                            <h1 class="card-title">Say Hello!</h1>
-                            <h3 class="card-subtitle">
-                                Feel free to contact me or maybe take a look at
-                                my
-                                <a
-                                    href="assets/documents/resume.pdf"
-                                    target="_blank"
-                                    >resume</a
-                                >?
-                            </h3>
+                            <div>
+                                <h1 class="card-title">Say Hello!</h1>
+                                <h3 class="card-subtitle">
+                                    Feel free to contact me or maybe take a look
+                                    at my
+                                    <a
+                                        href="assets/documents/resume.pdf"
+                                        target="_blank"
+                                        >resume</a
+                                    >?
+                                </h3>
+                            </div>
                             <div class="form-container">
                                 <div
                                     class="contact-confirmation"
@@ -134,29 +136,35 @@
                                     method="post"
                                     target="_self"
                                 >
-                                    <label for="name">Name</label>
-                                    <input
-                                        id="contact-name"
-                                        type="text"
-                                        name="name"
-                                        placeholder="Your name"
-                                    />
-                                    <label for="email">Email</label>
-                                    <input
-                                        id="contact-email"
-                                        type="email"
-                                        name="email"
-                                        placeholder="Your email"
-                                    />
-                                    <label for="message">Message</label>
-                                    <textarea
-                                        id="contact-message"
-                                        type="text"
-                                        name="message"
-                                        placeholder="Your message"
-                                        rows="5"
-                                        cols="33"
-                                    ></textarea>
+                                    <div class="input-group">
+                                        <label for="name">Name</label>
+                                        <input
+                                            id="contact-name"
+                                            type="text"
+                                            name="name"
+                                            placeholder="Your name"
+                                        />
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="email">Email</label>
+                                        <input
+                                            id="contact-email"
+                                            type="email"
+                                            name="email"
+                                            placeholder="Your email"
+                                        />
+                                    </div>
+                                    <div class="input-group">
+                                        <label for="message">Message</label>
+                                        <textarea
+                                            id="contact-message"
+                                            type="text"
+                                            name="message"
+                                            placeholder="Your message"
+                                            rows="5"
+                                            cols="33"
+                                        ></textarea>
+                                    </div>
                                     <button class="form-submit" type="submit">
                                         Submit
                                     </button>

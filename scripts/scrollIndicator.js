@@ -7,7 +7,6 @@ import { RESPONSIVE_BREAKPOINT } from '../constants.js'
 
 export const loadScrollIndicator = () => {
     const scrollIndicator = document.getElementById('scroll-indicator')
-    const container = document.getElementById('card-container')
     
     let isWebDevice = window.innerWidth > RESPONSIVE_BREAKPOINT
     

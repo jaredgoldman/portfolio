@@ -1,4 +1,5 @@
 import { closeModal } from './projects.js'
+import { areProjectsLoaded } from './projects.js'
 import {
     easeInOutQuad,
     handleClassVisibility,
@@ -18,6 +19,9 @@ let cardIndex = 0
 let initialLoad = true
 export let isScrolling = false
 
+// Simplify base path to empty string for local development
+const basePath = '';
+
 // Touch variables
 let startX
 let endX
@@ -33,20 +37,20 @@ const handleCardTransition = (event) => {
     if (!canTransition(event, scrollDirection)) return
 
     // Calculate the new card index before scrolling
-    const newCardIndex = cardIndex + scrollDirection;
-    
+    const newCardIndex = cardIndex + scrollDirection
+
     // Ensure index is within bounds
-    if (newCardIndex < 0 || newCardIndex >= cards.length) return;
-    
+    if (newCardIndex < 0 || newCardIndex >= cards.length) return
+
     // find distance to the next card
     const targetScrollPosition = determineTargetScrollPosition(scrollDirection)
-    
+
     // Update the card index
-    cardIndex = newCardIndex;
-    
+    cardIndex = newCardIndex
+
     // Smoothly scroll the container
     smoothScrollTo(targetScrollPosition)
-    
+
     // Update UI and URL
     handleChevVisibility()
     updateUrlHash()
@@ -57,27 +61,17 @@ const handleCardTransition = (event) => {
  */
 const updateUrlHash = () => {
     if (!cards || !cards[cardIndex]) return
-    
+
     const cardId = cards[cardIndex].id
     const section = cardId.replace('card-', '')
-    
-    // Get the base path (everything before the last segment)
-    const currentPath = window.location.pathname;
-    const basePath = currentPath.replace(/\/[^\/]*$/, '');
-    
-    // Build the new path with the section
-    const newPath = basePath + (basePath.endsWith('/') ? '' : '/') + section;
-    
-    // Only update if the path is different
-    if (window.location.pathname !== newPath) {
-        // Update the URL path without the # prefix
-        try {
-            // Use pushState to update URL without reload
-            history.pushState(null, document.title, newPath);
-        } catch (e) {
-            // Fallback to hash if pushState not supported
-            window.location.hash = section;
-        }
+
+    // Use a safer approach for handling paths
+    try {
+        // Use simple hash navigation instead of path for better compatibility
+        history.pushState({section}, document.title, `#${section}`)
+    } catch (e) {
+        // Fallback to hash if pushState not supported
+        window.location.hash = section
     }
 }
 
@@ -87,39 +81,39 @@ const updateUrlHash = () => {
  * @returns {Number} - The target scroll position
  */
 const calculateCardPosition = (index) => {
-    if (!cards || !cards[index]) return 0;
-    
+    if (!cards || !cards[index]) return 0
+
     // Ensure we're calculating based on actual card position
-    const cardWidth = cards[index].offsetWidth;
-    const cardMarginRight = parseInt(getComputedStyle(cards[index]).marginRight);
-    const cardMarginLeft = parseInt(getComputedStyle(cards[index]).marginLeft);
-    
+    const cardWidth = cards[index].offsetWidth
+    const cardMarginRight = parseInt(getComputedStyle(cards[index]).marginRight)
+    const cardMarginLeft = parseInt(getComputedStyle(cards[index]).marginLeft)
+
     // Use precise calculation based on actual position, not just multiplying by index
-    let position = 0;
+    let position = 0
     for (let i = 0; i < index; i++) {
-        const width = cards[i].offsetWidth;
-        const marginRight = parseInt(getComputedStyle(cards[i]).marginRight);
-        const marginLeft = parseInt(getComputedStyle(cards[i]).marginLeft);
-        position += width + marginRight + marginLeft;
+        const width = cards[i].offsetWidth
+        const marginRight = parseInt(getComputedStyle(cards[i]).marginRight)
+        const marginLeft = parseInt(getComputedStyle(cards[i]).marginLeft)
+        position += width + marginRight + marginLeft
     }
-    
-    return position;
+
+    return position
 }
 
 /**
- * Navigate to the section specified in the URL 
+ * Navigate to the section specified in the URL
  * (supports both path and hash-based navigation)
  */
 const navigateToHashSection = () => {
     if (!cards || !container) return
-    
+
     // First check pathname (for clean URLs)
-    let targetSection = window.location.pathname.substring(1) // Remove leading /
-    
+    let targetSection = getSectionFromPath()
+
     // If no pathname, check hash
     if (!targetSection && window.location.hash) {
         targetSection = window.location.hash.substring(1)
-        
+
         // If we found a section in the hash, update URL to use clean path
         if (targetSection) {
             try {
@@ -129,7 +123,7 @@ const navigateToHashSection = () => {
             }
         }
     }
-    
+
     if (!targetSection) {
         // If no section identified, default to first card
         cardIndex = 0
@@ -137,18 +131,20 @@ const navigateToHashSection = () => {
         handleChevVisibility()
         return
     }
-    
-    const targetCard = Array.from(cards).find(card => card.id === `card-${targetSection}`)
-    
+
+    const targetCard = Array.from(cards).find(
+        (card) => card.id === `card-${targetSection}`
+    )
+
     if (targetCard) {
         const targetIndex = Array.from(cards).indexOf(targetCard)
         if (targetIndex !== cardIndex) {
             // Immediately update the card index
             cardIndex = targetIndex
-            
+
             // Calculate precise target position for the card
-            const targetPosition = calculateCardPosition(targetIndex);
-            
+            const targetPosition = calculateCardPosition(targetIndex)
+
             // Smoothly scroll to the exact position
             smoothScrollTo(targetPosition)
             handleChevVisibility()
@@ -168,17 +164,19 @@ const navigateToHashSection = () => {
  */
 const determineTargetScrollPosition = (scrollDirection) => {
     // Calculate the next card index
-    const nextCardIndex = cardIndex + scrollDirection;
-    
+    const nextCardIndex = cardIndex + scrollDirection
+
     // Use our precise calculation method
     if (nextCardIndex >= 0 && nextCardIndex < cards.length) {
-        return calculateCardPosition(nextCardIndex);
+        return calculateCardPosition(nextCardIndex)
     } else {
         // Fallback to old method if somehow we're out of bounds
         const cardDistance = getCardDistance()
         const scrollDistance = Math.max(cardDistance, window.innerWidth)
         const currentScrollPosition = container.scrollLeft
-        return Math.round(currentScrollPosition + scrollDistance * scrollDirection)
+        return Math.round(
+            currentScrollPosition + scrollDistance * scrollDirection
+        )
     }
 }
 
@@ -305,93 +303,125 @@ const instantiateObserver = () => {
  * This handles cases where the site might be in a subdirectory
  */
 const getSectionFromPath = () => {
+    // Check hash first as it's more reliable
+    if (window.location.hash) {
+        return window.location.hash.substring(1);
+    }
+    
     const path = window.location.pathname;
     
     // If we're at the root or just a slash, no section
     if (path === '/' || path === '') {
         return '';
     }
-    
+
     // Get the last segment of the path (which should be our section)
-    const pathSegments = path.split('/').filter(segment => segment.length > 0);
-    
+    const pathSegments = path.split('/').filter((segment) => segment.length > 0);
+
     if (pathSegments.length === 0) {
         return '';
     }
-    
+
     // The last non-empty segment should be our section
     return pathSegments[pathSegments.length - 1];
-};
+}
 
 /**
  * Initialize navigation based on current URL path or hash
  */
 const initializeFromUrl = () => {
     // First try to get section from path (excluding leading slash)
-    let targetSection = '';
-    
+    let targetSection = ''
+
     console.log('Initializing navigation from URL:', {
         path: window.location.pathname,
         hash: window.location.hash,
         cards: cards ? cards.length : 0,
-        container: !!container
-    });
-    
+        container: !!container,
+    })
+
     // Try to get section from path first
-    targetSection = getSectionFromPath();
-    
+    targetSection = getSectionFromPath()
+
     if (targetSection) {
-        console.log('Found section from path:', targetSection);
+        console.log('Found section from path:', targetSection)
     } else if (window.location.hash) {
         // Fall back to hash if no path
-        targetSection = window.location.hash.substring(1);
-        console.log('Found section from hash:', targetSection);
-        
+        targetSection = window.location.hash.substring(1)
+        console.log('Found section from hash:', targetSection)
+
         // Update URL to use clean path instead of hash
         try {
-            // Get the base path (everything before the last segment)
-            const basePath = window.location.pathname.replace(/\/[^\/]*$/, '');
-            const newPath = basePath + (basePath.endsWith('/') ? '' : '/') + targetSection;
-            history.replaceState(null, document.title, newPath);
+            // Use a simpler path construction that's more resilient in development
+            history.replaceState(null, document.title, `/${targetSection}`)
         } catch (e) {
             // Continue with hash if replaceState fails
-            console.warn('Could not update URL path:', e);
+            console.warn('Could not update URL path:', e)
         }
     }
-    
+
     if (!targetSection) {
-        console.log('No target section found in URL');
-        return false;
+        console.log('No target section found in URL')
+        return false
     }
-    
+
     if (!cards || !container) {
-        console.warn('Cards or container not ready yet');
-        return false;
+        console.warn('Cards or container not ready yet')
+        return false
     }
+
+    // Check if we're loading to the projects section
+    const isProjectsSection = targetSection === 'projects';
     
-    console.log('Looking for card with ID:', `card-${targetSection}`);
-    const targetCard = Array.from(cards).find(card => card.id === `card-${targetSection}`);
-    
+    // If we're loading to projects section and projects aren't loaded yet, 
+    // keep the loader visible
+    if (isProjectsSection && !areProjectsLoaded()) {
+        console.log('Loading projects section, waiting for projects to load');
+        // Keep the loader overlay visible
+        const loaderOverlay = document.querySelector('.loader-overlay');
+        if (loaderOverlay) {
+            loaderOverlay.style.animation = 'none';
+            loaderOverlay.style.opacity = '1';
+            
+            // Set up an interval to check when projects are loaded
+            const checkProjectsLoaded = setInterval(() => {
+                if (areProjectsLoaded()) {
+                    // Once projects are loaded, fade out the loader
+                    loaderOverlay.style.animation = 'fadeOut 1.25s ease-in-out forwards';
+                    clearInterval(checkProjectsLoaded);
+                }
+            }, 100);
+        }
+    }
+
+    console.log('Looking for card with ID:', `card-${targetSection}`)
+    const targetCard = Array.from(cards).find(
+        (card) => card.id === `card-${targetSection}`
+    )
+
     if (targetCard) {
-        console.log('Found matching card:', targetCard.id);
-        const targetIndex = Array.from(cards).indexOf(targetCard);
-        
+        console.log('Found matching card:', targetCard.id)
+        const targetIndex = Array.from(cards).indexOf(targetCard)
+
         // Update card index
-        cardIndex = targetIndex;
-        console.log('Set cardIndex to:', cardIndex);
-        
+        cardIndex = targetIndex
+        console.log('Set cardIndex to:', cardIndex)
+
         // Calculate position and scroll there immediately
-        const position = calculateCardPosition(targetIndex);
-        console.log('Calculated scroll position:', position);
-        container.scrollLeft = position;
-        
+        const position = calculateCardPosition(targetIndex)
+        console.log('Calculated scroll position:', position)
+        container.scrollLeft = position
+
         // Update UI
-        handleChevVisibility();
-        return true;
+        handleChevVisibility()
+        return true
     } else {
-        console.warn('No matching card found for section:', targetSection);
-        console.log('Available cards:', Array.from(cards).map(card => card.id));
-        return false;
+        console.warn('No matching card found for section:', targetSection)
+        console.log(
+            'Available cards:',
+            Array.from(cards).map((card) => card.id)
+        )
+        return false
     }
 }
 
@@ -399,71 +429,65 @@ const initializeFromUrl = () => {
  * Instaniate intersections observer and add listeners to handle card transitions
  */
 const setupCardsAndListeners = () => {
-    console.log('Setting up cards and listeners');
-    cards = document.querySelectorAll('.card');
-    container = document.querySelector('#container');
-    const chevrons = document.querySelectorAll('.chev');
-    
-    console.log('Found cards:', cards ? cards.length : 0);
-    console.log('Found container:', !!container);
+    console.log('Setting up cards and listeners')
+    cards = document.querySelectorAll('.card')
+    container = document.querySelector('#container')
+    const chevrons = document.querySelectorAll('.chev')
+
+    console.log('Found cards:', cards ? cards.length : 0)
+    console.log('Found container:', !!container)
 
     cards.forEach((element) => {
-        element.classList.add('unfocused');
-    });
+        element.classList.add('unfocused')
+    })
 
     // Add delay setting up observer so focused animation
     // triggers after loader is done
     setTimeout(() => {
-        instantiateObserver();
-        cards.forEach((card) => observer.observe(card));
-    }, 1250);
+        instantiateObserver()
+        cards.forEach((card) => observer.observe(card))
+    }, 1250)
 
     // Set up interactions listeners
-    container.addEventListener('wheel', handleCardTransition);
-    window.addEventListener('resize', handleResize);
+    container.addEventListener('wheel', handleCardTransition)
+    window.addEventListener('resize', handleResize)
     document.addEventListener('keydown', (event) => {
         if (event.key === 'ArrowRight' || event.key === 'ArrowLeft') {
-            handleCardTransition(event);
+            handleCardTransition(event)
         }
-    });
+    })
     chevrons.forEach((chev) => {
-        chev.addEventListener('click', handleCardTransition);
-    });
+        chev.addEventListener('click', handleCardTransition)
+    })
     // store initial start touch state to calculate swipe direction
     document.addEventListener('touchstart', (event) => {
-        startX = event.touches[0].clientX;
-    });
-    document.addEventListener('touchend', handleCardTransition);
-    
+        startX = event.touches[0].clientX
+    })
+    document.addEventListener('touchend', handleCardTransition)
+
     // Listen for popstate (history back/forward navigation)
     window.addEventListener('popstate', () => {
-        console.log('Popstate event triggered');
-        navigateToHashSection();
-    });
-    
+        console.log('Popstate event triggered')
+        navigateToHashSection()
+    })
+
     // Handle hash changes (for older browsers)
     window.addEventListener('hashchange', () => {
-        console.log('Hash change event triggered');
+        console.log('Hash change event triggered')
         // Convert hash navigation to path navigation
         if (window.location.hash) {
-            const section = window.location.hash.substring(1);
+            const section = window.location.hash.substring(1)
             try {
-                // Get the base path (everything before the last segment)
-                const currentPath = window.location.pathname;
-                const basePath = currentPath.replace(/\/[^\/]*$/, '');
-                
-                // Build the new path with the section
-                const newPath = basePath + (basePath.endsWith('/') ? '' : '/') + section;
-                
-                history.replaceState(null, document.title, newPath);
-                navigateToHashSection();
+                // Use simpler path approach
+                history.replaceState(null, document.title, `/${section}`)
+                navigateToHashSection()
             } catch (e) {
                 // Fallback if replaceState fails
-                console.warn('Could not replace state:', e);
-                navigateToHashSection();
+                console.warn('Could not replace state:', e)
+                navigateToHashSection()
             }
         }
-    });
+    })
 }
 
 /**
@@ -512,7 +536,12 @@ const handleChevVisibility = () => {
 
     // Handle initial load visibility
     if (initialLoad) {
-        nextChev.classList.add('visible', 'fade-in')
+        if (nextChevShouldBeVisible) {
+            nextChev.classList.add('visible', 'fade-in')
+        }
+        if (prevChevShouldBeVisible) {
+            prevChev.classList.add('visible', 'fade-in')
+        }
         return
     }
 
@@ -572,27 +601,23 @@ const setIsWeb = () => {
  */
 export const navigateToSection = (sectionName) => {
     if (!sectionName || !cards || !container) return false
-    
-    const targetCard = Array.from(cards).find(card => card.id === `card-${sectionName}`)
-    
+
+    const targetCard = Array.from(cards).find(
+        (card) => card.id === `card-${sectionName}`
+    )
+
     if (targetCard) {
-        // Get the base path (everything before the last segment)
-        const currentPath = window.location.pathname;
-        const basePath = currentPath.replace(/\/[^\/]*$/, '');
-        
-        // Build the new path with the section
-        const newPath = basePath + (basePath.endsWith('/') ? '' : '/') + sectionName;
-        
-        // Update the URL directly without # prefix
         try {
-            history.pushState(null, document.title, newPath);
+            // Use hash-based navigation for simplicity and better compatibility
+            history.pushState({section: sectionName}, document.title, `#${sectionName}`)
+
             // Manually navigate to the section
             const targetIndex = Array.from(cards).indexOf(targetCard)
             cardIndex = targetIndex
-            
+
             // Calculate precise position of the target card
-            const targetPosition = calculateCardPosition(targetIndex);
-            
+            const targetPosition = calculateCardPosition(targetIndex)
+
             // Scroll to that position
             smoothScrollTo(targetPosition)
             handleChevVisibility()
@@ -603,29 +628,25 @@ export const navigateToSection = (sectionName) => {
             return true
         }
     }
-    
+
     return false
 }
 
 export const loadNavigation = async () => {
-    console.log('Loading navigation');
-    setIsWeb();
-    setupCardsAndListeners();
-    
+    setIsWeb()
+    setupCardsAndListeners()
+
     // Handle initial URL path/hash navigation with a delay
     // to ensure everything is loaded first
     setTimeout(() => {
-        console.log('Attempting to initialize from URL');
         // Try to navigate based on URL
-        const navigated = initializeFromUrl();
-        console.log('Navigation result:', navigated);
-        
+        const navigated = initializeFromUrl()
+
         // If we weren't able to navigate based on URL, set up default view
         if (!navigated) {
-            console.log('Falling back to default view');
-            handleChevVisibility();
+            handleChevVisibility()
         }
-        
-        initialLoad = false;
-    }, 1500);
+
+        initialLoad = false
+    }, 1500)
 }

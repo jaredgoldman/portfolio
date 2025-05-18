@@ -38,23 +38,24 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize the loader to stay visible
     initLoader();
     
-    // Begin loading resources
+    // Start loading projects early but don't await it
+    const projectsPromise = loadProjects();
+    
+    // Begin loading other resources
     await loadParticles()
     await loadNavigation()
     await loadBio()
-    await loadProjects()
     disableMobileTouchPropogation()
     loadMode()
     loadContact()
     loadScrollIndicator()
     loadPillIndicator()
     
-    // If we're not on the projects page, fade out the loader
-    const currentSection = window.location.pathname.split('/').pop() || 
-                         window.location.hash.substring(1);
+    // Fade out the loader after core resources are loaded
+    fadeOutLoader();
     
-    if (currentSection !== 'projects' || areProjectsLoaded()) {
-        fadeOutLoader();
-    }
-    // Otherwise, the navigation.js will handle fading out the loader
+    // Continue loading projects in the background
+    projectsPromise.catch(error => {
+        console.error('Error loading projects:', error);
+    });
 })

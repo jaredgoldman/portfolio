@@ -374,20 +374,21 @@ const initializeFromUrl = () => {
     const isProjectsSection = targetSection === 'projects';
     
     // If we're loading to projects section and projects aren't loaded yet, 
-    // keep the loader visible
+    // show a loading state in the projects section
     if (isProjectsSection && !areProjectsLoaded()) {
-        console.log('Loading projects section, waiting for projects to load');
-        // Keep the loader overlay visible
-        const loaderOverlay = document.querySelector('.loader-overlay');
-        if (loaderOverlay) {
-            loaderOverlay.style.animation = 'none';
-            loaderOverlay.style.opacity = '1';
+        console.log('Loading projects section, projects still loading');
+        const projectsContainer = document.querySelector('#projects');
+        if (projectsContainer) {
+            const loadingMessage = document.createElement('div');
+            loadingMessage.classList.add('project-title');
+            loadingMessage.innerHTML = '<span class="project-title_heading">Loading projects...</span>';
+            projectsContainer.appendChild(loadingMessage);
             
             // Set up an interval to check when projects are loaded
             const checkProjectsLoaded = setInterval(() => {
                 if (areProjectsLoaded()) {
-                    // Once projects are loaded, fade out the loader
-                    loaderOverlay.style.animation = 'fadeOut 1.25s ease-in-out forwards';
+                    // Once projects are loaded, remove the loading message
+                    projectsContainer.removeChild(loadingMessage);
                     clearInterval(checkProjectsLoaded);
                 }
             }, 100);

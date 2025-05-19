@@ -5,12 +5,16 @@
     align-items: center;
     height: 100%;
     margin-top: 8rem;
+    width: 100%;
+    padding: 0 1rem;
+    box-sizing: border-box;
 
     .contact-form {
         display: none;
         flex-direction: column;
         gap: 1.5rem;
         width: 30rem;
+        max-width: 100%;
         padding: 2rem;
         background-color: rgba(var(--primary-background-color-rgb), 0.8);
         border-radius: 1rem;
@@ -290,13 +294,59 @@
 @media only screen and (max-width: 1000px) {
     .form-container {
         margin-top: 2rem;
+        padding: 0 1rem;
+        
         .contact-form {
-            width: 90%;
+            width: 100%;
+            max-width: 30rem;
             padding: 1.5rem;
         }
+        
         .contact-confirmation {
-            width: 90%;
+            width: 100%;
+            max-width: 30rem;
             padding: 2rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .form-container {
+        margin-top: 1rem;
+        gap: 2rem;
+        
+        .contact-form {
+            padding: 1rem;
+            
+            & input,
+            & textarea {
+                padding: 0.8rem;
+                font-size: 0.9rem;
+            }
+            
+            & label {
+                font-size: 1rem;
+            }
+            
+            & button {
+                width: 100%;
+                font-size: 1rem;
+                padding: 0.7rem;
+            }
+        }
+        
+        .contact-confirmation {
+            padding: 1.5rem;
+            
+            .confirmation-message {
+                font-size: 1rem;
+            }
+            
+            .back-button {
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 0.6rem 1.2rem;
+            }
         }
     }
 }

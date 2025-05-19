@@ -19,19 +19,27 @@ const createRecommendation = ({
     const reccoTitle = document.createElement('div')
     reccoTitle.classList.add('recommendation-title')
 
-    const reccoLink = document.createElement('a')
-    reccoLink.href = linkedIn
-    reccoLink.target = '_blank'
-    reccoLink.innerText = recommender
+    const nameDiv = document.createElement('div')
+    nameDiv.classList.add('recommender')
+    if (linkedIn) {
+        const reccoLink = document.createElement('a')
+        reccoLink.href = linkedIn
+        reccoLink.target = '_blank'
+        reccoLink.innerText = recommender
+        nameDiv.appendChild(reccoLink)
+    } else {
+        nameDiv.innerText = recommender
+    }
 
-    const relationshipEl = document.createElement('span')
-    relationshipEl.innerHTML = ` - ${relationship}`
+    const relationshipDiv = document.createElement('div')
+    relationshipDiv.classList.add('relationship')
+    relationshipDiv.innerText = relationship
 
     const recco = document.createElement('p')
     recco.innerHTML = recommendation
 
-    reccoTitle.appendChild(reccoLink)
-    reccoTitle.appendChild(relationshipEl)
+    reccoTitle.appendChild(nameDiv)
+    reccoTitle.appendChild(relationshipDiv)
     reccoEl.appendChild(reccoTitle)
     reccoEl.appendChild(recco)
     return reccoEl

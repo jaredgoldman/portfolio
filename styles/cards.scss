@@ -99,7 +99,7 @@
                             transition: color var(--transition-duration)
                                 ease-in-out;
                             color: var(--primary-color);
-                            margin: 1rem 0;
+                            margin: 1.5rem 0 0.5rem 0;
                             font-weight: 900;
                         }
                     }
@@ -219,6 +219,28 @@
     word-break: break-word;
 }
 
+.recommendation-title {
+    margin: 1.5rem 0 0.5rem 0;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 0.5rem;
+}
+
+.recommender {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--secondary-color);
+    display: inline;
+}
+
+.relationship {
+    font-size: 1rem;
+    color: var(--primary-color);
+    opacity: 0.8;
+    display: inline;
+}
+
 @media only screen and (max-width: 1000px) {
     .card {
         margin: 0;
@@ -301,5 +323,22 @@
         display: block;
         text-align: center;
         word-break: break-word;
+    }
+}
+
+@media (max-width: 700px) {
+    .recommendation-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0;
+    }
+    .recommender {
+        font-size: 1.1rem;
+        margin-bottom: 0.1rem;
+        display: block;
+    }
+    .relationship {
+        font-size: 0.95rem;
+        display: block;
     }
 }

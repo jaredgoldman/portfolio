@@ -105,6 +105,12 @@ const setupProjectListeners = () => {
     close.addEventListener('click', () => {
         closeModal(modal)
     })
+
+    // Add event listener for escape key
+    modal.addEventListener('cancel', (event) => {
+        event.preventDefault()
+        closeModal()
+    })
 }
 
 const openModal = (event, modal) => {

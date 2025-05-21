@@ -338,6 +338,9 @@
         display: block;
         text-align: center;
         word-break: break-word;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        box-sizing: border-box;
     }
 }
 

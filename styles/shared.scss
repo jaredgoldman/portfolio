@@ -282,3 +282,11 @@ footer {
         height: 0.5rem;
     }
 }
+
+@media only screen and (max-width: 1000px) {
+  html, body, main, .container, .card-container, .card {
+    overflow-y: hidden !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+  }
+}

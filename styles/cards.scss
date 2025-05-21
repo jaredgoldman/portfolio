@@ -387,3 +387,67 @@
         background-size: contain;
     }
 }
+
+@media only screen and (max-width: 600px) {
+  main, .container, .card-container, .projects-inner {
+    padding-top: 0 !important;
+    margin-top: 0 !important;
+  }
+  .card {
+    height: 100vh;
+    min-height: 100vh;
+    justify-content: flex-start;
+    align-items: stretch;
+    padding-top: 1.2rem;
+  }
+  nav, .header {
+    min-height: 0;
+    height: auto;
+    padding: 0;
+    margin: 0;
+  }
+  .projects-inner {
+    align-items: flex-start;
+    justify-content: flex-start;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    box-sizing: border-box;
+    margin: 0;
+  }
+  .projects-inner .projects {
+    height: 100%;
+    max-height: 100%;
+    overflow-y: auto;
+    width: 100%;
+    margin: 0;
+    padding: 0 0 1.5rem 0;
+    flex: unset;
+    min-height: unset;
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .projects-inner .projects .project-title,
+  .projects-inner .projects .project-title_year {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    display: inline;
+    vertical-align: middle;
+  }
+  .projects-inner .projects > * {
+    margin: 0.1rem 0 0.1rem 0;
+    padding: 0;
+  }
+  .card-title,
+  .project-title,
+  .project-title_heading {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+  .project-title_year {
+    font-size: 1rem;
+    line-height: 1.1;
+  }
+}

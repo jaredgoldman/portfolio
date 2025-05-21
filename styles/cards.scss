@@ -397,11 +397,29 @@
     margin-top: 0 !important;
   }
   .card {
-    height: 100vh;
-    min-height: 100vh;
-    justify-content: flex-start;
-    align-items: stretch;
+    height: auto;
+    min-height: unset;
+    max-height: 100vh;
+    overflow-y: auto;
     padding-top: 1.2rem;
+    .bio-inner {
+      overflow-y: auto;
+      .card-content {
+        align-items: center;
+        overflow-y: auto;
+        .card-content_left {
+          width: 100%;
+          padding-right: 0;
+          padding-left: 1.5rem;
+          padding-right: 1.5rem;
+          box-sizing: border-box;
+          overflow-y: auto;
+        }
+        .card-content_left p {
+          word-break: break-word;
+        }
+      }
+    }
   }
   nav, .header {
     min-height: 0;

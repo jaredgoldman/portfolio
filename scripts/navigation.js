@@ -33,6 +33,17 @@ let endX
 const handleCardTransition = (event) => {
     if (isScrolling) return
 
+    // Check if we're on mobile
+    const isMobile = window.innerWidth <= 1000
+
+    // On mobile, we want to allow vertical scrolling
+    if (isMobile && event.type === 'wheel') {
+        const deltaY = event.deltaY
+        if (Math.abs(deltaY) > Math.abs(event.deltaX)) {
+            return // Allow vertical scrolling
+        }
+    }
+
     const scrollDirection = determineScrollDirection(event)
     if (!canTransition(event, scrollDirection)) return
 
@@ -501,14 +512,27 @@ const setupCardsAndListeners = () => {
  * TODO: figure out how to re-center to current card
  */
 const handleResize = () => {
-    setIsWeb()
-    const modal = document.querySelector('#project-modal')
-    // If we're not on the first card already, just scroll back to the beginning
-    if (cardIndex > 0 || container.scrollLeft > 0) {
-        if (modal && modal.open) closeModal()
-        smoothScrollTo(0)
-        cardIndex = 0
+    const isMobile = window.innerWidth <= 1000
+    isResponsive = isMobile
+
+    // Reset scroll position on mobile
+    if (isMobile) {
+        container.scrollLeft = 0
+        container.scrollTop = 0
     }
+
+    // Update card positions
+    cards.forEach((card, index) => {
+        if (isMobile) {
+            card.style.transform = 'none'
+            card.style.position = 'relative'
+        } else {
+            const position = calculateCardPosition(index)
+            card.style.transform = `translateX(${position}px)`
+            card.style.position = 'absolute'
+        }
+    })
+
     handleChevVisibility()
 }
 
@@ -616,8 +640,8 @@ const setIsWeb = () => {
  * Navigate to a specific section by name
  * @param {string} sectionName - Section name to navigate to (without 'card-' prefix)
  */
-export const navigateToSection = (sectionName) => {
-    if (!sectionName || !cards || !container) return false
+const navigateToSection = (sectionName) => {
+    if (!cards || !cards.length) return false
 
     const targetCard = Array.from(cards).find(
         (card) => card.id === `card-${sectionName}`

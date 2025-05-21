@@ -1,8 +1,13 @@
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
-  overflow: hidden;
+  height: 100dvh !important;
+  max-height: 100dvh !important;
+  width: 100vw !important;
+  position: fixed;
+  overflow: hidden !important;
+  overscroll-behavior: none;
+  touch-action: none;
 }
 
 body {

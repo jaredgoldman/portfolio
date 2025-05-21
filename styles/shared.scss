@@ -19,6 +19,9 @@ body {
         color: var(--secondary-color);
         cursor: pointer;
     }
+
+    // Add safe area inset for iOS Safari
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 main {
@@ -125,7 +128,8 @@ footer {
 .container {
     position: relative;
     width: 100vw;
-    height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
     overflow-x: hidden;
     box-sizing: border-box;
 }
@@ -294,8 +298,7 @@ footer {
 
 @media only screen and (max-width: 1000px) {
   html, body, main, .container, .card-container, .card {
-    overflow-y: hidden !important;
-    height: 100vh !important;
-    max-height: 100vh !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
   }
 }

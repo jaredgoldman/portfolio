@@ -155,6 +155,17 @@ footer {
     nav {
         height: 20%;
     }
+    .chev-container {
+        display: block;
+        position: static;
+        gap: 0;
+        width: 100%;
+        pointer-events: none;
+    }
+    .chev-container .chev {
+        position: absolute;
+        pointer-events: auto;
+    }
     .chev {
         font-size: 1.5rem;
         min-width: 2.5rem;
@@ -173,15 +184,14 @@ footer {
         top: 0;
     }
     .prev-chev {
+        left: 1rem;
+        right: auto;
         bottom: 1rem;
-        right: 4rem;
-        left: auto;
     }
-
     .next-chev {
-        bottom: 1rem;
         right: 1rem;
         left: auto;
+        bottom: 1rem;
     }
 }
 

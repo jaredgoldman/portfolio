@@ -132,10 +132,11 @@ footer {
 
 .container {
     position: relative;
-    width: 100vw;
+    width: 100dvw;
     height: 100dvh;
     max-height: 100dvh;
     overflow-x: hidden;
+    overflow-y: hidden;
     box-sizing: border-box;
 }
 
@@ -247,7 +248,7 @@ footer {
 @media only screen and (max-width: 600px) {
     #scroll-indicator.scroll-indicator {
         bottom: 7rem;
-        width: 2.5rem; 
+        width: 2.5rem;
         height: 2.5rem;
     }
 }
@@ -294,7 +295,7 @@ footer {
         border-radius: 0.9rem;
         display: none !important;
     }
-    
+
     .pill-dot {
         width: 0.5rem;
         height: 0.5rem;

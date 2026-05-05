@@ -7,7 +7,7 @@ html, body {
   position: fixed;
   overflow: hidden !important;
   overscroll-behavior: none;
-  touch-action: none;
+  touch-action: pan-x pan-y;
 }
 
 body {
@@ -25,7 +25,6 @@ body {
         cursor: pointer;
     }
 
-    // Add safe area inset for iOS Safari
     padding-bottom: env(safe-area-inset-bottom);
 }
 
@@ -62,7 +61,7 @@ footer {
     color: var(--primary-color);
     cursor: pointer;
     font-weight: bold;
-    z-index: 100;
+    z-index: 10;
     text-align: center;
     width: auto;
     min-width: 3rem;
@@ -163,7 +162,14 @@ footer {
 
 @media only screen and (max-width: 600px) {
     nav {
-        height: 20%;
+        height: auto;
+        min-height: 3rem;
+        padding: 0.5rem 1rem;
+    }
+    footer {
+        height: 0;
+        min-height: 0;
+        padding: 0;
     }
     .chev-container {
         display: block;
@@ -178,14 +184,15 @@ footer {
     }
     .chev {
         font-size: 1.5rem;
-        min-width: 2.5rem;
+        min-width: 2.75rem;
+        min-height: 2.75rem;
         max-width: 7rem;
-        padding: 0.4rem 0.6rem;
+        padding: 0.6rem 0.8rem;
         border-radius: 0.5rem;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        z-index: 9999;
+        z-index: 30;
     }
     .chev-section {
         display: none !important;
@@ -195,14 +202,18 @@ footer {
         top: 0;
     }
     .prev-chev {
-        left: 1rem;
+        left: max(1rem, calc(1rem + env(safe-area-inset-left)));
         right: auto;
-        bottom: 1rem;
+        bottom: max(1rem, calc(1rem + env(safe-area-inset-bottom)));
     }
     .next-chev {
-        right: 1rem;
+        right: max(1rem, calc(1rem + env(safe-area-inset-right)));
         left: auto;
-        bottom: 1rem;
+        bottom: max(1rem, calc(1rem + env(safe-area-inset-bottom)));
+    }
+    .container {
+        padding-left: env(safe-area-inset-left);
+        padding-right: env(safe-area-inset-right);
     }
 }
 
@@ -220,7 +231,7 @@ footer {
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: 1000;
+    z-index: 20;
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
@@ -247,7 +258,7 @@ footer {
 
 @media only screen and (max-width: 600px) {
     #scroll-indicator.scroll-indicator {
-        bottom: 7rem;
+        bottom: 5rem;
         width: 2.5rem;
         height: 2.5rem;
     }
@@ -263,7 +274,7 @@ footer {
     background-color: rgba(0, 0, 0, 0.5);
     border: 1px solid rgba(255, 255, 255, 0.8);
     border-radius: 1rem / 2rem;
-    z-index: 1000;
+    z-index: 20;
     display: flex;
     justify-content: center;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);

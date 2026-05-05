@@ -35,27 +35,38 @@ const fadeOutLoader = () => {
  * Main js loading process
  */
 document.addEventListener('DOMContentLoaded', async () => {
-    // Initialize the loader to stay visible
     initLoader();
-    
-    // Start loading projects early but don't await it
+
     const projectsPromise = loadProjects();
-    
-    // Begin loading other resources
-    await loadParticles()
-    await loadNavigation()
-    await loadBio()
+
+    try {
+        await loadParticles()
+    } catch (e) {
+        console.error('Particles failed to load:', e)
+    }
+
+    try {
+        await loadNavigation()
+    } catch (e) {
+        console.error('Navigation failed to load:', e)
+    }
+
+    try {
+        await loadBio()
+    } catch (e) {
+        console.error('Bio failed to load:', e)
+    }
+
     disableMobileTouchPropogation()
     loadMode()
     loadContact()
     loadScrollIndicator()
     loadPillIndicator()
-    
-    // Fade out the loader after core resources are loaded
-    fadeOutLoader();
-    
-    // Continue loading projects in the background
+
+    // Loader always fades out regardless of API failures
+    fadeOutLoader()
+
     projectsPromise.catch(error => {
-        console.error('Error loading projects:', error);
-    });
+        console.error('Error loading projects:', error)
+    })
 })

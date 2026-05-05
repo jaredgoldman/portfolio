@@ -5,12 +5,15 @@
     "main": "index.js",
     "scripts": {
         "css": "sass styles/main.scss css/main.css",
-        "dev": "npm run css -- --watch & live-server --entry-file=index.html"
+        "dev": "npm run css -- --watch & live-server --entry-file=index.html",
+        "test": "playwright test",
+        "test:ui": "playwright test --ui"
     },
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "@playwright/test": "^1.59.1",
         "live-server": "^1.2.2",
         "nodemon": "^2.0.22",
         "sass": "^1.88.0"

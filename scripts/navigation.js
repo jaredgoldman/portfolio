@@ -582,6 +582,11 @@ const smoothScrollTo = (targetPosition) => {
     const distance = targetPosition - startPosition
     let startTime = null
 
+    // Safety fallback: ensure isScrolling is always reset even if rAF is suspended
+    const safetyTimeout = setTimeout(() => {
+        isScrolling = false
+    }, duration + 100)
+
     const animationStep = (currentTime) => {
         if (startTime === null) {
             startTime = currentTime
@@ -601,6 +606,7 @@ const smoothScrollTo = (targetPosition) => {
         if (elapsedTime < duration) {
             requestAnimationFrame(animationStep)
         } else {
+            clearTimeout(safetyTimeout)
             isScrolling = false
         }
     }

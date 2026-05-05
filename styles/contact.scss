@@ -310,18 +310,38 @@
     }
 }
 
+@media only screen and (max-width: 600px) {
+    .contact-inner {
+        overflow-y: auto;
+        padding-bottom: 4rem;
+    }
+
+    .form-container {
+        margin-top: 0.5rem;
+        gap: 1rem;
+    }
+
+    .card-subtitle {
+        padding: 0 1rem;
+        font-size: 0.9rem;
+    }
+
+    .contact-form button {
+        min-height: 2.75rem;
+        width: 80%;
+    }
+}
+
 @media only screen and (max-width: 480px) {
     .form-container {
-        gap: 1rem;
-        width: 100vw;
-        max-width: 100vw;
-        box-sizing: border-box;
-        padding: 0 1rem;
+        width: 100%;
+        max-width: 100%;
+        margin-top: 1rem;
 
         .contact-form {
             padding: 2rem;
-            width: 100vw;
-            max-width: 100vw;
+            width: 100%;
+            max-width: 100%;
             box-sizing: border-box;
 
             & input,

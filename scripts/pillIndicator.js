@@ -5,74 +5,66 @@
 export const loadPillIndicator = () => {
     const mouseIndicator = document.getElementById('pill-indicator');
     const mouseDot = mouseIndicator?.querySelector('.pill-dot');
-    
+    const container = document.getElementById('container');
+
     if (!mouseIndicator || !mouseDot) {
         console.warn('Mouse indicator elements not found');
         return;
     }
-    
+
     // Start the bobbing animation
     mouseDot.classList.add('bobbing');
-    
-    // Function to update dot position based on scroll
+
+    // Function to update dot position based on horizontal scroll
     const updateScrollPosition = () => {
-        // Calculate total scrollable height
-        const scrollHeight = document.documentElement.scrollHeight;
-        const viewportHeight = window.innerHeight;
-        const maxScroll = scrollHeight - viewportHeight;
-        
-        // Calculate scroll percentage (0 to 1)
-        const scrollPercentage = window.scrollY / maxScroll;
-        
-        // Calculate dot position within mouse bounds
-        const mouseHeight = mouseIndicator.offsetHeight;
+        const maxScroll = container
+            ? container.scrollWidth - container.clientWidth
+            : 0;
+
+        // Calculate scroll percentage (0 to 1), clamped
+        const scrollPercentage = maxScroll > 0
+            ? Math.max(0, Math.min(1, container.scrollLeft / maxScroll))
+            : 0;
+
+        // Calculate dot position within pill bounds (top = first card, bottom = last card)
+        const pillHeight = mouseIndicator.offsetHeight;
         const dotHeight = mouseDot.offsetHeight;
-        const minDotPosition = 0.5; // Starting position for dot in rems
-        const maxDotTravel = mouseHeight - dotHeight - minDotPosition * 16; // Convert rem to px
-        
-        // Apply position
-        const dotPosition = minDotPosition + Math.max(0, Math.min(maxDotTravel, scrollPercentage * maxDotTravel)) / 16; // Convert px to rem
-        mouseDot.style.top = `${dotPosition}rem`;
+        const minDotPosition = 0.5; // rem — starting offset from top
+        const maxDotTravel = pillHeight - dotHeight - minDotPosition * 16; // px
+
+        const dotPositionRem = minDotPosition + (scrollPercentage * Math.max(0, maxDotTravel)) / 16;
+        mouseDot.style.top = `${dotPositionRem}rem`;
     };
-    
-    // Update on scroll
-    window.addEventListener('scroll', updateScrollPosition);
-    
-    // Set initial position
-    updateScrollPosition();
-    
-    // Direct DOM manipulation for fade out
+
     const fadeOut = () => {
-        // Use direct style manipulation rather than classes
-        mouseIndicator.style.opacity = "0";
+        mouseIndicator.style.opacity = '0';
         setTimeout(() => {
-            mouseIndicator.style.visibility = "hidden";
-        }, 1000); // After transition completes
+            mouseIndicator.style.visibility = 'hidden';
+        }, 1000); // after transition completes
     };
-    
+
     const fadeIn = () => {
-        // Make visible first, then fade in
-        mouseIndicator.style.visibility = "visible";
-        // Force a reflow
-        void mouseIndicator.offsetWidth;
-        mouseIndicator.style.opacity = "1";
+        if (mouseIndicator.style.visibility === 'visible') return;
+        mouseIndicator.style.visibility = 'visible';
+        void mouseIndicator.offsetWidth; // force reflow so opacity transition fires
+        mouseIndicator.style.opacity = '1';
     };
-    
-    // Show initially
+
+    // Show initially and set initial dot position
     fadeIn();
-    
-    // Fade out after 4 seconds (increased from 3)
+    updateScrollPosition();
+
+    // Fade out after 4 seconds of initial load
     let fadeTimeout = setTimeout(fadeOut, 4000);
-    
-    // Show when scrolling, hide after 3 seconds of inactivity (increased from 2)
-    window.addEventListener('scroll', () => {
-        // Cancel any pending fade out
-        clearTimeout(fadeTimeout);
-        
-        // Make visible
-        fadeIn();
-        
-        // Schedule fade out
-        fadeTimeout = setTimeout(fadeOut, 3000);
-    });
-}; 
+
+    // React to container scroll events (fired when navigation.js sets scrollLeft)
+    if (container) {
+        container.addEventListener('scroll', () => {
+            updateScrollPosition();
+
+            clearTimeout(fadeTimeout);
+            fadeIn();
+            fadeTimeout = setTimeout(fadeOut, 3000);
+        });
+    }
+};

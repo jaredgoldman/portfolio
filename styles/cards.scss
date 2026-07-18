@@ -15,14 +15,13 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100vh;
+    min-height: 100dvh;
     height: auto;
     margin: 0 4%;
     width: calc((100% - 8%) / 4);
     transition: all var(--transition-duration) ease-in-out;
     box-sizing: border-box;
     background: transparent;
-    overflow-y: auto;
 
     .bio-inner {
         padding: 2rem 1rem 0rem 1rem;
@@ -30,7 +29,6 @@
         flex-direction: column;
         height: 100%;
         min-height: 600px;
-        overflow-y: auto;
         justify-content: center;
         align-items: center;
 
@@ -44,7 +42,6 @@
             margin-top: 2rem;
             font-family: var(--primary-font-family);
             font-weight: 300;
-            overflow-y: auto;
 
             .card-content_right {
                 width: 40%;
@@ -194,7 +191,7 @@
                 font-weight: 500;
                 margin: 1rem;
                 font-family: var(--secondary-font-family);
-                transition: color var(--transition-duration) ease-in-outo;
+                transition: color var(--transition-duration) ease-in-out;
             }
 
             .project-title_heading {
@@ -284,7 +281,6 @@
         }
 
         .bio-inner {
-            overflow-y: auto;
             .card-content {
                 flex-direction: column;
                 align-items: center;
@@ -403,16 +399,12 @@
 @media only screen and (max-width: 600px) {
   .card {
     min-height: unset;
-    max-height: 100vh;
-    overflow-y: auto;
+    max-height: 100dvh;
     padding-top: 1.2rem;
 
     .bio-inner {
-        overflow-y: auto;
-
         .card-content {
             align-items: center;
-            overflow-y: auto;
             padding-bottom: 4rem;
             height: auto;
             min-height: unset;
@@ -420,7 +412,6 @@
 
             .card-content_left {
                 width: 100%;
-                padding-right: 0;
                 padding-left: 1.5rem;
                 padding-right: 1.5rem;
                 box-sizing: border-box;
@@ -441,7 +432,7 @@
     margin-top: 0;
     display: flex;
     flex-direction: column;
-    height: 100vh;
+    height: 100dvh;
     box-sizing: border-box;
     margin: 0;
   }
